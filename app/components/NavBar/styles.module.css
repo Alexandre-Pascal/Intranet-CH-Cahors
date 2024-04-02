@@ -1,0 +1,69 @@
+.rounded {
+    border: 2px solid #0E4194; /* Définit une bordure bleue de 2 pixels */
+    border-radius: 50%; /* Définit le rayon de la bordure pour créer un cercle */
+    overflow: hidden; /* Masque tout ce qui dépasse de la bordure */
+}
+
+.softRounded {
+    border: 2px solid #0E4194; /* Définit une bordure bleue de 2 pixels */
+    border-radius: 15px; /* Définit le rayon de la bordure pour créer un cercle */
+    overflow: hidden; /* Masque tout ce qui dépasse de la bordure */
+}
+
+.altColorText {
+    color: #0E4194; /* Définit la couleur du texte en bleu */
+}
+
+/* .navBar{
+    display: flex;
+} */
+
+
+
+.navBar {
+    margin: 1%;
+    display: flex;
+    align-items: center; /* Alignement vertical des éléments */
+    text-align: center;
+    justify-content: space-between;
+  }
+  
+  /* Optionnel : Pour aligner le texte au centre de l'image */
+  .navBar div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navBar a {
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    padding-left: 1%;
+    padding-right: 1%;
+    margin: 0.5%;
+  }
+  
+  /* Optionnel : Pour ajuster l'espace entre l'image et le texte */
+  .navBar p {
+    font-size: 62%;
+    margin-inline-start: 5px;
+  }
+
+  .fastPath {
+    background-color: #0E4194;
+    color: white;
+  }
+  
+  .logIn {
+    background-color: #158B56;
+    color: white;
+  }
+  
+.searchContainer{
+    margin-left: 1%;
+}
+
+  .searchContainer input{
+    width: 90%;
+  }
+
