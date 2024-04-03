@@ -1,0 +1,8 @@
+/* styles.module.css */
+.container {
+    background-image: /*linear-gradient(to bottom, rgba(198, 227, 248, 0.4), rgba(14, 65, 148,0.6)),*/ url("../../../assets/images/fond3.jpg");
+    background-size: cover; /* Pour couvrir tout le conteneur */
+    background-position: center; /* Pour centrer l'image */
+    height: 80vh;
+  }
+  

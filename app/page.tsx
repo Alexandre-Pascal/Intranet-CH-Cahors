@@ -2,6 +2,7 @@ import LogosList from "./components/LogosList/LogosList";
 import NavBar from "./components/NavBar/NavBar";
 import InfosNeeded from "./components/HomePage/InfosNeeded/InfosNeeded";
 import FastPathBis from "./components/HomePage/FastPathBis/FastPathBis";
+import Infos from "./components/HomePage/Infos/Infos";
 
 export default function Home() {
   return (
@@ -10,8 +11,8 @@ export default function Home() {
       <LogosList/>
       <InfosNeeded/>
       <FastPathBis/>
-
-      <a href="/pages/testationnage"> Testationnage </a>
+      <Infos/>
+      {/* <a href="/pages/testationnage"> Testationnage </a> */}
     </main>
   );
 }
