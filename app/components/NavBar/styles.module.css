@@ -1,17 +1,17 @@
 .rounded {
-    border: 2px solid #0E4194; /* Définit une bordure bleue de 2 pixels */
+    border: 2px solid var(--bleu-fonce); /* Définit une bordure bleue de 2 pixels */
     border-radius: 50%; /* Définit le rayon de la bordure pour créer un cercle */
     overflow: hidden; /* Masque tout ce qui dépasse de la bordure */
 }
 
 .softRounded {
-    border: 2px solid #0E4194; /* Définit une bordure bleue de 2 pixels */
+    border: 2px solid var(--bleu-fonce); /* Définit une bordure bleue de 2 pixels */
     border-radius: 15px; /* Définit le rayon de la bordure pour créer un cercle */
     overflow: hidden; /* Masque tout ce qui dépasse de la bordure */
 }
 
 .altColorText {
-    color: #0E4194; /* Définit la couleur du texte en bleu */
+    color: var(--bleu-fonce); /* Définit la couleur du texte en bleu */
 }
 
 /* .navBar{
@@ -50,7 +50,7 @@
   }
 
   .fastPath {
-    background-color: #0E4194;
+    background-color: var(--bleu-fonce);
     color: white;
   }
   

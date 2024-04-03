@@ -1,0 +1,26 @@
+.bar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bleu-clair);
+    color: var(--bleu-fonce);
+    padding-bottom: 0.1%;
+    padding-top: 0.1%;
+}
+
+.spaced{
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    margin-left: 2%;
+    margin-right: 2%;
+    display: inline-flex;
+    align-items: center;
+}
+
+.spaced a {
+    margin-left: 8px;
+    text-wrap: nowrap;
+    font-size: small;
+}

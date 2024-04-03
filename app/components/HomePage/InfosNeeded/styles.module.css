@@ -1,0 +1,23 @@
+.bar {
+    margin-top: 1%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bleu-fonce);
+    color: white;
+}
+
+.bar a {
+    text-wrap: nowrap;
+}
+
+.bar h1 {
+    font-style: italic;
+}
+
+
+.spaced{
+    margin: 0.5%;
+}
