@@ -60,6 +60,7 @@
   }
   
 .searchContainer{
+    cursor: pointer; /* Définit le curseur sur pointer */
     margin-left: 1%;
 }
 

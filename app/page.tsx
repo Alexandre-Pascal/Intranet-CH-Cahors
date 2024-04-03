@@ -1,13 +1,13 @@
+import LogosList from "./components/LogosList/LogosList";
 import NavBar from "./components/NavBar/NavBar";
-import PetitTestTouaaais from "./components/petittestouaaais";
 
 export default function Home() {
   return (
     <main>
       <NavBar/>
-      <PetitTestTouaaais/>
+      <LogosList/>
 
-      <a href="/testationnage"> Testationnage </a>
+      <a href="/pages/testationnage"> Testationnage </a>
     </main>
   );
 }
