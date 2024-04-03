@@ -4,13 +4,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import menu from "../../assets/icons/menu.png";
-import ennov from "../../assets/icons/ennov.png";
-import tableauDeBord from "../../assets/icons/tableau-de-bord.png";
-import demandeIntervention from "../../assets/icons/cle.png";
-import attention from "../../assets/icons/attention.png";
-import connexion from "../../assets/icons/utilisateur.png";
-import loupe from "../../assets/icons/loupe.png";
+import menu from "../../../assets/icons/menu.png";
+import ennov from "../../../assets/icons/ennov.png";
+import tableauDeBord from "../../../assets/icons/tableau-de-bord.png";
+import demandeIntervention from "../../../assets/icons/cle.png";
+import attention from "../../../assets/icons/attention.png";
+import connexion from "../../../assets/icons/utilisateur.png";
+import loupe from "../../../assets/icons/loupe.png";
 
 import styles from "./styles.module.css";
 
@@ -38,7 +38,7 @@ export default function NavBar() {
       <Link className={styles.fastPath} href="/">
         <div >
           <Image src={demandeIntervention} width={32} height={32} alt="Demande d'intervention"/>
-          <p>Demande d'intervention</p>
+          <p>Demande d&apos;intervention</p>
         </div>
       </Link>
       <Link className={styles.fastPath} href="/">
@@ -59,7 +59,10 @@ export default function NavBar() {
           <p>Se Connecter</p>
         </div>
       </Link>
-      <div className={`${styles.searchContainer} & ${isSearchOpen ? styles.softRounded : ""}`} style={{ width: isSearchOpen ? "15vw" : "auto" }}>
+      <div
+        className={`${styles.searchContainer} & ${isSearchOpen ? styles.softRounded : ""}`}
+        style={{ width: isSearchOpen ? "15vw" : "auto" }}
+      >
         <div onClick={handleSearchClick}>
           <Image src={loupe} width={32} height={32}
             className={`${!isSearchOpen ? styles.rounded : ""} `}

@@ -14,7 +14,7 @@ export default function FastPathBis() {
     <div className={styles.bar}>
       <div className={styles.spaced} >
         <Image src={hopital} width={16} height={16} alt="Fleche"/>
-        <a href={"/"}><h3>Site de l'hôpital</h3></a>
+        <a href={"/"}><h3>Site de l&apos;hôpital</h3></a>
       </div>
       <div className={styles.spaced} >
         <Image src={annuaire} width={16} height={16} alt="Fleche"/>
