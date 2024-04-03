@@ -1,7 +1,6 @@
 .rounded {
     border: 2px solid var(--bleu-fonce); /* Définit une bordure bleue de 2 pixels */
     border-radius: 50%; /* Définit le rayon de la bordure pour créer un cercle */
-    overflow: hidden; /* Masque tout ce qui dépasse de la bordure */
 }
 
 .softRounded {
@@ -45,7 +44,7 @@
   
   /* Optionnel : Pour ajuster l'espace entre l'image et le texte */
   .navBar p {
-    font-size: 62%;
+    font-size: 90%;
     margin-inline-start: 5px;
   }
 

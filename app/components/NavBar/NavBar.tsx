@@ -25,43 +25,43 @@ export default function NavBar() {
     <nav className={styles.navBar}>
       <Link href="/">
         <div>
-          <Image src={menu} width={24} height={24} className={styles.rounded} alt="Menu"/>
+          <Image src={menu} width={32} height={32} className={styles.rounded} alt="Menu"/>
           <p className={styles.altColorText}>Menu</p>
         </div>
       </Link>
       <Link className={styles.fastPath} href="/">
         <div>
-          <Image src={tableauDeBord} width={24} height={24} alt="Tableau de bord"/>
+          <Image src={tableauDeBord} width={32} height={32} alt="Tableau de bord"/>
           <p>Tableaux des Gardes</p>
         </div>
       </Link>
       <Link className={styles.fastPath} href="/">
         <div >
-          <Image src={demandeIntervention} width={24} height={24} alt="Demande d'intervention"/>
+          <Image src={demandeIntervention} width={32} height={32} alt="Demande d'intervention"/>
           <p>Demande d'intervention</p>
         </div>
       </Link>
       <Link className={styles.fastPath} href="/">
         <div>
-          <Image src={ennov} width={24} height={24} alt="Ennov"/>
+          <Image src={ennov} width={32} height={32} alt="Ennov"/>
           <p>Gestion Documentaire</p>
         </div>
       </Link>
       <Link className={styles.fastPath} href="/">
         <div>
-          <Image src={attention} width={24} height={24} alt="Déclarer un évènement indésirable"/>
+          <Image src={attention} width={32} height={32} alt="Déclarer un évènement indésirable"/>
           <p>Déclarer un évènement indésirable</p>
         </div>
       </Link>
       <Link className={styles.logIn} href="/">
         <div>
-          <Image src={connexion} width={24} height={24} alt="Se Connecter"/>
+          <Image src={connexion} width={32} height={32} alt="Se Connecter"/>
           <p>Se Connecter</p>
         </div>
       </Link>
       <div className={`${styles.searchContainer} & ${isSearchOpen ? styles.softRounded : ""}`}>
         <div onClick={handleSearchClick}>
-          <Image src={loupe} width={24} height={24}
+          <Image src={loupe} width={32} height={32}
             className={`${!isSearchOpen ? styles.rounded : ""} `}
             alt="Rechercher"/>
         </div>
