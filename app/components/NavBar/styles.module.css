@@ -1,6 +1,8 @@
 .rounded {
     border: 2px solid var(--bleu-fonce); /* Définit une bordure bleue de 2 pixels */
     border-radius: 50%; /* Définit le rayon de la bordure pour créer un cercle */
+    max-width: unset;
+
 }
 
 .softRounded {
@@ -37,7 +39,7 @@
 
   .navBar a {
     align-content: center;
-    height: 4.5vh;
+    height: 5vh;
     padding-top: 0.5vh;
     padding-bottom: 0.5vh;
     padding-left: 1vw;
@@ -74,7 +76,11 @@
   @media screen and (max-width: 1354px) {
     .navBar a {
       height: 6vh;
-
     }
-    
+    .searchContainer {
+      position: fixed;
+      margin-top: 15vh;
+      margin-right: 1vh;
+      right: 0;
+    }
   }

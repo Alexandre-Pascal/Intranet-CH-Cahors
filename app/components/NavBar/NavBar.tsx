@@ -59,7 +59,7 @@ export default function NavBar() {
           <p>Se Connecter</p>
         </div>
       </Link>
-      <div className={`${styles.searchContainer} & ${isSearchOpen ? styles.softRounded : ""}`}>
+      <div className={`${styles.searchContainer} & ${isSearchOpen ? styles.softRounded : ""}`} style={{ width: isSearchOpen ? "15vw" : "auto" }}>
         <div onClick={handleSearchClick}>
           <Image src={loupe} width={32} height={32}
             className={`${!isSearchOpen ? styles.rounded : ""} `}

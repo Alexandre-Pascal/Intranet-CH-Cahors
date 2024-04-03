@@ -7,14 +7,18 @@
     align-items: center;
     background-color: var(--bleu-fonce);
     color: white;
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
 }
 
 .bar a {
     text-wrap: nowrap;
+    font-size: large;
 }
 
 .bar h1 {
     font-style: italic;
+    font-size: large;
 }
 
 
