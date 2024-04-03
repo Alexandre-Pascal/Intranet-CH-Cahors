@@ -36,6 +36,8 @@
   }
 
   .navBar a {
+    align-content: center;
+    height: 4.5vh;
     padding-top: 0.5vh;
     padding-bottom: 0.5vh;
     padding-left: 1vw;
@@ -69,3 +71,10 @@
     width: 90%;
   }
 
+  @media screen and (max-width: 1354px) {
+    .navBar a {
+      height: 6vh;
+
+    }
+    
+  }
