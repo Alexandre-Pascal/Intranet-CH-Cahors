@@ -20,11 +20,12 @@
 
 
 .navBar {
-    margin: 1%;
+    margin: 1vh;
     display: flex;
     align-items: center; /* Alignement vertical des éléments */
     text-align: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: center;
   }
   
   /* Optionnel : Pour aligner le texte au centre de l'image */
@@ -35,11 +36,12 @@
   }
 
   .navBar a {
-    padding-top: 0.5%;
-    padding-bottom: 0.5%;
-    padding-left: 1%;
-    padding-right: 1%;
-    margin: 0.5%;
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    margin-left: 0.5vw;
+    margin-right: 0.5vw;
   }
   
   /* Optionnel : Pour ajuster l'espace entre l'image et le texte */
@@ -60,7 +62,7 @@
   
 .searchContainer{
     cursor: pointer; /* Définit le curseur sur pointer */
-    margin-left: 1%;
+    margin-left: 1vw;
 }
 
   .searchContainer input{

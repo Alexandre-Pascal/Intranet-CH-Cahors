@@ -8,8 +8,10 @@ import styles from "./styles.module.css";
 export default function LogosList() {
   return (
     <div className={styles.logosList}>
-      <Image src={CHCahors} width={200} height={100} alt="CH Cahors"/>
-      <Image src={GHT} width={100} height={100} alt="GHT"/>
+      {/* <Image src={CHCahors} width={200} height={100} alt="CH Cahors"/>
+      <Image src={GHT} width={100} height={100} alt="GHT"/> */}
+      <Image className={styles.chc} src={CHCahors} alt="CH Cahors"/>
+      <Image className={styles.ght} src={GHT} alt="GHT"/>
     </div>
   );
 }
