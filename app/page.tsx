@@ -7,10 +7,12 @@ import Infos from "./components/HomePage/Infos/Infos";
 export default function Home() {
   return (
     <main>
-      <NavBar/>
-      <LogosList/>
-      <InfosNeeded/>
-      <FastPathBis/>
+      <div style={{ height: "30vh" }}>
+        <NavBar/>
+        <LogosList/>
+        <InfosNeeded/>
+        <FastPathBis/>
+      </div>
       <Infos/>
       {/* <a href="/pages/testationnage"> Testationnage </a> */}
     </main>
