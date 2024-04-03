@@ -6,8 +6,8 @@
     align-items: center;
     background-color: var(--bleu-clair);
     color: var(--bleu-fonce);
-    padding-bottom: 0.1vh;
-    padding-top: 0.1vh;
+    padding-bottom: 0.3vh;
+    padding-top: 0.3vh;
 }
 
 .spaced{
