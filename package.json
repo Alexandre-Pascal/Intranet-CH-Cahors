@@ -11,7 +11,12 @@
     "lint:watch": "nodemon --watch . --ext .js,.jsx,.ts,.tsx --exec \"npm run lint\""
   },
   "dependencies": {
+    "@prisma/client": "^5.12.1",
+    "axios": "^1.6.8",
+    "concurrently": "^8.2.2",
+    "html-react-parser": "^5.1.10",
     "next": "14.1.4",
+    "prisma": "^5.12.1",
     "react": "^18",
     "react-dom": "^18"
   },

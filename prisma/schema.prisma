@@ -1,0 +1,1701 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_assets {
+  id        BigInt @id @default(autoincrement())
+  parent_id Int    @default(0)
+  lft       Int    @default(0)
+  rgt       Int    @default(0)
+  level     BigInt
+  name      String @unique(map: "l76aj_assets_name_idx") @db.VarChar(50)
+  title     String @db.VarChar(100)
+  rules     String @db.VarChar(5120)
+
+  @@index([lft, rgt])
+  @@index([parent_id])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_associations {
+  id      String @db.VarChar(50)
+  context String @db.VarChar(50)
+  key     String @db.Char(32)
+
+  @@id([context, id])
+  @@index([key])
+}
+
+model l76aj_banner_clients {
+  id                Int      @id @default(autoincrement())
+  name              String   @default("") @db.VarChar(255)
+  contact           String   @default("") @db.VarChar(255)
+  email             String   @default("") @db.VarChar(255)
+  extrainfo         String
+  state             Int      @default(0) @db.SmallInt
+  checked_out       BigInt   @default(0)
+  checked_out_time  DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  metakey           String
+  own_prefix        Int      @default(0) @db.SmallInt
+  metakey_prefix    String   @default("") @db.VarChar(255)
+  purchase_type     Int      @default(-1) @db.SmallInt
+  track_clicks      Int      @default(-1) @db.SmallInt
+  track_impressions Int      @default(-1) @db.SmallInt
+
+  @@index([metakey_prefix])
+  @@index([own_prefix])
+}
+
+model l76aj_banner_tracks {
+  track_date DateTime @db.Timestamp(6)
+  track_type BigInt
+  banner_id  BigInt
+  count      BigInt   @default(0)
+
+  @@id([track_date, track_type, banner_id])
+  @@index([banner_id])
+  @@index([track_date])
+  @@index([track_type])
+}
+
+model l76aj_banners {
+  id                Int      @id @default(autoincrement())
+  cid               Int      @default(0)
+  type              Int      @default(0)
+  name              String   @default("") @db.VarChar(255)
+  alias             String   @default("") @db.VarChar(255)
+  imptotal          Int      @default(0)
+  impmade           Int      @default(0)
+  clicks            Int      @default(0)
+  clickurl          String   @default("") @db.VarChar(200)
+  state             Int      @default(0) @db.SmallInt
+  catid             BigInt   @default(0)
+  description       String
+  custombannercode  String   @db.VarChar(2048)
+  sticky            Int      @default(0)
+  ordering          Int      @default(0)
+  metakey           String
+  params            String
+  own_prefix        Int      @default(0) @db.SmallInt
+  metakey_prefix    String   @default("") @db.VarChar(255)
+  purchase_type     Int      @default(-1) @db.SmallInt
+  track_clicks      Int      @default(-1) @db.SmallInt
+  track_impressions Int      @default(-1) @db.SmallInt
+  checked_out       BigInt   @default(0)
+  checked_out_time  DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_up        DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_down      DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  reset             DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  created           DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  language          String   @default("") @db.Char(7)
+
+  @@index([catid])
+  @@index([language])
+  @@index([metakey_prefix])
+  @@index([own_prefix])
+  @@index([state])
+}
+
+model l76aj_breezingforms_addons_gdata {
+  id             Int    @id @default(autoincrement())
+  form_id        Int    @unique(map: "l76aj_breezingforms_addons_gdata_form_id_idx") @default(0)
+  username       String @default("") @db.VarChar(255)
+  password       String @default("") @db.VarChar(255)
+  enabled        Int    @default(0) @db.SmallInt
+  spreadsheet_id String @default("") @db.VarChar(255)
+  worksheet_id   String @default("") @db.VarChar(255)
+  fields         String
+  meta           String @db.VarChar(255)
+  debug          Int    @default(0) @db.SmallInt
+
+  @@index([form_id, spreadsheet_id, worksheet_id], map: "l76aj_breezingforms_addons79077-c4f5-4538-a02d-de6fb5c19849_idx")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_categories {
+  id               Int      @id @default(autoincrement())
+  asset_id         BigInt   @default(0)
+  parent_id        BigInt   @default(0)
+  lft              Int      @default(0)
+  rgt              Int      @default(0)
+  level            BigInt   @default(0)
+  path             String   @default("") @db.VarChar(255)
+  extension        String   @default("") @db.VarChar(50)
+  title            String   @db.VarChar(255)
+  alias            String   @default("") @db.VarChar(255)
+  note             String   @default("") @db.VarChar(255)
+  description      String
+  published        Int      @default(0) @db.SmallInt
+  checked_out      BigInt   @default(0)
+  checked_out_time DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  access           BigInt   @default(0)
+  params           String
+  metadesc         String   @db.VarChar(1024)
+  metakey          String   @db.VarChar(1024)
+  metadata         String   @db.VarChar(2048)
+  created_user_id  BigInt   @default(0)
+  created_time     DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  modified_user_id BigInt   @default(0)
+  modified_time    DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  hits             BigInt   @default(0)
+  language         String   @db.Char(7)
+
+  @@index([access])
+  @@index([alias])
+  @@index([checked_out])
+  @@index([extension, published, access])
+  @@index([language])
+  @@index([lft, rgt])
+  @@index([path])
+}
+
+model l76aj_chronoforms_data_formexpbesoins {
+  cf_id                   Int      @id @default(autoincrement())
+  cf_uid                  String   @db.VarChar(255)
+  cf_created              DateTime @db.Timestamp(6)
+  cf_modified             DateTime @db.Timestamp(6)
+  cf_created_by           Int
+  cf_modified_by          Int
+  cf_ipaddress            String   @db.VarChar(255)
+  cf_user_id              Int
+  input_checkbox_group_4  String   @db.VarChar(255)
+  input_text_1            String   @db.VarChar(255)
+  input_checkbox_group_23 String   @db.VarChar(255)
+  input_file_8            String   @db.VarChar(255)
+  input_submit_10         String   @db.VarChar(255)
+  back                    String   @db.VarChar(255)
+  chrono_verification     String   @db.VarChar(255)
+  input_submit_5          String   @db.VarChar(255)
+}
+
+model l76aj_ckforms_3 {
+  id        Int       @id @default(autoincrement())
+  published Int?      @db.SmallInt
+  created   DateTime? @db.Timestamp(6)
+  ipaddress String?
+  articleid String?
+  F4        String?
+  F6        String?
+  F7        String?
+  F8        String?
+  F9        String?
+  F10       String?
+  F13       String?
+  F14       String?
+  F15       String?
+  F16       String?
+  F17       String?
+  F18       String?
+  F19       String?
+  F20       String?
+  F21       String?
+  F23       String?
+  F24       String?
+  F26       String?
+  F27       String?
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_contact_details {
+  id               Int      @id @default(autoincrement())
+  name             String   @default("") @db.VarChar(255)
+  alias            String   @default("") @db.VarChar(255)
+  con_position     String?  @db.VarChar(255)
+  address          String?
+  suburb           String?  @db.VarChar(100)
+  state            String?  @db.VarChar(100)
+  country          String?  @db.VarChar(100)
+  postcode         String?  @db.VarChar(100)
+  telephone        String?  @db.VarChar(255)
+  fax              String?  @db.VarChar(255)
+  misc             String?
+  image            String?  @db.VarChar(255)
+  imagepos         String?  @db.VarChar(20)
+  email_to         String?  @db.VarChar(255)
+  default_con      Int      @default(0)
+  published        Int      @default(0) @db.SmallInt
+  checked_out      BigInt   @default(0)
+  checked_out_time DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  ordering         Int      @default(0)
+  params           String
+  user_id          Int      @default(0)
+  catid            Int      @default(0)
+  access           BigInt?
+  mobile           String   @default("") @db.VarChar(255)
+  webpage          String   @default("") @db.VarChar(255)
+  sortname1        String   @db.VarChar(255)
+  sortname2        String   @db.VarChar(255)
+  sortname3        String   @db.VarChar(255)
+  language         String   @db.Char(7)
+  created          DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  created_by       BigInt   @default(0)
+  created_by_alias String   @default("") @db.VarChar(255)
+  modified         DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  modified_by      BigInt   @default(0)
+  metakey          String
+  metadesc         String
+  metadata         String
+  featured         Int      @default(0)
+  xreference       String   @db.VarChar(50)
+  publish_up       DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_down     DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+
+  @@index([access])
+  @@index([catid])
+  @@index([checked_out])
+  @@index([created_by])
+  @@index([featured, catid])
+  @@index([language])
+  @@index([published])
+  @@index([xreference])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_content {
+  id               BigInt   @id @default(autoincrement())
+  asset_id         BigInt   @default(0)
+  title            String   @default("") @db.VarChar(255)
+  alias            String   @default("") @db.VarChar(255)
+  title_alias      String   @default("") @db.VarChar(255)
+  introtext        String
+  fulltext         String
+  state            Int      @default(0) @db.SmallInt
+  sectionid        BigInt   @default(0)
+  mask             BigInt   @default(0)
+  catid            BigInt   @default(0)
+  created          DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  created_by       BigInt   @default(0)
+  created_by_alias String   @default("") @db.VarChar(255)
+  modified         DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  modified_by      BigInt   @default(0)
+  checked_out      BigInt   @default(0)
+  checked_out_time DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_up       DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_down     DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  images           String
+  urls             String
+  attribs          String   @db.VarChar(5120)
+  version          BigInt   @default(1)
+  parentid         BigInt   @default(0)
+  ordering         Int      @default(0)
+  metakey          String
+  metadesc         String
+  access           BigInt   @default(0)
+  hits             BigInt   @default(0)
+  metadata         String
+  featured         Int      @default(0)
+  language         String   @db.Char(7)
+  xreference       String   @db.VarChar(50)
+
+  @@index([access])
+  @@index([catid])
+  @@index([checked_out])
+  @@index([created_by])
+  @@index([featured, catid])
+  @@index([language])
+  @@index([state])
+  @@index([xreference])
+}
+
+model l76aj_content_frontpage {
+  content_id Int @id @default(0)
+  ordering   Int @default(0)
+}
+
+model l76aj_content_rating {
+  content_id   Int    @id @default(0)
+  rating_sum   BigInt @default(0)
+  rating_count BigInt @default(0)
+  lastip       String @default("") @db.VarChar(50)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model l76aj_core_log_searches {
+  search_term String @default("") @db.VarChar(128)
+  hits        BigInt @default(0)
+
+  @@ignore
+}
+
+model l76aj_extensions {
+  extension_id     Int      @id @default(autoincrement())
+  name             String   @db.VarChar(100)
+  type             String   @db.VarChar(20)
+  element          String   @db.VarChar(100)
+  folder           String   @db.VarChar(100)
+  client_id        Int      @db.SmallInt
+  enabled          Int      @default(1) @db.SmallInt
+  access           BigInt?
+  protected        Int      @default(0) @db.SmallInt
+  manifest_cache   String
+  params           String
+  custom_data      String
+  system_data      String
+  checked_out      BigInt   @default(0)
+  checked_out_time DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  ordering         Int?     @default(0)
+  state            Int?     @default(0)
+
+  @@index([element, client_id])
+  @@index([element, folder, client_id])
+  @@index([type, element, folder, client_id])
+}
+
+model l76aj_extrawatch {
+  id                   BigInt                 @id @default(autoincrement())
+  ip                   String?                @db.VarChar(255)
+  country              String?                @db.VarChar(2)
+  browser              String?                @db.VarChar(255)
+  referer              String?                @db.VarChar(255)
+  username             String?                @db.VarChar(255)
+  inactive             Int?                   @default(1)
+  city                 String?                @db.VarChar(255)
+  latitude             Float?                 @db.Real
+  longitude            Float?                 @db.Real
+  l76aj_extrawatch_uri l76aj_extrawatch_uri[]
+
+  @@index([browser])
+  @@index([country])
+  @@index([ip])
+}
+
+model l76aj_extrawatch_blocked {
+  id      BigInt  @id @default(autoincrement())
+  ip      String? @db.VarChar(255)
+  hits    BigInt?
+  date    Int?
+  reason  String? @db.VarChar(255)
+  country String? @db.Char(2)
+  badWord String  @db.VarChar(255)
+
+  @@index([date])
+  @@index([ip])
+}
+
+model l76aj_extrawatch_cache {
+  id         Int     @id @default(autoincrement())
+  key        String? @db.VarChar(255)
+  lastUpdate Int?
+  cache      String?
+
+  @@index([key])
+}
+
+model l76aj_extrawatch_cc2c {
+  id      Int    @id @default(autoincrement())
+  cc      String @db.Char(2)
+  country String @db.VarChar(50)
+
+  @@index([cc])
+}
+
+model l76aj_extrawatch_config {
+  id    BigInt  @id @default(autoincrement())
+  name  String? @unique(map: "l76aj_extrawatch_config_name_idx") @db.VarChar(255)
+  value String?
+}
+
+model l76aj_extrawatch_dm_counter {
+  id         Int      @id @default(autoincrement())
+  did        Int
+  ddate      DateTime @db.Date
+  ip         String?  @db.VarChar(255)
+  referrerId Int?
+  timestamp  Int?
+
+  @@index([ddate])
+  @@index([did])
+  @@index([referrerId])
+}
+
+model l76aj_extrawatch_dm_extension {
+  eid     Int    @id @default(autoincrement())
+  extname String @db.VarChar(25)
+}
+
+model l76aj_extrawatch_dm_paths {
+  did             Int     @id @default(autoincrement())
+  dname           String  @db.VarChar(255)
+  allowedReferrer String? @db.VarChar(255)
+  addedManually   Int?
+}
+
+model l76aj_extrawatch_dm_referrer {
+  id       Int     @id @default(autoincrement())
+  referrer String? @db.VarChar(255)
+}
+
+model l76aj_extrawatch_flow {
+  id    Int  @id @default(autoincrement())
+  from  Int?
+  to    Int?
+  count Int?
+
+  @@index([from])
+  @@index([to])
+}
+
+model l76aj_extrawatch_goals {
+  id                              Int     @id @default(autoincrement())
+  name                            String? @db.VarChar(255)
+  username_inversed               String? @db.VarChar(3)
+  parentId                        Int?
+  uri_condition                   String? @db.VarChar(255)
+  uri_inversed                    String? @db.VarChar(3)
+  get_var                         String? @db.VarChar(255)
+  get_condition                   String? @db.VarChar(255)
+  get_inversed                    String? @db.VarChar(3)
+  post_var                        String? @db.VarChar(255)
+  post_condition                  String? @db.VarChar(255)
+  post_inversed                   String? @db.VarChar(3)
+  title_condition                 String? @db.VarChar(255)
+  title_inversed                  String? @db.VarChar(3)
+  username_condition              String? @db.VarChar(255)
+  ip_condition                    String? @db.VarChar(255)
+  ip_inversed                     String? @db.VarChar(3)
+  came_from_condition             String? @db.VarChar(255)
+  came_from_inversed              String? @db.VarChar(3)
+  country_condition               String? @db.VarChar(255)
+  country_inversed                String? @db.VarChar(3)
+  block                           String? @db.VarChar(255)
+  redirect                        String? @db.VarChar(255)
+  disabled                        Int?    @db.SmallInt
+  clicked_element_xpath_condition String? @db.VarChar(255)
+  send_email                      String? @db.VarChar(3)
+
+  @@index([clicked_element_xpath_condition])
+}
+
+model l76aj_extrawatch_heatmap {
+  id          Int    @id @default(autoincrement())
+  uri2titleId Int
+  x           Int
+  y           Int
+  w           Int
+  h           Int    @db.SmallInt
+  ip          String @db.VarChar(255)
+  day         Int?
+  timestamp   Int?
+  xpath       String @db.VarChar(1024)
+
+  @@index([day])
+  @@index([uri2titleId])
+}
+
+model l76aj_extrawatch_history {
+  id        BigInt  @id @default(autoincrement())
+  ip        String? @db.VarChar(255)
+  country   String? @db.VarChar(2)
+  browser   String? @db.VarChar(255)
+  referer   String? @db.VarChar(255)
+  username  String? @db.VarChar(255)
+  inactive  Int?    @default(1)
+  city      String? @db.VarChar(255)
+  latitude  Float?  @db.Real
+  longitude Float?  @db.Real
+
+  @@index([browser])
+  @@index([country])
+  @@index([ip])
+}
+
+model l76aj_extrawatch_info {
+  id    BigInt  @id @default(autoincrement())
+  group Int?
+  date  Int?
+  name  String? @db.VarChar(255)
+  value BigInt?
+
+  @@index([date])
+  @@index([group])
+  @@index([name])
+}
+
+model l76aj_extrawatch_internal {
+  id        Int     @id @default(autoincrement())
+  from      String? @db.VarChar(255)
+  to        String? @db.VarChar(255)
+  timestamp Int?
+
+  @@index([from])
+  @@index([to])
+}
+
+model l76aj_extrawatch_ip2c_cache {
+  id          Int    @id @default(autoincrement())
+  ip          String @db.VarChar(255)
+  countryCode String @db.VarChar(255)
+
+  @@index([ip])
+}
+
+model l76aj_extrawatch_keyphrase {
+  id   Int     @id @default(autoincrement())
+  name String? @db.VarChar(255)
+}
+
+model l76aj_extrawatch_sql_scripts {
+  id         Int     @id @default(autoincrement())
+  scriptname String? @db.VarChar(255)
+}
+
+model l76aj_extrawatch_uri {
+  id               BigInt            @id @default(autoincrement())
+  fk               BigInt?
+  timestamp        BigInt?
+  uri              String?           @db.VarChar(255)
+  title            String?           @db.VarChar(255)
+  l76aj_extrawatch l76aj_extrawatch? @relation(fields: [fk], references: [id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@index([fk])
+  @@index([timestamp])
+}
+
+model l76aj_extrawatch_uri2keyphrase {
+  id          Int @id @default(autoincrement())
+  uri2titleId Int
+  keyphraseId Int
+}
+
+model l76aj_extrawatch_uri2keyphrase_pos {
+  id              Int  @id @default(autoincrement())
+  uri2keyphraseId Int?
+  position        Int?
+}
+
+model l76aj_extrawatch_uri2title {
+  id        Int     @id @default(autoincrement())
+  uri       String? @unique(map: "l76aj_extrawatch_uri2title_uri_idx") @db.VarChar(255)
+  title     String? @db.VarChar(255)
+  count     Int?    @default(0)
+  timestamp Int?
+
+  @@unique([uri, title], map: "l76aj_extrawatch_uri2title_uri_title_idx")
+}
+
+model l76aj_extrawatch_uri_history {
+  id        BigInt  @id @default(autoincrement())
+  fk        BigInt?
+  timestamp BigInt?
+  uri       String? @db.VarChar(255)
+  title     String? @db.VarChar(255)
+
+  @@index([fk])
+  @@index([timestamp])
+}
+
+model l76aj_extrawatch_uri_post {
+  id    Int    @id @default(autoincrement())
+  uriid Int
+  key   String @db.VarChar(255)
+  value String @db.VarChar(255)
+  type  Int
+
+  @@index([type])
+  @@index([uriid])
+}
+
+model l76aj_extrawatch_user_log {
+  id          Int     @id @default(autoincrement())
+  userId      Int
+  countryCode String? @db.VarChar(255)
+  timestamp   Int?
+  ip          String? @db.VarChar(255)
+  alertSent   Int?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model l76aj_extrawatch_visit2goal {
+  visitId   Int
+  goalId    Int
+  timestamp Int
+
+  @@ignore
+}
+
+model l76aj_facileforms_compmenus {
+  id        Int     @id @default(autoincrement())
+  package   String  @default("") @db.VarChar(30)
+  parent    Int     @default(0)
+  ordering  Int     @default(0)
+  published Int     @default(0) @db.SmallInt
+  img       String  @default("") @db.VarChar(255)
+  title     String  @default("") @db.VarChar(255)
+  name      String  @default("") @db.VarChar(255)
+  page      Int     @default(1)
+  frame     Int     @default(0) @db.SmallInt
+  border    Int     @default(0) @db.SmallInt
+  params    String?
+}
+
+model l76aj_facileforms_config {
+  id    String  @id @default("") @db.VarChar(30)
+  value String?
+}
+
+model l76aj_facileforms_elements {
+  id           Int     @id @default(autoincrement())
+  form         Int     @default(0)
+  page         Int     @default(1)
+  ordering     Int     @default(0)
+  published    Int     @default(0) @db.SmallInt
+  name         String  @default("") @db.VarChar(255)
+  title        String  @default("") @db.VarChar(255)
+  type         String  @default("") @db.VarChar(50)
+  class1       String? @db.VarChar(30)
+  class2       String? @db.VarChar(30)
+  logging      Int     @default(1) @db.SmallInt
+  posx         Int?
+  posxmode     Int     @default(0) @db.SmallInt
+  posy         Int?
+  posymode     Int     @default(0) @db.SmallInt
+  width        Int?
+  widthmode    Int     @default(0) @db.SmallInt
+  height       Int?
+  heightmode   Int     @default(0) @db.SmallInt
+  flag1        Int     @default(0) @db.SmallInt
+  flag2        Int     @default(0) @db.SmallInt
+  data1        String?
+  data2        String?
+  data3        String?
+  script1cond  Int     @default(0) @db.SmallInt
+  script1id    Int?
+  script1code  String?
+  script1flag1 Int     @default(0) @db.SmallInt
+  script1flag2 Int     @default(0) @db.SmallInt
+  script2cond  Int     @default(0) @db.SmallInt
+  script2id    Int?
+  script2code  String?
+  script2flag1 Int     @default(0) @db.SmallInt
+  script2flag2 Int     @default(0) @db.SmallInt
+  script2flag3 Int     @default(0) @db.SmallInt
+  script2flag4 Int     @default(0) @db.SmallInt
+  script2flag5 Int     @default(0) @db.SmallInt
+  script3cond  Int     @default(0) @db.SmallInt
+  script3id    Int?
+  script3code  String?
+  script3msg   String?
+  mailback     Int     @default(0) @db.SmallInt
+  mailbackfile String
+}
+
+model l76aj_facileforms_forms {
+  id                               Int     @id @default(autoincrement())
+  alt_mailfrom                     String?
+  alt_fromname                     String?
+  mb_alt_mailfrom                  String?
+  mb_alt_fromname                  String?
+  mailchimp_email_field            String  @default("") @db.VarChar(255)
+  mailchimp_checkbox_field         String  @default("") @db.VarChar(255)
+  mailchimp_api_key                String  @default("") @db.VarChar(255)
+  mailchimp_list_id                String  @default("") @db.VarChar(255)
+  mailchimp_double_optin           Int     @default(1) @db.SmallInt
+  mailchimp_mergevars              String?
+  mailchimp_text_html_mobile_field String  @default("") @db.VarChar(255)
+  mailchimp_send_errors            Int     @default(0) @db.SmallInt
+  mailchimp_update_existing        Int     @default(0) @db.SmallInt
+  mailchimp_replace_interests      Int     @default(0) @db.SmallInt
+  mailchimp_send_welcome           Int     @default(0) @db.SmallInt
+  mailchimp_default_type           String  @default("text") @db.VarChar(255)
+  mailchimp_delete_member          Int     @default(0) @db.SmallInt
+  mailchimp_send_goodbye           Int     @default(1) @db.SmallInt
+  mailchimp_send_notify            Int     @default(1) @db.SmallInt
+  mailchimp_unsubscribe_field      String  @default("") @db.VarChar(255)
+  salesforce_token                 String  @default("") @db.VarChar(255)
+  salesforce_username              String  @default("") @db.VarChar(255)
+  salesforce_password              String  @default("") @db.VarChar(255)
+  salesforce_type                  String  @default("") @db.VarChar(255)
+  salesforce_fields                String?
+  salesforce_enabled               Int     @default(0) @db.SmallInt
+  dropbox_email                    String  @default("") @db.VarChar(255)
+  dropbox_password                 String  @default("") @db.VarChar(255)
+  dropbox_folder                   String?
+  dropbox_submission_enabled       Int     @default(0) @db.SmallInt
+  dropbox_submission_types         String  @default("pdf") @db.VarChar(255)
+  package                          String  @default("") @db.VarChar(30)
+  template_code                    String
+  template_code_processed          String
+  template_areas                   String
+  ordering                         Int     @default(0)
+  published                        Int     @default(0) @db.SmallInt
+  runmode                          Int     @default(0) @db.SmallInt
+  name                             String  @default("") @db.VarChar(255)
+  custom_mail_subject              String  @default("") @db.VarChar(255)
+  mb_custom_mail_subject           String  @default("") @db.VarChar(255)
+  title                            String  @default("") @db.VarChar(255)
+  description                      String?
+  class1                           String? @db.VarChar(30)
+  class2                           String? @db.VarChar(30)
+  width                            Int     @default(0)
+  widthmode                        Int     @default(0) @db.SmallInt
+  height                           Int     @default(0)
+  heightmode                       Int     @default(0) @db.SmallInt
+  pages                            Int     @default(1)
+  emailntf                         Int     @default(1) @db.SmallInt
+  mb_emailntf                      Int     @default(1) @db.SmallInt
+  emaillog                         Int     @default(1) @db.SmallInt
+  mb_emaillog                      Int     @default(1) @db.SmallInt
+  emailxml                         Int     @default(0) @db.SmallInt
+  mb_emailxml                      Int     @default(0) @db.SmallInt
+  email_type                       Int     @default(0) @db.SmallInt
+  mb_email_type                    Int     @default(0) @db.SmallInt
+  email_custom_template            String?
+  mb_email_custom_template         String?
+  email_custom_html                Int     @default(0) @db.SmallInt
+  mb_email_custom_html             Int     @default(0) @db.SmallInt
+  emailadr                         String?
+  dblog                            Int     @default(1) @db.SmallInt
+  script1cond                      Int     @default(0) @db.SmallInt
+  script1id                        Int?
+  script1code                      String?
+  script2cond                      Int     @default(0) @db.SmallInt
+  script2id                        Int?
+  script2code                      String?
+  piece1cond                       Int     @default(0) @db.SmallInt
+  piece1id                         Int?
+  piece1code                       String?
+  piece2cond                       Int     @default(0) @db.SmallInt
+  piece2id                         Int?
+  piece2code                       String?
+  piece3cond                       Int     @default(0) @db.SmallInt
+  piece3id                         Int?
+  piece3code                       String?
+  piece4cond                       Int     @default(0) @db.SmallInt
+  piece4id                         Int?
+  piece4code                       String?
+  prevmode                         Int     @default(2) @db.SmallInt
+  prevwidth                        Int?
+}
+
+model l76aj_facileforms_integrator_criteria_fixed {
+  id               Int    @id @default(autoincrement())
+  rule_id          Int
+  reference_column String @db.VarChar(255)
+  operator         String @db.VarChar(255)
+  fixed_value      String
+  andor            String @default("AND") @db.VarChar(3)
+}
+
+model l76aj_facileforms_integrator_criteria_form {
+  id               Int    @id @default(autoincrement())
+  rule_id          Int
+  reference_column String @db.VarChar(255)
+  operator         String @db.VarChar(255)
+  element_id       String @db.VarChar(255)
+  andor            String @default("AND") @db.VarChar(3)
+}
+
+model l76aj_facileforms_integrator_criteria_joomla {
+  id               Int    @id @default(autoincrement())
+  rule_id          Int
+  reference_column String @db.VarChar(255)
+  operator         String @db.VarChar(255)
+  joomla_object    String @db.VarChar(255)
+  andor            String @default("AND") @db.VarChar(3)
+}
+
+model l76aj_facileforms_integrator_items {
+  id               Int    @id @default(autoincrement())
+  rule_id          Int
+  element_id       Int
+  reference_column String @db.VarChar(255)
+  code             String
+  published        Int    @default(1) @db.SmallInt
+}
+
+model l76aj_facileforms_integrator_rules {
+  id              Int    @id @default(autoincrement())
+  name            String @db.VarChar(255)
+  form_id         Int
+  reference_table String @db.VarChar(255)
+  type            String @default("insert") @db.VarChar(255)
+  published       Int    @default(1) @db.SmallInt
+  finalize_code   String
+}
+
+model l76aj_facileforms_packages {
+  id          String @id @default("") @db.VarChar(30)
+  name        String @default("") @db.VarChar(255)
+  version     String @default("") @db.VarChar(30)
+  created     String @default("") @db.VarChar(20)
+  title       String @default("") @db.VarChar(50)
+  author      String @default("") @db.VarChar(50)
+  email       String @default("") @db.VarChar(50)
+  url         String @default("") @db.VarChar(50)
+  description String @default("") @db.VarChar(100)
+  copyright   String @default("") @db.VarChar(100)
+}
+
+model l76aj_facileforms_pieces {
+  id          Int     @id @default(autoincrement())
+  published   Int     @default(0) @db.SmallInt
+  package     String  @default("") @db.VarChar(30)
+  name        String  @default("") @db.VarChar(255)
+  title       String  @default("") @db.VarChar(255)
+  description String?
+  type        String  @default("") @db.VarChar(30)
+  code        String?
+}
+
+model l76aj_facileforms_records {
+  id                    Int      @id @default(autoincrement())
+  submitted             DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  form                  Int      @default(0)
+  title                 String   @default("") @db.VarChar(255)
+  name                  String   @default("") @db.VarChar(255)
+  ip                    String   @default("") @db.VarChar(30)
+  browser               String   @default("") @db.VarChar(255)
+  opsys                 String   @default("") @db.VarChar(255)
+  provider              String   @default("") @db.VarChar(255)
+  viewed                Int      @default(0) @db.SmallInt
+  exported              Int      @default(0) @db.SmallInt
+  archived              Int      @default(0) @db.SmallInt
+  user_id               Int      @default(0)
+  username              String   @default("") @db.VarChar(255)
+  user_full_name        String   @default("") @db.VarChar(255)
+  paypal_tx_id          String   @default("") @db.VarChar(255)
+  paypal_payment_date   DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  paypal_testaccount    Int      @default(0) @db.SmallInt
+  paypal_download_tries Int      @default(0)
+}
+
+model l76aj_facileforms_scripts {
+  id          Int     @id @default(autoincrement())
+  published   Int     @default(0) @db.SmallInt
+  package     String  @default("") @db.VarChar(30)
+  name        String  @default("") @db.VarChar(30)
+  title       String  @default("") @db.VarChar(50)
+  description String?
+  type        String  @default("") @db.VarChar(30)
+  code        String?
+}
+
+model l76aj_facileforms_subrecords {
+  id      Int     @id @default(autoincrement())
+  record  Int     @default(0)
+  element Int     @default(0)
+  title   String  @default("") @db.VarChar(255)
+  name    String  @default("") @db.VarChar(255)
+  type    String  @default("") @db.VarChar(255)
+  value   String?
+}
+
+model l76aj_finder_filters {
+  filter_id        BigInt   @id @default(autoincrement())
+  title            String   @db.VarChar(255)
+  alias            String   @db.VarChar(255)
+  state            Int      @default(1) @db.SmallInt
+  created          DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  created_by       BigInt
+  created_by_alias String   @db.VarChar(255)
+  modified         DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  modified_by      BigInt   @default(0)
+  checked_out      BigInt   @default(0)
+  checked_out_time DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  map_count        BigInt   @default(0)
+  data             String
+  params           String?
+}
+
+model l76aj_finder_links {
+  link_id            BigInt   @id @default(autoincrement())
+  url                String   @db.VarChar(255)
+  route              String   @db.VarChar(255)
+  title              String?  @db.VarChar(255)
+  description        String?  @db.VarChar(255)
+  indexdate          DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  md5sum             String?  @db.VarChar(32)
+  published          Int      @default(1) @db.SmallInt
+  state              Int?     @default(1)
+  access             Int?     @default(0)
+  language           String   @db.VarChar(8)
+  publish_start_date DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_end_date   DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  start_date         DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  end_date           DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  list_price         Float    @default(0)
+  sale_price         Float    @default(0)
+  type_id            Int
+  object             Bytes
+
+  @@index([md5sum])
+  @@index([published, state, access, publish_start_date, publish_end_date, list_price], map: "l76aj_finder_links_publish2f7a7-2289-4d4a-ac30-b984df7f06b6_idx")
+  @@index([published, state, access, publish_start_date, publish_end_date, sale_price], map: "l76aj_finder_links_publish4f6ca-cf74-44cb-a6bf-560a4a85d09b_idx")
+  @@index([title])
+  @@index([type_id])
+  @@index([url])
+}
+
+model l76aj_finder_links_terms0 {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_terms1 {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_terms2 {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_terms3 {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_terms4 {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_terms5 {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_terms6 {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_terms7 {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_terms8 {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_terms9 {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_termsa {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_termsb {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_termsc {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_termsd {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_termse {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_links_termsf {
+  link_id BigInt
+  term_id BigInt
+  weight  Float
+
+  @@id([link_id, term_id])
+  @@index([link_id, term_id, weight])
+  @@index([term_id, weight])
+}
+
+model l76aj_finder_taxonomy {
+  id        BigInt @id @default(autoincrement())
+  parent_id BigInt @default(0)
+  title     String @db.VarChar(255)
+  state     Int    @default(1)
+  access    Int    @default(0)
+  ordering  Int    @default(0)
+
+  @@index([access])
+  @@index([ordering])
+  @@index([parent_id])
+  @@index([parent_id, state, access])
+  @@index([state])
+}
+
+model l76aj_finder_taxonomy_map {
+  link_id BigInt
+  node_id BigInt
+
+  @@id([link_id, node_id])
+  @@index([link_id])
+  @@index([node_id])
+}
+
+model l76aj_finder_terms {
+  term_id BigInt @id @default(autoincrement())
+  term    String @unique(map: "l76aj_finder_terms_term_idx") @db.VarChar(75)
+  stem    String @db.VarChar(75)
+  common  Int    @default(0)
+  phrase  Int    @default(0)
+  weight  Float  @default(0)
+  soundex String @db.VarChar(75)
+  links   Int    @default(0)
+
+  @@index([soundex, phrase])
+  @@index([stem, phrase])
+  @@index([term, phrase])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model l76aj_finder_terms_common {
+  term     String @db.VarChar(75)
+  language String @db.VarChar(3)
+
+  @@index([language])
+  @@index([term, language])
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model l76aj_finder_tokens {
+  term    String @db.VarChar(75)
+  stem    String @db.VarChar(75)
+  common  Int    @default(0)
+  phrase  Int    @default(0)
+  weight  Float  @default(1)
+  context Int    @default(2)
+
+  @@index([context], type: Hash)
+  @@index([term], type: Hash)
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model l76aj_finder_tokens_aggregate {
+  term_id        BigInt
+  map_suffix     String @db.Char(1)
+  term           String @db.VarChar(75)
+  stem           String @db.VarChar(75)
+  common         Int    @default(0)
+  phrase         Int    @default(0)
+  term_weight    Float
+  context        Int    @default(2)
+  context_weight Float
+  total_weight   Float
+
+  @@index([term_id], type: Hash)
+  @@index([term], type: Hash)
+  @@ignore
+}
+
+model l76aj_finder_types {
+  id    BigInt @id @default(autoincrement())
+  title String @unique(map: "l76aj_finder_types_title_idx") @db.VarChar(100)
+  mime  String @db.VarChar(100)
+}
+
+model l76aj_languages {
+  lang_id      BigInt @id @default(autoincrement())
+  lang_code    String @unique(map: "l76aj_languages_lang_code_idx") @db.Char(7)
+  title        String @db.VarChar(50)
+  title_native String @db.VarChar(50)
+  sef          String @unique(map: "l76aj_languages_sef_idx") @db.VarChar(50)
+  image        String @unique(map: "l76aj_languages_image_idx") @db.VarChar(50)
+  description  String @db.VarChar(512)
+  metakey      String
+  metadesc     String
+  sitename     String @default("") @db.VarChar(1024)
+  published    Int    @default(0)
+  access       BigInt @default(0)
+  ordering     Int    @default(0)
+
+  @@index([access])
+  @@index([ordering])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_menu {
+  id                Int      @id @default(autoincrement())
+  menutype          String   @db.VarChar(24)
+  title             String   @db.VarChar(255)
+  alias             String   @db.VarChar(255)
+  note              String   @default("") @db.VarChar(255)
+  path              String   @db.VarChar(1024)
+  link              String   @db.VarChar(1024)
+  type              String   @db.VarChar(16)
+  published         Int      @default(0) @db.SmallInt
+  parent_id         BigInt   @default(1)
+  level             BigInt   @default(0)
+  component_id      BigInt   @default(0)
+  ordering          Int      @default(0)
+  checked_out       BigInt   @default(0)
+  checked_out_time  DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  browserNav        Int      @default(0) @db.SmallInt
+  access            BigInt   @default(0)
+  img               String   @db.VarChar(255)
+  template_style_id BigInt   @default(0)
+  params            String
+  lft               Int      @default(0)
+  rgt               Int      @default(0)
+  home              Int      @default(0)
+  language          String   @default("") @db.Char(7)
+  client_id         Int      @default(0) @db.SmallInt
+
+  @@unique([client_id, parent_id, alias, language], map: "l76aj_menu_client_id_parent_id_alias_language_idx")
+  @@index([alias])
+  @@index([component_id, menutype, published, access])
+  @@index([language])
+  @@index([lft, rgt])
+  @@index([menutype])
+  @@index([path])
+}
+
+model l76aj_menu_types {
+  id          BigInt @id @default(autoincrement())
+  menutype    String @unique(map: "l76aj_menu_types_menutype_idx") @db.VarChar(24)
+  title       String @db.VarChar(48)
+  description String @default("") @db.VarChar(255)
+}
+
+model l76aj_messages {
+  message_id   BigInt   @id @default(autoincrement())
+  user_id_from BigInt   @default(0)
+  user_id_to   BigInt   @default(0)
+  folder_id    Int      @default(0)
+  date_time    DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  state        Int      @default(0) @db.SmallInt
+  priority     Int      @default(0)
+  subject      String   @default("") @db.VarChar(255)
+  message      String
+
+  @@index([user_id_to, state])
+}
+
+model l76aj_messages_cfg {
+  user_id   BigInt @default(0)
+  cfg_name  String @default("") @db.VarChar(100)
+  cfg_value String @default("") @db.VarChar(255)
+
+  @@unique([user_id, cfg_name], map: "l76aj_messages_cfg_user_id_cfg_name_idx")
+}
+
+model l76aj_modules {
+  id               Int      @id @default(autoincrement())
+  title            String   @default("") @db.VarChar(100)
+  note             String   @default("") @db.VarChar(255)
+  content          String
+  ordering         Int      @default(0)
+  position         String   @default("") @db.VarChar(50)
+  checked_out      BigInt   @default(0)
+  checked_out_time DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_up       DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_down     DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  published        Int      @default(0) @db.SmallInt
+  module           String?  @db.VarChar(50)
+  access           BigInt?
+  showtitle        Int      @default(1)
+  params           String
+  client_id        Int      @default(0) @db.SmallInt
+  language         String   @db.Char(7)
+
+  @@index([language])
+  @@index([module, published])
+  @@index([published, access])
+}
+
+model l76aj_modules_menu {
+  moduleid Int @default(0)
+  menuid   Int @default(0)
+
+  @@id([moduleid, menuid])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_newsfeeds {
+  catid            Int      @default(0)
+  id               BigInt   @id @default(autoincrement())
+  name             String   @default("") @db.VarChar(100)
+  alias            String   @default("") @db.VarChar(255)
+  link             String   @default("") @db.VarChar(200)
+  filename         String?  @db.VarChar(200)
+  published        Int      @default(0) @db.SmallInt
+  numarticles      BigInt   @default(1)
+  cache_time       BigInt   @default(3600)
+  checked_out      BigInt   @default(0)
+  checked_out_time DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  ordering         Int      @default(0)
+  rtl              Int      @default(0) @db.SmallInt
+  access           BigInt   @default(0)
+  language         String   @default("") @db.Char(7)
+  params           String
+  created          DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  created_by       BigInt   @default(0)
+  created_by_alias String   @default("") @db.VarChar(255)
+  modified         DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  modified_by      BigInt   @default(0)
+  metakey          String
+  metadesc         String
+  metadata         String
+  xreference       String   @db.VarChar(50)
+  publish_up       DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_down     DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+
+  @@index([access])
+  @@index([catid])
+  @@index([checked_out])
+  @@index([created_by])
+  @@index([language])
+  @@index([published])
+  @@index([xreference])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_overrider {
+  id       Int    @id @default(autoincrement())
+  constant String @db.VarChar(255)
+  string   String
+  file     String @db.VarChar(255)
+}
+
+model l76aj_redirect_links {
+  id            BigInt   @id @default(autoincrement())
+  old_url       String   @db.VarChar(255)
+  new_url       String   @db.VarChar(255)
+  referer       String   @db.VarChar(150)
+  comment       String   @db.VarChar(255)
+  hits          BigInt   @default(0)
+  published     Int      @db.SmallInt
+  created_date  DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  modified_date DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+
+  @@index([modified_date])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model l76aj_rsformpro2breezingforms_import {
+  rsformid Int
+  bfformid Int
+
+  @@index([rsformid, bfformid])
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model l76aj_rsformpro2breezingforms_submissions_import {
+  rsformid       Int
+  rssubmissionid Int
+  bfformid       Int
+  bfrecordid     Int
+
+  @@index([rssubmissionid, bfrecordid], map: "l76aj_rsformpro2breezingfo56d7e-a32b-4b2a-8a01-f158a94f0b19_idx")
+  @@index([rsformid, bfformid], map: "l76aj_rsformpro2breezingfo7da84-bd6b-4ada-8eab-5eef718bf15f_idx")
+  @@ignore
+}
+
+model l76aj_schemas {
+  extension_id Int
+  version_id   String @db.VarChar(20)
+
+  @@id([extension_id, version_id])
+}
+
+model l76aj_session {
+  session_id String  @id @default("") @db.VarChar(200)
+  client_id  Int     @default(0)
+  guest      Int?    @default(1)
+  time       String? @default("") @db.VarChar(14)
+  data       String?
+  userid     Int?    @default(0)
+  username   String? @default("") @db.VarChar(150)
+  usertype   String? @default("") @db.VarChar(50)
+
+  @@index([guest, usertype])
+  @@index([time])
+  @@index([userid])
+}
+
+model l76aj_swmenufree_styles {
+  id     Int     @id
+  params String?
+}
+
+model l76aj_template_styles {
+  id        BigInt @id @default(autoincrement())
+  template  String @default("") @db.VarChar(50)
+  client_id Int    @default(0)
+  home      String @default("0") @db.Char(7)
+  title     String @default("") @db.VarChar(255)
+  params    String
+
+  @@index([home])
+  @@index([template])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_update_categories {
+  categoryid  Int     @id @default(autoincrement())
+  name        String? @default("") @db.VarChar(20)
+  description String
+  parent      Int?    @default(0)
+  updatesite  Int?    @default(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_update_sites {
+  update_site_id       Int     @id @default(autoincrement())
+  name                 String? @default("") @db.VarChar(100)
+  type                 String? @default("") @db.VarChar(20)
+  location             String
+  enabled              Int?    @default(0)
+  last_check_timestamp BigInt? @default(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_update_sites_extensions {
+  update_site_id Int @default(0)
+  extension_id   Int @default(0)
+
+  @@id([update_site_id, extension_id])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_updates {
+  update_id      Int     @id @default(autoincrement())
+  update_site_id Int?    @default(0)
+  extension_id   Int?    @default(0)
+  categoryid     Int?    @default(0)
+  name           String? @default("") @db.VarChar(100)
+  description    String
+  element        String? @default("") @db.VarChar(100)
+  type           String? @default("") @db.VarChar(20)
+  folder         String? @default("") @db.VarChar(20)
+  client_id      Int?    @default(0) @db.SmallInt
+  version        String? @default("") @db.VarChar(10)
+  data           String
+  detailsurl     String
+  infourl        String
+}
+
+model l76aj_user_notes {
+  id               BigInt   @id @default(autoincrement())
+  user_id          BigInt   @default(0)
+  catid            BigInt   @default(0)
+  subject          String   @default("") @db.VarChar(100)
+  body             String
+  state            Int      @default(0) @db.SmallInt
+  checked_out      BigInt   @default(0)
+  checked_out_time DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  created_user_id  BigInt   @default(0)
+  created_time     DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  modified_user_id BigInt
+  modified_time    DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  review_time      DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_up       DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_down     DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+
+  @@index([catid])
+  @@index([user_id])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_user_profiles {
+  user_id       Int
+  profile_key   String @db.VarChar(100)
+  profile_value String @db.VarChar(255)
+  ordering      Int    @default(0)
+
+  @@unique([user_id, profile_key], map: "l76aj_user_profiles_user_id_profile_key_idx")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_user_usergroup_map {
+  user_id  BigInt @default(0)
+  group_id BigInt @default(0)
+
+  @@id([user_id, group_id])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_usergroups {
+  id        BigInt @id @default(autoincrement())
+  parent_id BigInt @default(0)
+  lft       Int    @default(0)
+  rgt       Int    @default(0)
+  title     String @default("") @db.VarChar(100)
+
+  @@unique([parent_id, title], map: "l76aj_usergroups_parent_id_title_idx")
+  @@index([lft, rgt])
+  @@index([parent_id])
+  @@index([title])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_users {
+  id            Int      @id @default(autoincrement())
+  name          String   @default("") @db.VarChar(255)
+  username      String   @default("") @db.VarChar(150)
+  email         String   @default("") @db.VarChar(100)
+  password      String   @default("") @db.VarChar(100)
+  usertype      String   @default("") @db.VarChar(25)
+  block         Int      @default(0) @db.SmallInt
+  sendEmail     Int?     @default(0) @db.SmallInt
+  registerDate  DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  lastvisitDate DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  activation    String   @default("") @db.VarChar(100)
+  params        String
+  lastResetTime DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  resetCount    Int      @default(0)
+
+  @@index([block])
+  @@index([email])
+  @@index([name])
+  @@index([username])
+  @@index([usertype])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_viewlevels {
+  id       BigInt @id @default(autoincrement())
+  title    String @unique(map: "l76aj_viewlevels_title_idx") @default("") @db.VarChar(100)
+  ordering Int    @default(0)
+  rules    String @db.VarChar(5120)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model l76aj_weblinks {
+  id               BigInt   @id @default(autoincrement())
+  catid            Int      @default(0)
+  sid              Int      @default(0)
+  title            String   @default("") @db.VarChar(250)
+  alias            String   @default("") @db.VarChar(255)
+  url              String   @default("") @db.VarChar(250)
+  description      String
+  date             DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  hits             Int      @default(0)
+  state            Int      @default(0) @db.SmallInt
+  checked_out      Int      @default(0)
+  checked_out_time DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  ordering         Int      @default(0)
+  archived         Int      @default(0) @db.SmallInt
+  approved         Int      @default(1) @db.SmallInt
+  access           Int      @default(1)
+  params           String
+  language         String   @default("") @db.Char(7)
+  created          DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  created_by       BigInt   @default(0)
+  created_by_alias String   @default("") @db.VarChar(255)
+  modified         DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  modified_by      BigInt   @default(0)
+  metakey          String
+  metadesc         String
+  metadata         String
+  featured         Int      @default(0)
+  xreference       String   @db.VarChar(50)
+  publish_up       DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  publish_down     DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+
+  @@index([access])
+  @@index([catid])
+  @@index([checked_out])
+  @@index([created_by])
+  @@index([featured, catid])
+  @@index([language])
+  @@index([state])
+  @@index([xreference])
+}
+
+model l76aj_wf_profiles {
+  id               Int      @id @default(autoincrement())
+  name             String   @db.VarChar(255)
+  description      String?
+  users            String
+  types            String?
+  components       String
+  area             Int      @db.SmallInt
+  device           String   @db.VarChar(255)
+  rows             String
+  plugins          String
+  published        Int      @db.SmallInt
+  ordering         Int
+  checked_out      Int      @db.SmallInt
+  checked_out_time DateTime @db.Timestamp(6)
+  params           String
+}
+
+model l76aj_widgetkit_widget {
+  id       Int      @id @default(autoincrement())
+  type     String   @db.VarChar(255)
+  style    String   @db.VarChar(255)
+  name     String   @db.VarChar(255)
+  content  String
+  created  DateTime @db.Timestamp(6)
+  modified DateTime @db.Timestamp(6)
+}
+
+model l76aj_xformsdr_elements {
+  id                       Int    @id @default(autoincrement())
+  form_id                  Int    @default(0)
+  reference_id             String @default("") @db.VarChar(255)
+  type                     String @db.VarChar(255)
+  change_type              String @db.VarChar(255)
+  options                  String
+  custom_init_script       String
+  custom_action_script     String
+  custom_validation_script String
+  validation_message       String
+  default_value            String
+  hint                     String
+  label                    String @db.VarChar(255)
+  list_include             Int    @default(0) @db.SmallInt
+  search_include           Int    @default(1) @db.SmallInt
+  item_wrapper             String
+  wordwrap                 Int    @default(0)
+  linkable                 Int    @default(1) @db.SmallInt
+  editable                 Int    @db.SmallInt
+  published                Int    @default(1) @db.SmallInt
+  ordering                 Int    @default(0)
+
+  @@index([form_id, reference_id])
+  @@index([reference_id])
+}
+
+model l76aj_xformsdr_forms {
+  id                     Int      @id @default(autoincrement())
+  type                   String   @default("") @db.VarChar(255)
+  reference_id           String   @default("") @db.VarChar(255)
+  name                   String   @default("") @db.VarChar(255)
+  title                  String   @default("") @db.VarChar(255)
+  details_template       String
+  details_prepare        String
+  editable_template      String
+  editable_prepare       String
+  created                DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  modified               DateTime @default(dbgenerated("'-infinity'::timestamp without time zone")) @db.Timestamp(6)
+  created_by             String   @default("") @db.VarChar(255)
+  modified_by            String   @default("") @db.VarChar(255)
+  metadata               Int      @default(1) @db.SmallInt
+  export_xls             Int      @default(0) @db.SmallInt
+  print_button           Int      @default(1) @db.SmallInt
+  show_id_column         Int      @default(0) @db.SmallInt
+  use_view_name_as_title Int      @default(0) @db.SmallInt
+  display_in             Int      @default(0) @db.SmallInt
+  edit_button            Int      @db.SmallInt
+  list_state             Int      @db.SmallInt
+  list_publish           Int      @db.SmallInt
+  select_column          Int      @db.SmallInt
+  published_only         Int      @default(0) @db.SmallInt
+  own_only               Int      @db.SmallInt
+  own_only_fe            Int      @db.SmallInt
+  ordering               Int      @default(0)
+  intro_text             String
+  config                 String
+  published              Int      @default(0) @db.SmallInt
+  initial_sort_order     String   @db.VarChar(255)
+
+  @@index([reference_id])
+}
+
+model l76aj_xformsdr_list_states {
+  id        Int    @id @default(autoincrement())
+  form_id   Int
+  title     String @db.VarChar(255)
+  color     String @db.VarChar(255)
+  action    String @db.VarChar(255)
+  published Int    @default(0) @db.SmallInt
+}
+
+model l76aj_xformsdr_records {
+  id           BigInt @id @default(autoincrement())
+  form_id      Int
+  record_id    String @db.VarChar(255)
+  state_id     Int
+  reference_id String @db.VarChar(255)
+  published    Int    @db.SmallInt
+
+  @@index([form_id, record_id, state_id])
+}
