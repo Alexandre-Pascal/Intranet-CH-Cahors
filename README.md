@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Intranet pour l'Hôpital de Cahors
 
-## Getting Started
+Bienvenue dans le projet d'Intranet pour l'Hôpital de Cahors ! Ce projet vise à moderniser et améliorer l'ancien intranet utilisé par l'hôpital, en utilisant les dernières technologies web et en intégrant des fonctionnalités avancées de gestion de contenu.
 
-First, run the development server:
+## Objectif du Projet
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+L'objectif principal de ce projet est de concevoir et de développer un nouvel intranet entièrement personnalisé pour l'Hôpital de Cahors, en remplaçant l'ancien système basé sur Joomla. Voici un aperçu des principales caractéristiques et technologies utilisées :
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Technologies Utilisées** : JavaScript / TypeScript avec Next.js, un framework basé sur React, est utilisé pour le développement frontend, tandis que Postgres SQL est choisi comme système de gestion de base de données.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **CMS Personnalisé** : Le nouveau système intranet sera conçu comme un CMS (Système de Gestion de Contenu) entièrement personnalisé, permettant à n'importe qui de créer et de gérer des pages, des articles et d'autres contenus sans avoir à coder.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Migration de Données** : Les données de l'ancien intranet Joomla seront récupérées et migrées vers le nouveau système, en s'assurant que toutes les informations essentielles sont préservées et accessibles dans le nouveau format.
 
-## Learn More
+- **Gestion des Utilisateurs et des Rôles** : Des fonctionnalités avancées de gestion des utilisateurs et des rôles seront mises en place, permettant de définir des permissions spécifiques en fonction des différents niveaux d'accès et des responsabilités au sein de l'hôpital.
 
-To learn more about Next.js, take a look at the following resources:
+## Défis et Solutions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Migration de Base de Données
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+La migration de la base de données de MySQL à Postgres SQL est une étape importante du projet. Bien que cela puisse présenter certains défis, nous avons choisi Postgres SQL pour sa fonctionnalité avancée et sa compatibilité avec les besoins du projet. Des efforts seront consacrés à comprendre et à mettre en œuvre la migration des données de manière efficace.
 
-## Deploy on Vercel
+### CMS Intuitif et Convivial
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Une attention particulière sera accordée à la conception d'une interface utilisateur intuitive et conviviale pour le CMS, garantissant que les utilisateurs peuvent créer et gérer du contenu facilement et efficacement, même sans expérience en développement web.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Gestion des Rôles et des Permissions
+
+La création de rôles et de permissions adaptés aux différents utilisateurs de l'intranet est essentielle pour assurer la sécurité et la confidentialité des données. Nous allons mettre en place un système robuste de gestion des rôles, étroitement lié à la base de données, pour limiter les accès de manière appropriée.
+
+---
+
+**Développeur Principal** : [Alexandre Pascal]
+
+**Contact** : alexandre.pascal.ep@gmail.com
