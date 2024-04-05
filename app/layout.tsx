@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { GlobalStateProvider } from "./utils/GlobalStateContext"; // Assurez-vous d'utiliser le bon chemin
+
 import Header from "./components/Header/Header";
+import React from "react";
 
 // import Footer from "./components/Footer/Footer";
 
@@ -19,12 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        {children}
-        {/* <Footer /> */}
-      </body>
-    </html>
+    <GlobalStateProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <Header />
+          {children}
+          {/* <Footer /> */}
+        </body>
+      </html>
+    </GlobalStateProvider>
   );
 }

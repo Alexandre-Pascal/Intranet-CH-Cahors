@@ -12,19 +12,27 @@ import attention from "../../../assets/icons/attention.png";
 import connexion from "../../../assets/icons/utilisateur.png";
 import loupe from "../../../assets/icons/loupe.png";
 
+import { useGlobalState } from "../../../utils/GlobalStateContext";
+
 import styles from "./styles.module.css";
 
 export default function NavBar() {
+  const { isMenuOpen, setIsMenuOpen } = useGlobalState();
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleSearchClick = () => {
     setIsSearchOpen(!isSearchOpen);
   };
 
+  const handleMenuClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <nav className={styles.navBar}>
       <Link href="/">
-        <div>
+        <div onClick={handleMenuClick}>
           <Image src={menu} width={32} height={32} className={styles.rounded} alt="Menu"/>
           <p className={styles.altColorText}>Menu</p>
         </div>
