@@ -7,7 +7,7 @@ import { PrismaClient } from "@prisma/client";
 // Initialisez PrismaClient
 const prisma = new PrismaClient();
 
-export default async function Page({ titles }: { titles: string[] }) {
+export default async function Page() {
   // Si les titres sont déjà passés en tant que props, ils seront utilisés
 
   // Si les titres ne sont pas déjà passés en tant que props, récupérez-les avec Prisma
