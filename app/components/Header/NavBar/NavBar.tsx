@@ -14,8 +14,12 @@ import loupe from "../../../assets/icons/loupe.png";
 
 import styles from "./styles.module.css";
 
-export default function NavBar({ isMenuOpen, setIsMenuOpen }: {isMenuOpen: boolean, setIsMenuOpen: (value: boolean) => void}) {
-
+export default function NavBar({ isMenuOpen, setIsMenuOpen }:
+  {
+    isMenuOpen: boolean,
+    setIsMenuOpen: (value: boolean) => void
+  }
+) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleSearchClick = () => {

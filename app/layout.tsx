@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import Header from "./components/Header/Header";
+import Menu from "./components/Menu/Menu";
 import React, { useState } from "react";
 
 // import Footer from "./components/Footer/Footer";
@@ -28,6 +29,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Header isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}/>
         {!isMenuOpen && children}
+        {isMenuOpen && <Menu/>}
         {/* <Footer /> */}
       </body>
     </html>

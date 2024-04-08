@@ -9,18 +9,6 @@ const prisma = new PrismaClient();
 
 export default async function Page({ titles }: { titles: string[] }) {
   // Si les titres sont déjà passés en tant que props, ils seront utilisés
-  if (titles !== undefined && titles.length > 0) {
-    return (
-      <div>
-        <h1>Titres du contenu</h1>
-        <div>
-          {titles.map((title, index) => (
-            <h1 key={index}>{title}</h1>
-          ))}
-        </div>
-      </div>
-    );
-  }
 
   // Si les titres ne sont pas déjà passés en tant que props, récupérez-les avec Prisma
   const fetchData = async() => {
@@ -47,7 +35,7 @@ export default async function Page({ titles }: { titles: string[] }) {
       // En cas d'erreur, retournez un message d'erreur
       return (
         <div>
-          <p>Une erreur s'est produite lors de la récupération des titres.</p>
+          <p>Une erreur s&aposest produite lors de la récupération des titres.</p>
         </div>
       );
     }
