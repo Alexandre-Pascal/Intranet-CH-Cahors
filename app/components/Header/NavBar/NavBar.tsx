@@ -12,12 +12,9 @@ import attention from "../../../assets/icons/attention.png";
 import connexion from "../../../assets/icons/utilisateur.png";
 import loupe from "../../../assets/icons/loupe.png";
 
-import { useGlobalState } from "../../../utils/GlobalStateContext";
-
 import styles from "./styles.module.css";
 
-export default function NavBar() {
-  const { isMenuOpen, setIsMenuOpen } = useGlobalState();
+export default function NavBar({ isMenuOpen, setIsMenuOpen }: {isMenuOpen: boolean, setIsMenuOpen: (value: boolean) => void}) {
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -31,12 +28,10 @@ export default function NavBar() {
 
   return (
     <nav className={styles.navBar}>
-      <Link href="/">
-        <div onClick={handleMenuClick}>
-          <Image src={menu} width={32} height={32} className={styles.rounded} alt="Menu"/>
-          <p className={styles.altColorText}>Menu</p>
-        </div>
-      </Link>
+      <div onClick={handleMenuClick} style={{ cursor: "pointer" }}>
+        <Image src={menu} width={32} height={32} className={styles.rounded} alt="Menu"/>
+        <p className={styles.altColorText}>Menu</p>
+      </div>
       <Link className={styles.fastPath} href="/">
         <div>
           <Image src={tableauDeBord} width={32} height={32} alt="Tableau de bord"/>
