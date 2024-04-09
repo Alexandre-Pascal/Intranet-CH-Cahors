@@ -5,10 +5,9 @@ import "./globals.css";
 
 import Header from "./components/Header/Header";
 import React from "react";
+import { datasList } from "@/app/utils/types";
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "./utils/prisma";
 
 // import Footer from "./components/Footer/Footer";
 
@@ -25,18 +24,49 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const titles = await prisma.l76aj_content.findMany({
+  const MainCategories = await prisma.main_categories.findMany({
     select: {
-      title: true,
+      category_name: true,
     },
   });
 
-  const titlesArray: string[] = titles.map(titleObj => titleObj.title);
+  const MainCategoriesArray: string[] = MainCategories.map(
+    (titleObj: { category_name: string }) => titleObj.category_name
+  );
+
+  // const SubCategories = await prisma.sub_categories.findMany({
+  //   where: {
+  //     category_id: 1,
+  //   },
+  //   select: {
+  //     sub_category_name: true,
+  //   },
+  // });
+
+  // const SubCategoriesArray: string[] = SubCategories.map(
+  //   (titleObj: { sub_category_name: string }) => titleObj.sub_category_name
+  // );
+
+  const categoryData = await prisma.main_categories.findUnique({
+    where: { category_id: 1 }, // Remplacez 1 par l'identifiant de la catégorie principale souhaitée
+    include: {
+      sub_categories: {
+        include: {
+          titles: true,
+        },
+      },
+    },
+  });
+
+  const datas : datasList = {
+    mainCategories: MainCategoriesArray,
+    categoryData: categoryData,
+  };
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header titles={titlesArray}/>
+        <Header {...datas}/>
         {children}
         {/* <Footer /> */}
       </body>

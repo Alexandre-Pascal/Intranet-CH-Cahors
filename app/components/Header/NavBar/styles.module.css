@@ -60,7 +60,7 @@
   }
   
   .logIn {
-    background-color: #158B56;
+    background-color: var(--vert);
     color: white;
   }
   

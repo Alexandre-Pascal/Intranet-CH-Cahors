@@ -2,15 +2,10 @@
 "use server";
 
 // Importez PrismaClient
-import { PrismaClient } from "@prisma/client";
-
-// Initialisez PrismaClient
-const prisma = new PrismaClient();
+import prisma from "../utils/prisma";
 
 export default async function Page() {
-  // Si les titres sont déjà passés en tant que props, ils seront utilisés
 
-  // Si les titres ne sont pas déjà passés en tant que props, récupérez-les avec Prisma
   const fetchData = async() => {
     try {
       // Récupérer les titres de la table l76aj_content avec Prisma
