@@ -3,13 +3,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import menu from "../../../assets/icons/menu.png";
 import ennov from "../../../assets/icons/ennov.png";
 import tableauDeBord from "../../../assets/icons/tableau-de-bord.png";
 import demandeIntervention from "../../../assets/icons/cle.png";
 import attention from "../../../assets/icons/attention.png";
 import connexion from "../../../assets/icons/utilisateur.png";
-import loupe from "../../../assets/icons/loupe.png";
 
 import styles from "./styles.module.css";
 import Menu from "./Menu/Menu";
@@ -17,7 +15,7 @@ import Menu from "./Menu/Menu";
 export default function NavBar({ isMenuOpen, setIsMenuOpen }:
   {
     isMenuOpen: boolean,
-    setIsMenuOpen: (value: boolean) => void
+    setIsMenuOpen: any
   }
 ) {
   // const [isSearchOpen, setIsSearchOpen] = useState(false);

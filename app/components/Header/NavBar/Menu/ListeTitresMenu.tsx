@@ -18,7 +18,6 @@ export default function ListeTitres(datas : datasList) {
     setLoadedTitles(datas);
   }, [datas]); // Rafraîchir les titres chargés lorsque les titres en props changent
 
-  // alert(datas);
   return (
     <div className={styles.menu}>
       <div className={styles.list_main_categories}>
@@ -28,7 +27,7 @@ export default function ListeTitres(datas : datasList) {
       </div>
       <div className={styles.list_sub_categories_and_titles}>
         <ul>
-          {loadedTitles.categoryData !== undefined && loadedTitles.categoryData.sub_categories.map(sub_categorie => (
+          {loadedTitles.categoryData !== undefined && loadedTitles.categoryData.sub_categories.map((sub_categorie) => (
             <li key={sub_categorie.sub_category_id}>
               <h2>{sub_categorie.sub_category_name}</h2>
               <ul>

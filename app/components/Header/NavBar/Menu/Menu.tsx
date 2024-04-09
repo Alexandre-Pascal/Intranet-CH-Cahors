@@ -9,7 +9,7 @@ import Image from "next/image";
 export default function Menu({ isMenuOpen, setIsMenuOpen }:
     {
       isMenuOpen: boolean,
-      setIsMenuOpen: (value: boolean) => void
+      setIsMenuOpen: any
     })
 {
 

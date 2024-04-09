@@ -1,19 +1,17 @@
 // Utilisez le mot-clé 'use server' pour indiquer que ce code est exécuté côté serveur
 "use server";
 
-// Importez PrismaClient
-import prisma from "../utils/prisma";
-
 export default async function Page() {
 
   const fetchData = async() => {
     try {
       // Récupérer les titres de la table l76aj_content avec Prisma
-      const titles = await prisma.l76aj_content.findMany({
-        select: {
-          title: true,
-        },
-      });
+      // const titles = await prisma.l76aj_content.findMany({
+      //   select: {
+      //     title: true,
+      //   },
+      // });
+
       // Retourner le rendu de la page avec les titres récupérés
       return (
         <div>
