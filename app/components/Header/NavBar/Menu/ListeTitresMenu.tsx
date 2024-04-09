@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function AffichageDonneesClient({ titles }: { titles: string[] }) {
+export default function ListeTitres({ titles }: { titles: string[] }) {
   const [loadedTitles, setLoadedTitles] = useState<string[]>([]);
 
   useEffect(() => {
@@ -10,7 +10,7 @@ export default function AffichageDonneesClient({ titles }: { titles: string[] })
 
   return (
     <div>
-      <h1>Titres du contenu</h1>
+      <h1>Menu</h1>
       <div>
         {loadedTitles.map((title, index) => (
           <h1 key={index}>{title}</h1>

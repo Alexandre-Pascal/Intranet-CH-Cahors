@@ -1,15 +1,18 @@
-import LogosList from "./LogosList/LogosList";
-import NavBar from "./NavBar/NavBar";
+"use client";
 
-export default function Header({ isMenuOpen, setIsMenuOpen }:
-  {
-    isMenuOpen: boolean,
-    setIsMenuOpen: (value: boolean) => void})
-{
+import LogosList from "./LogosList/LogosList";
+import ListeTitres from "./NavBar/Menu/ListeTitresMenu";
+import NavBar from "./NavBar/NavBar";
+import React, { useState } from "react";
+
+export default function Header({ titles }: {titles : string[]}) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <header>
-      <NavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}/>
+      <NavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       <LogosList/>
+      { isMenuOpen && <ListeTitres titles={titles}/>}
     </header>
   );
 }

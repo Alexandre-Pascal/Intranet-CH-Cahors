@@ -23,11 +23,11 @@ export default async function Page() {
       return (
         <div>
           <h1>Titres du contenu</h1>
-          <div>
+          {/* <div>
             {titles.map((title, index) => (
               <h1 key={index}>{title.title}</h1>
             ))}
-          </div>
+          </div> */}
         </div>
       );
     } catch (error) {

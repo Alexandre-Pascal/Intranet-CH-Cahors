@@ -1,0 +1,10 @@
+.altColorText {
+    color: var(--bleu-fonce); /* Définit la couleur du texte en bleu */
+}
+
+.rounded {
+    border: 2px solid var(--bleu-fonce); /* Définit une bordure bleue de 2 pixels */
+    border-radius: 50%; /* Définit le rayon de la bordure pour créer un cercle */
+    max-width: unset;
+
+}

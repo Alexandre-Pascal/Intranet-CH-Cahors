@@ -1699,3 +1699,24 @@ model l76aj_xformsdr_records {
 
   @@index([form_id, record_id, state_id])
 }
+
+model main_categories {
+  category_id    Int              @id @default(autoincrement())
+  category_name  String           @db.VarChar(100)
+  sub_categories sub_categories[]
+}
+
+model sub_categories {
+  sub_category_id   Int             @id @default(autoincrement())
+  category_id       Int
+  sub_category_name String          @db.VarChar(100)
+  main_categories   main_categories @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
+  titles            titles[]
+}
+
+model titles {
+  title_id        Int            @id(map: "sub_titles_pkey") @default(autoincrement())
+  sub_category_id Int
+  title_name      String         @db.VarChar(100)
+  sub_categories  sub_categories @relation(fields: [sub_category_id], references: [sub_category_id], onDelete: NoAction, onUpdate: NoAction, map: "sub_titles_sub_category_id_fkey")
+}
