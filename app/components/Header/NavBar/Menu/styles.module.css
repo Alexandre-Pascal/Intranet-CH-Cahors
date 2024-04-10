@@ -1,26 +1,23 @@
 .altColorText {
-    color: var(--bleu-fonce); /* Définit la couleur du texte en bleu */
+    color: var(--bleu-fonce);
 }
 
 .rounded {
-    border: 2px solid var(--bleu-fonce); /* Définit une bordure bleue de 2 pixels */
-    border-radius: 50%; /* Définit le rayon de la bordure pour créer un cercle */
+    border: 2px solid var(--bleu-fonce);
     max-width: unset;
 }
 
 .menu {
     display: flex;
-    background-color: var(--bleu-clair); /* Définit la couleur de fond en bleu */
+    background-color: var(--bleu-clair); 
     height: 75vh;
     width: 100%;
     position: absolute;
     align-items: center;
     justify-content: center;
-    /* padding: 6vh 5vw 6vh 5vw; */
 }
 
 .menu h1 {
-    color: var(--bleu-fonce); /* Définit la couleur du texte en bleu */
     font-size: xx-large;
     font-weight: bold;
     padding: 1vh 2vw 1vh 2vw;
@@ -32,13 +29,19 @@
 }
 
 .menu h1:hover {
-    color: var(--vert); /* Définit la couleur du texte en bleu clair lorsqu'il est survolé */
-    background-color: white; /* Définit la couleur de fond en bleu foncé lorsqu'il est survolé */
+    color: var(--vert); 
+    background-color: white; 
 }
 
 .selectedCategory
 {
-    background-color: white; /* Définit la couleur de fond en bleu foncé lorsqu'il est survolé */
+    color: var(--vert);
+    background-color: white; 
+}
+
+.notSelectedCategory
+{
+    color: var(--bleu-fonce);
 }
 
 .list_sub_categories_and_titles{
@@ -54,7 +57,7 @@
 }
 
 .list_sub_categories_and_titles h2 {
-    color: var(--bleu-fonce); /* Définit la couleur du texte en bleu */
+    color: var(--bleu-fonce); 
     font-size: x-large;
     font-weight: bold;
     
@@ -65,7 +68,7 @@
 }
 
 .list_sub_categories_and_titles h3 {
-    color: var(--bleu-fonce); /* Définit la couleur du texte en bleu */
+    color: var(--bleu-fonce);
     font-size: large;
     padding: 0.5vh 0 0.5vh 1vw;
 }

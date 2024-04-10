@@ -15,7 +15,7 @@ export default function ListeTitres(datas : DataList[]) {
     <div className={styles.menu}>
       <div className={styles.list_main_categories}>
         {Object.keys(dataList) && Object.values(dataList).map((category, index) => (
-          <h1 key={index} className={selectedCategoryId === category.category_id - 1 ? styles.selectedCategory : ""} onClick={() => setSelectedCategoryId(category.category_id - 1)} >
+          <h1 key={index} className={selectedCategoryId === category.category_id - 1 ? styles.selectedCategory : styles.notSelectedCategory} onClick={() => setSelectedCategoryId(category.category_id - 1)} >
             {category.category_name}
           </h1>
         ))}
