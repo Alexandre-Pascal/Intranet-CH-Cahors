@@ -15,23 +15,31 @@ export default function ListeTitres(datas : DataList[]) {
     <div className={styles.menu}>
       <div className={styles.list_main_categories}>
         {Object.keys(dataList) && Object.values(dataList).map((category, index) => (
-          <h1 key={index} className={selectedCategoryId === category.category_id - 1 ? styles.selectedCategory : styles.notSelectedCategory} onClick={() => setSelectedCategoryId(category.category_id - 1)} >
+          <h1 key={index} className=
+            {
+              selectedCategoryId === category.category_id - 1 ?
+                styles.selectedCategory : styles.notSelectedCategory
+            }
+          onClick={() => setSelectedCategoryId(category.category_id - 1)
+          }>
             {category.category_name}
           </h1>
         ))}
       </div>
       <div className={styles.list_sub_categories_and_titles}>
         <ul>
-          {Object.keys(dataList) && selectedCategoryId !== null && dataList[selectedCategoryId]?.sub_categories?.map((subCategory, index) => (
-            <li key={index} className={styles.sub_categorie}>
-              <h2>{subCategory.sub_category_name}</h2>
-              <ul>
-                {subCategory.titles.map((title, index) => (
-                  <li><h3 key={index}>{title.title_name}</h3></li>
-                ))}
-              </ul>
-            </li>
-          ))}
+          {Object.keys(dataList) && selectedCategoryId !== null
+          && dataList[selectedCategoryId]?.sub_categories?.map((subCategory, index) =>
+            (
+              <li key={index} className={styles.sub_categorie}>
+                <h2>{subCategory.sub_category_name}</h2>
+                <ul>
+                  {subCategory.titles.map((title, index) => (
+                    <li><h3 key={index}>{title.title_name}</h3></li>
+                  ))}
+                </ul>
+              </li>
+            ))}
         </ul>
       </div>
     </div>

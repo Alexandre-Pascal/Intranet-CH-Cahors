@@ -7,7 +7,6 @@ import Header from "./components/Header/Header";
 import React from "react";
 import { DataList } from "@/app/utils/types";
 
-import prisma from "./utils/prisma";
 import fetchDatas from "./utils/fetchData";
 
 // import Footer from "./components/Footer/Footer";
