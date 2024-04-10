@@ -1,0 +1,32 @@
+.searchContainer{
+    cursor: pointer; /* Définit le curseur sur pointer */
+    margin-left: 1vw;
+    height: 5vh;
+    padding-right: 1vw;
+}
+
+  .searchContainer input{
+    width: 90%;
+  }
+
+  .rounded {
+    border: 2px solid var(--bleu-fonce); /* Définit une bordure bleue de 2 pixels */
+    border-radius: 50%; /* Définit le rayon de la bordure pour créer un cercle */
+    max-width: unset;
+
+}
+
+.softRounded {
+    border: 2px solid var(--bleu-fonce); /* Définit une bordure bleue de 2 pixels */
+    border-radius: 15px; /* Définit le rayon de la bordure pour créer un cercle */
+    overflow: hidden; /* Masque tout ce qui dépasse de la bordure */
+}
+
+
+  @media screen and (max-width: 1354px) {
+    .searchContainer {
+      position: absolute;
+      top: 10vh;
+      right: 2vw;
+    }
+  }

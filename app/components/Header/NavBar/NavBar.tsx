@@ -11,6 +11,7 @@ import connexion from "../../../assets/icons/utilisateur.png";
 
 import styles from "./styles.module.css";
 import Menu from "./Menu/Menu";
+import SearchBar from "./SearchBar/SearchBar";
 
 export default function NavBar({ isMenuOpen, setIsMenuOpen }:
   {
@@ -18,26 +19,10 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }:
     setIsMenuOpen: any
   }
 ) {
-  // const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  // const handleSearchClick = () => {
-  //   setIsSearchOpen(!isSearchOpen);
-  // };
-
-  // const handleMenuClick = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  // };
-
-  // Extraire les titres sous forme de tableau de chaînes de caractères
-
   return (
     <div>
       <nav className={styles.navBar}>
         <Menu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}/>
-        {/* <div onClick={handleMenuClick} style={{ cursor: "pointer" }}>
-        <Image src={menu} width={32} height={32} className={styles.rounded} alt="Menu"/> METTRE DANS UN COMPOSANT CLIENT
-        <p className={styles.altColorText}>Menu</p>
-      </div> */}
         <Link className={styles.fastPath} href="/">
           <div>
             <Image src={tableauDeBord} width={32} height={32} alt="Tableau de bord"/>
@@ -68,22 +53,8 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }:
             <p>Se Connecter</p>
           </div>
         </Link>
-        {/* <div
-          className={`${styles.searchContainer} & ${isSearchOpen ? styles.softRounded : ""}`}
-          style={{ width: isSearchOpen ? "15vw" : "auto" }}
-        >
-          <div onClick={handleSearchClick}>
-            <Image src={loupe} width={32} height={32}
-              className={`${!isSearchOpen ? styles.rounded : ""} `}
-              alt="Rechercher"/>
-          </div>
-           {isSearchOpen && (
-          <input type="text" placeholder="Rechercher..." />   METTRE DANS UN COMPOSANT CLIENt
-        )}
-        </div> */}
+        <SearchBar/>
       </nav>
-      {/* {isMenuOpen && <Menu/>} */}
-
     </div>
   );
 }
