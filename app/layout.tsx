@@ -5,7 +5,7 @@ import "./globals.css";
 
 import Header from "./components/Header/Header";
 import React from "react";
-import { datasList } from "@/app/utils/types";
+import { CategoryData, datasList } from "@/app/utils/types";
 
 import prisma from "./utils/prisma";
 
@@ -58,9 +58,14 @@ export default async function RootLayout({
     },
   });
 
+  const categoryDataArray: CategoryData = {
+    category_name: categoryData?.category_name,
+    sub_categories: categoryData?.sub_categories,
+  };
+
   const datas : datasList = {
     mainCategories: MainCategoriesArray,
-    categoryData: categoryData,
+    categoryData: categoryDataArray,
   };
 
   return (

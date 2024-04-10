@@ -15,6 +15,6 @@ export type datasList = {
   }
 
 export type CategoryData = {
-    category_name: string;
-    sub_categories: SubCategory[];
+    category_name?: string;
+    sub_categories?: SubCategory[];
   }
