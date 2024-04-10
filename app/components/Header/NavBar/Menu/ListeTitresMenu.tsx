@@ -27,7 +27,8 @@ export default function ListeTitres(datas : datasList) {
       </div>
       <div className={styles.list_sub_categories_and_titles}>
         <ul>
-          {loadedTitles.categoryData !== undefined && loadedTitles.categoryData.sub_categories.map((sub_categorie) => (
+          {loadedTitles.categoryData.sub_categories !== undefined &&
+          loadedTitles.categoryData.sub_categories.map((sub_categorie) => (
             <li key={sub_categorie.sub_category_id} className={styles.sub_categorie}>
               <h2>{sub_categorie.sub_category_name}</h2>
               <ul>
