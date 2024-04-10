@@ -1,39 +1,33 @@
 import { useState, useEffect } from "react";
-import { datasList } from "@/app/utils/types";
+import { DataList } from "@/app/utils/types";
 import styles from "./styles.module.css";
 
-export default function ListeTitres(datas : datasList) {
-  const [loadedTitles, setLoadedTitles] = useState<datasList>(
-    {
-      mainCategories: [],
-      categoryData: { // Initialisation de la propriété categoryData avec un objet vide
-        category_name: "",
-        sub_categories: [],
-      },
-    }
-  );
+export default function ListeTitres(datas : DataList[]) {
+  const [dataList, setdataList] = useState<DataList[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
 
   useEffect(() => {
     // Mettre à jour les titres chargés avec les titres reçus en props
-    setLoadedTitles(datas);
+    setdataList(datas);
   }, [datas]); // Rafraîchir les titres chargés lorsque les titres en props changent
 
   return (
     <div className={styles.menu}>
       <div className={styles.list_main_categories}>
-        {loadedTitles.mainCategories !== undefined && loadedTitles.mainCategories.map((title, index) => (
-          <h1 key={index}>{title}</h1>
+        {Object.keys(dataList) && Object.values(dataList).map((category, index) => (
+          <h1 key={index} className={selectedCategoryId === category.category_id - 1 ? styles.selectedCategory : ""} onClick={() => setSelectedCategoryId(category.category_id - 1)} >
+            {category.category_name}
+          </h1>
         ))}
       </div>
       <div className={styles.list_sub_categories_and_titles}>
         <ul>
-          {loadedTitles.categoryData.sub_categories !== undefined &&
-          loadedTitles.categoryData.sub_categories.map((sub_categorie) => (
-            <li key={sub_categorie.sub_category_id} className={styles.sub_categorie}>
-              <h2>{sub_categorie.sub_category_name}</h2>
+          {Object.keys(dataList) && selectedCategoryId !== null && dataList[selectedCategoryId]?.sub_categories?.map((subCategory, index) => (
+            <li key={index} className={styles.sub_categorie}>
+              <h2>{subCategory.sub_category_name}</h2>
               <ul>
-                {sub_categorie.titles.map(title => (
-                  <li><h3 key={title.title_id}>{title.title_name}</h3></li>
+                {subCategory.titles.map((title, index) => (
+                  <li><h3 key={index}>{title.title_name}</h3></li>
                 ))}
               </ul>
             </li>

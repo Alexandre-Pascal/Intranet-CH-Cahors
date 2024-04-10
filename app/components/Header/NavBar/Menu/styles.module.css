@@ -28,6 +28,7 @@
     align-content: center;
     width: 30vw;
     line-height: normal;
+    cursor: pointer;
 }
 
 .menu h1:hover {
@@ -35,7 +36,9 @@
     background-color: white; /* Définit la couleur de fond en bleu foncé lorsqu'il est survolé */
 }
 
-.list_main_categories {
+.selectedCategory
+{
+    background-color: white; /* Définit la couleur de fond en bleu foncé lorsqu'il est survolé */
 }
 
 .list_sub_categories_and_titles{

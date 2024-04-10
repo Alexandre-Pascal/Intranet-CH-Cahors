@@ -1,20 +1,16 @@
-export type datasList = {
-    mainCategories: string[],
-    categoryData: CategoryData,
-  }
+type Title = {
+  title_id: number;
+  title_name: string;
+};
 
-  interface Title {
-    title_id: number;
-    title_name: string;
-  }
+type SubCategory = {
+  sub_category_id: number;
+  sub_category_name: string;
+  titles: Title[];
+};
 
-  interface SubCategory {
-    sub_category_id: number;
-    sub_category_name: string;
-    titles: Title[];
-  }
-
-export type CategoryData = {
-    category_name?: string;
-    sub_categories?: SubCategory[];
-  }
+export type DataList = {
+  category_id: number;
+  category_name: string;
+  sub_categories: SubCategory[];
+};
