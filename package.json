@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "concurrently \"npm run nextdev\" \"npm run lint:watch\"",
     "nextdev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "lint:watch": "nodemon --watch . --ext .js,.jsx,.ts,.tsx --exec \"npm run lint\""
+    "lint:watch": "nodemon --watch . --ext .js,.jsx,.ts,.tsx --exec \"npm run lint\"",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.12.1",
