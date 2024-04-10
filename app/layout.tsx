@@ -59,8 +59,8 @@ export default async function RootLayout({
   });
 
   const categoryDataArray: CategoryData = {
-    category_name: categoryData?.category_name,
-    sub_categories: categoryData?.sub_categories,
+    category_name: categoryData?.category_name || "",
+    sub_categories: categoryData?.sub_categories || [],
   };
 
   const datas : datasList = {
