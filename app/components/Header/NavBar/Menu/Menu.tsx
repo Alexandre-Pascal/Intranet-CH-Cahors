@@ -18,7 +18,7 @@ export default function Menu({ isMenuOpen, setIsMenuOpen }:
   };
 
   return(
-    <div onClick={handleMenuClick} style={{ cursor: "pointer" }}>
+    <div onClick={handleMenuClick} style={{ cursor: "pointer", height: "5vh" }}>
       <Image src={menu} width={32} height={32} className={styles.rounded} alt="Menu"/>
       <p className={styles.altColorText}>Menu</p>
     </div>

@@ -3,11 +3,12 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    height: 17vh;
 }
 
 .logosList img {
-    margin-top: 1vh;
-    margin-bottom: 1vh;
+    /* margin-top: 1vh;
+    margin-bottom: 1vh; */
     margin-left: 2vw;
     margin-right: 2vw;
 }

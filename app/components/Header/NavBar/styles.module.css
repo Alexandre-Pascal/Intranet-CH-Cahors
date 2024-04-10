@@ -22,12 +22,13 @@
 
 
 .navBar {
-    margin: 1vh;
+    height: 8vh;
     display: flex;
     align-items: center; /* Alignement vertical des éléments */
     text-align: center;
     /* justify-content: space-between; */
     justify-content: center;
+    align-items: flex-end;
   }
   
   /* Optionnel : Pour aligner le texte au centre de l'image */
@@ -35,6 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    
   }
 
   .navBar a {
