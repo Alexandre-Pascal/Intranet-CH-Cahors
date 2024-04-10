@@ -23,9 +23,11 @@
     color: var(--bleu-fonce); /* Définit la couleur du texte en bleu */
     font-size: xx-large;
     font-weight: bold;
-    padding: 0vh 2vw 0vh 2vw;
+    padding: 1vh 2vw 1vh 2vw;
     height: 10.83vh;
     align-content: center;
+    width: 30vw;
+    line-height: normal;
 }
 
 .menu h1:hover {
@@ -43,8 +45,8 @@
     padding-right: 4vw;
     background-color: white;
     height: 65vh;
-    width: 64vw;
-    column-count: 2;
+    width: 65vw;
+    column-count: 3;
     column-fill: auto;
 }
 
