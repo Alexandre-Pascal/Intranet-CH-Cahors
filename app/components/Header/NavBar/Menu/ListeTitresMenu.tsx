@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { DataList, SubCategory, Title } from "@/app/utils/types";
 import styles from "./styles.module.css";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import crayon from "../../../../assets/icons/crayon.png";
 import plus from "../../../../assets/icons/plus.png";
@@ -22,6 +23,8 @@ export default function ListeTitres(datas: DataList[]) {
   const [newTitleName, setNewTitleName] = useState("");
   const [newTitleUrl, setNewTitleUrl] = useState("");
   const [newTitleOrder, setNewTitleOrder] = useState(0);
+
+  const router = useRouter();
 
   useEffect(() => {
     // Mettre à jour les titres chargés avec les titres reçus en props
@@ -71,20 +74,35 @@ export default function ListeTitres(datas: DataList[]) {
       category_order: newCategoryOrder,
       // sub_categories: [],
     };
-    const response = await fetch("/api/titles", {
+    const response = await fetch("/api/add-category", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newCategory),
     });
+
     if (response.ok) {
-      alert("Catégorie ajoutée avec succès, veuillez recharger la page pour voir les modifications");
+      router.refresh();
       setNewCategoryName("");
       setNewCategoryOrder(0);
       setAddingCategory(false);
     } else {
       console.error("Erreur lors de l'ajout de la catégorie");
+    }
+  };
+
+  const handleDeleteCategory = async(categoryId: number) => {
+    const response = await fetch(`api/category/${categoryId}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      // Mettre à jour la liste des données après la suppression
+      // const updatedDataList = dataList.filter((category) => category.category_id !== categoryId);
+      // setdataList(updatedDataList);
+      router.refresh();
+    } else {
+      console.error("Erreur lors de la suppression de la catégorie");
     }
   };
 
@@ -169,7 +187,7 @@ export default function ListeTitres(datas: DataList[]) {
               <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={32} height={32} />
             </a>
             <a>
-              <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={32} height={32} />
+              <Image className={styles.icon_action_list} onClick={() => handleDeleteCategory(category.category_id)} src={poubelle} alt="poubelle" width={32} height={32} />
             </a>
           </div>
         ))}
