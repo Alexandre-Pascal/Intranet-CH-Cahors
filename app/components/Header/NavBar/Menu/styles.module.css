@@ -79,6 +79,19 @@
     padding: 0.5vh 0 0.5vh 1vw;
 }
 
+.action_list{
+    display: flex;
+    align-items: center;
+}
+
+.icon_action_list{
+    border: 1px solid var(--bleu-fonce); /* Définit une bordure bleue de 2 pixels */
+    border-radius: 50%; /* Définit le rayon de la bordure pour créer un cercle */
+    max-width: unset;
+    margin-right: 0.2vw;
+    margin-left: 0.2vw;
+}
+
 @media screen and (max-width: 1354px) {
     .icon_text_menu_container {
       position: absolute;
