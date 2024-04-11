@@ -92,6 +92,10 @@
     margin-left: 0.2vw;
 }
 
+.menu a {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 1354px) {
     .icon_text_menu_container {
       position: absolute;
