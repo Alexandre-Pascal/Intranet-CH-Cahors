@@ -20,10 +20,12 @@ export default async function fetchDatas() {
               select: {
                 sub_category_id: true,
                 sub_category_name: true,
+                sub_category_url: true, // Ajout de sub_category_url
                 titles: {
                   select: {
                     title_id: true,
                     title_name: true,
+                    title_url: true, // Ajout de title_url
                   },
                 },
               },

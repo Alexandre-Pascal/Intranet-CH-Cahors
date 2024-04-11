@@ -11,6 +11,8 @@ export default function ListeTitres(datas : DataList[]) {
     setdataList(datas);
   }, [datas]); // Rafraîchir les titres chargés lorsque les titres en props changent
 
+  // alert("dataList: " + JSON.stringify(dataList));
+
   return (
     <div className={styles.menu}>
       <div className={styles.list_main_categories}>
@@ -32,10 +34,24 @@ export default function ListeTitres(datas : DataList[]) {
           && dataList[selectedCategoryId]?.sub_categories?.map((subCategory, index) =>
             (
               <li key={index} className={styles.sub_categorie}>
-                <h2>{subCategory.sub_category_name}</h2>
+                {subCategory.sub_category_url ? (
+                  <a href={subCategory.sub_category_url}>
+                    <h2>{subCategory.sub_category_name}</h2>
+                  </a>) : (
+                  <h2>{subCategory.sub_category_name}</h2>
+                )
+                }
                 <ul>
                   {subCategory.titles.map((title, index) => (
-                    <li><h3 key={index}>{title.title_name}</h3></li>
+                    <li>
+                      {title.title_url ? (
+                        <a href={title.title_url}>
+                          <h3 key={index}>{title.title_name}</h3>
+                        </a> ) : (
+                        <h3 key={index}>{title.title_name}</h3>
+                      )
+                      }
+                    </li>
                   ))}
                 </ul>
               </li>
