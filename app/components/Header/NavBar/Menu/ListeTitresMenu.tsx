@@ -23,8 +23,6 @@ export default function ListeTitres(datas: DataList[]) {
   const [newTitleUrl, setNewTitleUrl] = useState("");
   const [newTitleOrder, setNewTitleOrder] = useState(0);
 
-  // alert("dataList: " + JSON.stringify(dataList));
-
   useEffect(() => {
     // Mettre à jour les titres chargés avec les titres reçus en props
     setdataList(datas);
@@ -64,56 +62,93 @@ export default function ListeTitres(datas: DataList[]) {
   };
 
   // Soumettre le formulaire d'ajout de nouvelle catégorie
-  const handleSubmitCategory = (event: React.FormEvent) => {
+  const handleSubmitCategory = async(event: React.FormEvent) => {
     event.preventDefault();
     // Ajouter la nouvelle catégorie à la liste des données
-    const newCategory: DataList = {
-      category_id: dataList.length + 1,
+    const newCategory: any = {
+      // category_id: Object.values(dataList).length + 100, //J'ai mis + 100 parce que y'aura jamais + de 100 grande categorie, pour m'éviter d'avoir à chercher le plus grand id
       category_name: newCategoryName,
       category_order: newCategoryOrder,
-      sub_categories: [],
+      // sub_categories: [],
     };
-    setdataList([...dataList, newCategory]);
-    setNewCategoryName("");
-    setNewCategoryOrder(0);
-    setAddingCategory(false);
+    const response = await fetch("/api/titles", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newCategory),
+    });
+    if (response.ok) {
+      alert("Catégorie ajoutée avec succès, veuillez recharger la page pour voir les modifications");
+      setNewCategoryName("");
+      setNewCategoryOrder(0);
+      setAddingCategory(false);
+    } else {
+      console.error("Erreur lors de l'ajout de la catégorie");
+    }
   };
 
   // Soumettre le formulaire d'ajout de nouvelle sous-catégorie
-  const handleSubmitSubCategory = (event: React.FormEvent) => {
+  const handleSubmitSubCategory = async(event: React.FormEvent) => {
     event.preventDefault();
     // Ajouter la nouvelle sous-catégorie à la liste des données
     const updatedDataList = [...dataList];
-    updatedDataList[selectedCategoryId!].sub_categories.push({
+    const newSubCategory: SubCategory = {
       sub_category_id: updatedDataList[selectedCategoryId!].sub_categories.length + 1,
       sub_category_name: newSubCategoryName,
       sub_category_url: newSubCategoryUrl,
       sub_category_order: newSubCategoryOrder,
       titles: [],
+    };
+    const response = await fetch(`url_de_votre_api/categories/${updatedDataList[selectedCategoryId!].category_id}/subcategories`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newSubCategory),
     });
-    setdataList(updatedDataList);
-    setNewSubCategoryName("");
-    setNewSubCategoryUrl("");
-    setNewSubCategoryOrder(0);
-    setAddingSubCategory(false);
+    if (response.ok) {
+      const data = await response.json();
+      updatedDataList[selectedCategoryId!].sub_categories.push(data);
+      setdataList(updatedDataList);
+      setNewSubCategoryName("");
+      setNewSubCategoryUrl("");
+      setNewSubCategoryOrder(0);
+      setAddingSubCategory(false);
+    } else {
+      console.error("Erreur lors de l'ajout de la sous-catégorie");
+    }
   };
 
   // Soumettre le formulaire d'ajout de nouveau titre
-  const handleSubmitTitle = (event: React.FormEvent) => {
+  const handleSubmitTitle = async(event: React.FormEvent) => {
     event.preventDefault();
     // Ajouter le nouveau titre à la liste des données
     const updatedDataList = [...dataList];
-    updatedDataList[selectedCategoryId!].sub_categories[selectedSubCategoryId!].titles.push({
+    const newTitle: Title = {
       title_id: updatedDataList[selectedCategoryId!].sub_categories[selectedSubCategoryId!].titles.length + 1,
       title_name: newTitleName,
       title_url: newTitleUrl,
       title_order: newTitleOrder,
+    };
+    const response = await fetch(`url_de_votre_api/categories/${updatedDataList[selectedCategoryId!].category_id}/subcategories/${updatedDataList[selectedCategoryId!].sub_categories[selectedSubCategoryId!].sub_category_id}/titles`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTitle),
     });
-    setdataList(updatedDataList);
-    setNewTitleName("");
-    setNewTitleUrl("");
-    setNewTitleOrder(0);
-    setAddingTitle(false);
+    if (response.ok) {
+      const data = await response.json();
+      updatedDataList[selectedCategoryId!].sub_categories[selectedSubCategoryId!].titles.push(data);
+      setdataList(updatedDataList);
+      setNewTitleName("");
+      setNewTitleUrl("");
+      setNewTitleOrder(0);
+      setAddingTitle(false);
+    } else {
+      console.error("Erreur lors de l'ajout du titre");
+    }
   };
 
   return (

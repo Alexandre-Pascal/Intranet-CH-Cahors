@@ -8,6 +8,7 @@ export default async function fetchDatas() {
       select: {
         category_id: true,
         category_name: true,
+        category_order: true,
       },
     });
 

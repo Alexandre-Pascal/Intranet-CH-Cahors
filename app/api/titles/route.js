@@ -7,7 +7,10 @@ export async function GET() {
 export async function POST(request) {
   const res = await request.json();
   console.log(res);
-  return NextResponse.json({ data: res });
+
+  const result = await prisma.main_categories.create({ data : res });
+  // return NextResponse.json({ result });
+  return NextResponse.json({ result });
 }
 
 export async function PUT() {
