@@ -10,16 +10,18 @@ datasource db {
 model main_categories {
   category_id    Int              @id @default(autoincrement())
   category_name  String           @db.VarChar(100)
+  category_order Int
   sub_categories sub_categories[]
 }
 
 model sub_categories {
-  sub_category_id   Int             @id @default(autoincrement())
-  category_id       Int
-  sub_category_name String          @db.VarChar(100)
-  sub_category_url  String?
-  main_categories   main_categories @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
-  titles            titles[]
+  sub_category_id    Int             @id @default(autoincrement())
+  category_id        Int
+  sub_category_name  String          @db.VarChar(100)
+  sub_category_url   String?
+  sub_category_order Int
+  main_categories    main_categories @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
+  titles             titles[]
 }
 
 model titles {
@@ -27,5 +29,6 @@ model titles {
   sub_category_id Int
   title_name      String         @db.VarChar(100)
   title_url       String?
+  title_order     Int
   sub_categories  sub_categories @relation(fields: [sub_category_id], references: [sub_category_id], onDelete: NoAction, onUpdate: NoAction, map: "sub_titles_sub_category_id_fkey")
 }

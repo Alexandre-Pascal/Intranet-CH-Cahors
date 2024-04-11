@@ -21,11 +21,13 @@ export default async function fetchDatas() {
                 sub_category_id: true,
                 sub_category_name: true,
                 sub_category_url: true, // Ajout de sub_category_url
+                sub_category_order: true,
                 titles: {
                   select: {
                     title_id: true,
                     title_name: true,
                     title_url: true, // Ajout de title_url
+                    title_order: true,
                   },
                 },
               },
@@ -36,6 +38,7 @@ export default async function fetchDatas() {
         return {
           category_id: mainCategory.category_id,
           category_name: mainCategory.category_name,
+          category_order: mainCategory.category_order,
           sub_categories: subCategoriesAndTitles?.sub_categories,
         };
       })
