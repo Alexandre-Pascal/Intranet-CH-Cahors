@@ -115,6 +115,8 @@ export default function ListeTitres(datas: DataList[]) {
     catch {
       throw new Error("Erreur lors de la suppression de la catégorie");
     }
+    router.refresh();
+    setDeletingCategoryId(0);
   };
 
   const handleUpdateCategory = async(event: React.FormEvent) => {
@@ -283,109 +285,140 @@ export default function ListeTitres(datas: DataList[]) {
 
       {/* Boîte de dialogue pour ajouter une nouvelle catégorie */}
       {addingCategory && (
-        <div className={styles.dialog}>
-          <form onSubmit={handleSubmitCategory}>
-            <input
-              type="text"
-              placeholder="Nom de la catégorie"
-              value={newCategoryName}
-              onChange={(e) => setNewCategoryName(e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Ordre de la catégorie"
-              value={newCategoryOrder}
-              onChange={(e) => setNewCategoryOrder(parseInt(e.target.value))}
-            />
-            <button type="submit">Ajouter</button>
-            <button onClick={() => setAddingCategory(false)}>Annuler</button>
-          </form>
+        <div className={styles.container_dialog}>
+          <div className={styles.dialog}>
+            <h2>Choisissez le nom et l'ordre de cette nouvelle catégorie :</h2>
+            <form onSubmit={handleSubmitCategory}>
+              <div className={styles.container_input}>
+                <h3>Nom : </h3>
+                <input
+                  type="text"
+                  placeholder="Nom de la catégorie"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                />
+                <h3>Ordre : </h3>
+                <input
+                  type="number"
+                  placeholder="Ordre de la catégorie"
+                  value={newCategoryOrder}
+                  onChange={(e) => setNewCategoryOrder(parseInt(e.target.value))}
+                />
+              </div>
+              <div className={styles.container_buttons}>
+                <button onClick={() => setAddingCategory(false)}>Annuler</button>
+                <button type="submit">Ajouter</button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 
       {updatingCategory && (
-        <div className={styles.dialog}>
-          <form onSubmit={handleUpdateCategory}>
-            <input
-              type="text"
-              placeholder="Nom de la catégorie"
-              value={newCategoryName}
-              onChange={(e) => setNewCategoryName(e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Ordre de la catégorie"
-              value={newCategoryOrder}
-              onChange={(e) => setNewCategoryOrder(parseInt(e.target.value))}
-            />
-            <button type="submit">Modifier</button>
-            <button onClick={() => setUpdatingCategory(false)}>Annuler</button>
-          </form>
+        <div className={styles.container_dialog}>
+          <div className={styles.dialog}>
+            <h2>Modifiez le nom et l'ordre de cette catégorie :</h2>
+            <form onSubmit={handleUpdateCategory}>
+              <div className={styles.container_input}>
+                <h3>Nom : </h3>
+                <input
+                  type="text"
+                  placeholder="Nom de la catégorie"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                />
+                <h3>Ordre : </h3>
+                <input
+                  type="number"
+                  placeholder="Ordre de la catégorie"
+                  value={newCategoryOrder}
+                  onChange={(e) => setNewCategoryOrder(parseInt(e.target.value))}
+                />
+              </div>
+              <div className={styles.container_buttons}>
+                <button onClick={() => setUpdatingCategory(false)}>Annuler</button>
+                <button type="submit">Modifier</button>
+              </div>
+            </form>
+          </div>
         </div>
       )
       }
 
       {/* Boîte de dialogue pour ajouter une nouvelle sous-catégorie */}
       {addingSubCategory && (
-        <div className={styles.dialog}>
-          <form onSubmit={handleSubmitSubCategory}>
-            <input
-              type="text"
-              placeholder="Nom de la sous-catégorie"
-              value={newSubCategoryName}
-              onChange={(e) => setNewSubCategoryName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="URL de la sous-catégorie"
-              value={newSubCategoryUrl}
-              onChange={(e) => setNewSubCategoryUrl(e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Ordre de la sous-catégorie"
-              value={newSubCategoryOrder}
-              onChange={(e) => setNewSubCategoryOrder(parseInt(e.target.value))}
-            />
-            <button type="submit">Ajouter</button>
-            <button onClick={() => setAddingSubCategory(false)}>Annuler</button>
-          </form>
+        <div className={styles.container_dialog}>
+
+          <div className={styles.dialog}>
+            <form onSubmit={handleSubmitSubCategory}>
+              <input
+                type="text"
+                placeholder="Nom de la sous-catégorie"
+                value={newSubCategoryName}
+                onChange={(e) => setNewSubCategoryName(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="URL de la sous-catégorie"
+                value={newSubCategoryUrl}
+                onChange={(e) => setNewSubCategoryUrl(e.target.value)}
+              />
+              <input
+                type="number"
+                placeholder="Ordre de la sous-catégorie"
+                value={newSubCategoryOrder}
+                onChange={(e) => setNewSubCategoryOrder(parseInt(e.target.value))}
+              />
+              <div className={styles.container_buttons}>
+                <button type="submit">Ajouter</button>
+                <button onClick={() => setAddingSubCategory(false)}>Annuler</button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 
       {/* Boîte de dialogue pour ajouter un nouveau titre */}
       {addingTitle && (
-        <div className={styles.dialog}>
-          <form onSubmit={handleSubmitTitle}>
-            <input
-              type="text"
-              placeholder="Nom du titre"
-              value={newTitleName}
-              onChange={(e) => setNewTitleName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="URL du titre"
-              value={newTitleUrl}
-              onChange={(e) => setNewTitleUrl(e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Ordre du titre"
-              value={newTitleOrder}
-              onChange={(e) => setNewTitleOrder(parseInt(e.target.value))}
-            />
-            <button type="submit">Ajouter</button>
-            <button onClick={() => setAddingTitle(false)}>Annuler</button>
-          </form>
+        <div className={styles.container_dialog}>
+          <div className={styles.dialog}>
+            <form onSubmit={handleSubmitTitle}>
+              <input
+                type="text"
+                placeholder="Nom du titre"
+                value={newTitleName}
+                onChange={(e) => setNewTitleName(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="URL du titre"
+                value={newTitleUrl}
+                onChange={(e) => setNewTitleUrl(e.target.value)}
+              />
+              <input
+                type="number"
+                placeholder="Ordre du titre"
+                value={newTitleOrder}
+                onChange={(e) => setNewTitleOrder(parseInt(e.target.value))}
+              />
+              <div className={styles.container_buttons}>
+                <button type="submit">Ajouter</button>
+                <button onClick={() => setAddingTitle(false)}>Annuler</button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 
       {deletingCategory && (
-        <div className={styles.dialog}>
-          <p>Êtes-vous sûr de vouloir supprimer cette catégorie ?</p>
-          <button onClick={() => setDeletingCategory(false)}>Annuler</button>
-          <button onClick={() => {handleDeleteCategory(); setDeletingCategory(false);}}>Confirmer</button>
+        <div className={styles.container_dialog}>
+          <div className={styles.dialog}>
+            <h2>Êtes-vous sûr de vouloir supprimer cette catégorie ?</h2>
+            <div className={styles.container_buttons}>
+              <button onClick={() => setDeletingCategory(false)}>Annuler</button>
+              <button onClick={() => {handleDeleteCategory(); setDeletingCategory(false);}}>Confirmer</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
