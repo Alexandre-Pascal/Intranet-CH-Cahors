@@ -11,6 +11,8 @@ import poubelle from "../../../../assets/icons/poubelle.png";
 export default function ListeTitres(datas: DataList[]) {
   const [dataList, setdataList] = useState<DataList[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState<DataList | null>(null); // Ajouter un état pour stocker la catégorie sélectionnée
+
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(0); //
   const [addingCategory, setAddingCategory] = useState(false);
   const [addingSubCategory, setAddingSubCategory] = useState(false); //
@@ -205,18 +207,29 @@ export default function ListeTitres(datas: DataList[]) {
     }
   };
 
+  // alert(dataList);
+  useEffect(() => {
+    // alert(JSON.stringify(selectedCategory));
+  }
+  , [selectedCategoryId]);
+
   return (
     <div className={styles.menu}>
       <div className={styles.list_main_categories}>
         {dataList && (Object.values(dataList)).map((category, index) => (
           <div className={styles.action_list}>
-            <h1 key={index} className=
-              {
-                selectedCategoryId === category.category_id - 1 ?
-                  styles.selectedCategory : styles.notSelectedCategory
+            <h1
+              key={index}
+              className={
+                selectedCategory === null && index === 0 ? styles.selectedCategory :
+                  (selectedCategory !== null && selectedCategory.category_id === category.category_id ?
+                    styles.selectedCategory : styles.notSelectedCategory)
               }
-            onClick={() => setSelectedCategoryId(category.category_id - 1)
-            }>
+              onClick={() => {
+                setSelectedCategoryId(category.category_id);
+                setSelectedCategory(category);
+              }}
+            >
               {category.category_name}
             </h1>
             <a>
@@ -234,7 +247,7 @@ export default function ListeTitres(datas: DataList[]) {
       <div className={styles.list_sub_categories_and_titles}>
         <ul>
           {dataList && selectedCategoryId !== null &&
-            dataList[selectedCategoryId]?.sub_categories?.map((subCategory, index) => (
+            dataList[selectedCategory?.category_order ? selectedCategory.category_order - 1 : 0]?.sub_categories?.map((subCategory, index) => (
               <li key={index} className={styles.sub_categorie}>
                 <div className={styles.action_list}>
                   {subCategory.sub_category_url ? (
@@ -277,7 +290,7 @@ export default function ListeTitres(datas: DataList[]) {
                 </ul>
               </li>
             ))}
-          <a onClick={addSubCategory}>
+          <a onClick={() => {addSubCategory; alert(JSON.stringify(selectedCategory));}}>
             <Image className={styles.icon_action_list} src={plus} alt="plus" width={32} height={32} />
           </a>
         </ul>
