@@ -10,6 +10,9 @@ export default async function fetchDatas() {
         category_name: true,
         category_order: true,
       },
+      orderBy: {
+        category_order: "asc",
+      },
     });
 
     const categoriesWithData = await Promise.all(
@@ -32,6 +35,9 @@ export default async function fetchDatas() {
                   },
                 },
               },
+              orderBy: {
+                sub_category_order: "asc",
+              },
             },
           },
         });
@@ -44,7 +50,7 @@ export default async function fetchDatas() {
         };
       })
     );
-
+    console.log(categoriesWithData);
     return categoriesWithData as DataList[];
   } catch (error) {
     console.error("Error fetching categories with subcategories and titles:", error);

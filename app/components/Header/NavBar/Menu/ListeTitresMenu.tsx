@@ -208,7 +208,7 @@ export default function ListeTitres(datas: DataList[]) {
   return (
     <div className={styles.menu}>
       <div className={styles.list_main_categories}>
-        {dataList && sortCategories(Object.values(dataList)).map((category, index) => (
+        {dataList && (Object.values(dataList)).map((category, index) => (
           <div className={styles.action_list}>
             <h1 key={index} className=
               {
@@ -234,7 +234,7 @@ export default function ListeTitres(datas: DataList[]) {
       <div className={styles.list_sub_categories_and_titles}>
         <ul>
           {dataList && selectedCategoryId !== null &&
-            sortSubCategories(dataList[selectedCategoryId]?.sub_categories)?.map((subCategory, index) => (
+            dataList[selectedCategoryId]?.sub_categories?.map((subCategory, index) => (
               <li key={index} className={styles.sub_categorie}>
                 <div className={styles.action_list}>
                   {subCategory.sub_category_url ? (
