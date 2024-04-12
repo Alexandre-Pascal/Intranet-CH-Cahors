@@ -11,3 +11,16 @@ export async function DELETE(request, { params }) {
   });
   return NextResponse.json({ result });
 }
+
+export async function PUT(request, { params }) {
+  const id = params.id;
+  const res = await request.json();
+  console.log(res);
+  const result = await prisma.main_categories.update({
+    where: {
+      category_id : Number(id),
+    },
+    data: res,
+  });
+  return NextResponse.json({ result });
+}

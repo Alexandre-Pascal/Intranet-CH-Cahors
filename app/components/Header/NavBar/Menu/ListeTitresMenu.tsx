@@ -24,6 +24,9 @@ export default function ListeTitres(datas: DataList[]) {
   const [newTitleUrl, setNewTitleUrl] = useState("");
   const [newTitleOrder, setNewTitleOrder] = useState(0);
 
+  const [updatingCategory, setUpdatingCategory] = useState(false);
+  const [updatingCategoryId, setUpdatingCategoryId] = useState(0);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -64,32 +67,33 @@ export default function ListeTitres(datas: DataList[]) {
     setAddingTitle(true);
   };
 
+  const updateCategoryy = (id : number) =>{
+    setUpdatingCategoryId(id);
+    setUpdatingCategory(true);
+  };
+
   // Soumettre le formulaire d'ajout de nouvelle catégorie
   const handleSubmitCategory = async(event: React.FormEvent) => {
     event.preventDefault();
-    // Ajouter la nouvelle catégorie à la liste des données
     const newCategory: any = {
-      // category_id: Object.values(dataList).length + 100, //J'ai mis + 100 parce que y'aura jamais + de 100 grande categorie, pour m'éviter d'avoir à chercher le plus grand id
       category_name: newCategoryName,
       category_order: newCategoryOrder,
-      // sub_categories: [],
     };
-    const response = await fetch("/api/add-category", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newCategory),
-    });
-
-    if (response.ok) {
-      router.refresh();
-      setNewCategoryName("");
-      setNewCategoryOrder(0);
-      setAddingCategory(false);
-    } else {
-      console.error("Erreur lors de l'ajout de la catégorie");
+    try {
+      const response = await fetch("/api/add-category", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCategory),
+      });
+    } catch (error) {
+      throw new Error("Erreur lors de l'ajout de la catégorie");
     }
+    router.refresh();
+    setNewCategoryName("");
+    setNewCategoryOrder(0);
+    setAddingCategory(false);
   };
 
   const handleDeleteCategory = async(categoryId: number) => {
@@ -104,6 +108,28 @@ export default function ListeTitres(datas: DataList[]) {
     } else {
       console.error("Erreur lors de la suppression de la catégorie");
     }
+  };
+  const handleUpdateCategory = async(event: React.FormEvent) => {
+    event.preventDefault();
+    const updatedCategory: any = {
+      category_name: newCategoryName,
+      category_order: newCategoryOrder,
+    };
+    try {
+      const response = await fetch(`api/category/${updatingCategoryId}`, {
+        method: "PUT", // Utiliser la méthode PUT pour la mise à jour
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedCategory), // Envoyer les nouvelles données dans le corps de la requête
+      });
+    } catch (error) {
+      throw new Error("Erreur lors de la mise à jour de la catégorie");
+    }
+    router.refresh();
+    setNewCategoryName("");
+    setNewCategoryOrder(0);
+    setUpdatingCategory(false);
   };
 
   // Soumettre le formulaire d'ajout de nouvelle sous-catégorie
@@ -184,7 +210,7 @@ export default function ListeTitres(datas: DataList[]) {
               {category.category_name}
             </h1>
             <a>
-              <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={32} height={32} />
+              <Image className={styles.icon_action_list} onClick={() => updateCategoryy(category.category_id)} src={crayon} alt="crayon" width={32} height={32} />
             </a>
             <a>
               <Image className={styles.icon_action_list} onClick={() => handleDeleteCategory(category.category_id)} src={poubelle} alt="poubelle" width={32} height={32} />
@@ -268,6 +294,28 @@ export default function ListeTitres(datas: DataList[]) {
           </form>
         </div>
       )}
+
+      {updatingCategory && (
+        <div className={styles.dialog}>
+          <form onSubmit={handleUpdateCategory}>
+            <input
+              type="text"
+              placeholder="Nom de la catégorie"
+              value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+            />
+            <input
+              type="number"
+              placeholder="Ordre de la catégorie"
+              value={newCategoryOrder}
+              onChange={(e) => setNewCategoryOrder(parseInt(e.target.value))}
+            />
+            <button type="submit">Modifier</button>
+            <button onClick={() => setUpdatingCategory(false)}>Annuler</button>
+          </form>
+        </div>
+      )
+      }
 
       {/* Boîte de dialogue pour ajouter une nouvelle sous-catégorie */}
       {addingSubCategory && (
