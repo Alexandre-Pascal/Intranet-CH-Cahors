@@ -67,8 +67,10 @@ export default function ListeTitres(datas: DataList[]) {
     setAddingTitle(true);
   };
 
-  const updateCategoryy = (id : number) =>{
+  const updateCategoryy = (id : number, name : string, order : number) =>{
     setUpdatingCategoryId(id);
+    setNewCategoryName(name);
+    setNewCategoryOrder(order);
     setUpdatingCategory(true);
   };
 
@@ -210,7 +212,7 @@ export default function ListeTitres(datas: DataList[]) {
               {category.category_name}
             </h1>
             <a>
-              <Image className={styles.icon_action_list} onClick={() => updateCategoryy(category.category_id)} src={crayon} alt="crayon" width={32} height={32} />
+              <Image className={styles.icon_action_list} onClick={() => updateCategoryy(category.category_id, category.category_name, category.category_order)} src={crayon} alt="crayon" width={32} height={32} />
             </a>
             <a>
               <Image className={styles.icon_action_list} onClick={() => handleDeleteCategory(category.category_id)} src={poubelle} alt="poubelle" width={32} height={32} />
