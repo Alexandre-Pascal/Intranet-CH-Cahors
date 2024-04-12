@@ -11,21 +11,24 @@ import poubelle from "../../../../assets/icons/poubelle.png";
 export default function ListeTitres(datas: DataList[]) {
   const [dataList, setdataList] = useState<DataList[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
-  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(0);
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(0); //
   const [addingCategory, setAddingCategory] = useState(false);
-  const [addingSubCategory, setAddingSubCategory] = useState(false);
-  const [addingTitle, setAddingTitle] = useState(false);
+  const [addingSubCategory, setAddingSubCategory] = useState(false); //
+  const [addingTitle, setAddingTitle] = useState(false);//
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryOrder, setNewCategoryOrder] = useState(0);
-  const [newSubCategoryName, setNewSubCategoryName] = useState("");
-  const [newSubCategoryUrl, setNewSubCategoryUrl] = useState("");
-  const [newSubCategoryOrder, setNewSubCategoryOrder] = useState(0);
+  const [newSubCategoryName, setNewSubCategoryName] = useState(""); //
+  const [newSubCategoryUrl, setNewSubCategoryUrl] = useState(""); //
+  const [newSubCategoryOrder, setNewSubCategoryOrder] = useState(0); //
   const [newTitleName, setNewTitleName] = useState("");
   const [newTitleUrl, setNewTitleUrl] = useState("");
   const [newTitleOrder, setNewTitleOrder] = useState(0);
 
   const [updatingCategory, setUpdatingCategory] = useState(false);
   const [updatingCategoryId, setUpdatingCategoryId] = useState(0);
+
+  const [deletingCategory, setDeletingCategory] = useState(false);
+  const [deletingCategoryId, setDeletingCategoryId] = useState(0);
 
   const router = useRouter();
 
@@ -67,6 +70,11 @@ export default function ListeTitres(datas: DataList[]) {
     setAddingTitle(true);
   };
 
+  const deleteCategory = (id : number) => {
+    setDeletingCategory(true);
+    setDeletingCategoryId(id);
+  };
+
   const updateCategoryy = (id : number, name : string, order : number) =>{
     setUpdatingCategoryId(id);
     setNewCategoryName(name);
@@ -82,7 +90,7 @@ export default function ListeTitres(datas: DataList[]) {
       category_order: newCategoryOrder,
     };
     try {
-      const response = await fetch("/api/add-category", {
+      await fetch("/api/add-category", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +98,7 @@ export default function ListeTitres(datas: DataList[]) {
         body: JSON.stringify(newCategory),
       });
     } catch (error) {
-      throw new Error("Erreur lors de l'ajout de la catégorie");
+      throw new Error("Erreur lors de l'ajout de la catégorie", );
     }
     router.refresh();
     setNewCategoryName("");
@@ -98,19 +106,17 @@ export default function ListeTitres(datas: DataList[]) {
     setAddingCategory(false);
   };
 
-  const handleDeleteCategory = async(categoryId: number) => {
-    const response = await fetch(`api/category/${categoryId}`, {
-      method: "DELETE",
-    });
-    if (response.ok) {
-      // Mettre à jour la liste des données après la suppression
-      // const updatedDataList = dataList.filter((category) => category.category_id !== categoryId);
-      // setdataList(updatedDataList);
-      router.refresh();
-    } else {
-      console.error("Erreur lors de la suppression de la catégorie");
+  const handleDeleteCategory = async() => {
+    try {
+      await fetch(`api/category/${deletingCategoryId}`, {
+        method: "DELETE",
+      });
+    }
+    catch {
+      throw new Error("Erreur lors de la suppression de la catégorie");
     }
   };
+
   const handleUpdateCategory = async(event: React.FormEvent) => {
     event.preventDefault();
     const updatedCategory: any = {
@@ -118,7 +124,7 @@ export default function ListeTitres(datas: DataList[]) {
       category_order: newCategoryOrder,
     };
     try {
-      const response = await fetch(`api/category/${updatingCategoryId}`, {
+      await fetch(`api/category/${updatingCategoryId}`, {
         method: "PUT", // Utiliser la méthode PUT pour la mise à jour
         headers: {
           "Content-Type": "application/json",
@@ -215,7 +221,7 @@ export default function ListeTitres(datas: DataList[]) {
               <Image className={styles.icon_action_list} onClick={() => updateCategoryy(category.category_id, category.category_name, category.category_order)} src={crayon} alt="crayon" width={32} height={32} />
             </a>
             <a>
-              <Image className={styles.icon_action_list} onClick={() => handleDeleteCategory(category.category_id)} src={poubelle} alt="poubelle" width={32} height={32} />
+              <Image className={styles.icon_action_list} onClick={() => deleteCategory(category.category_id)} src={poubelle} alt="poubelle" width={32} height={32} />
             </a>
           </div>
         ))}
@@ -372,6 +378,14 @@ export default function ListeTitres(datas: DataList[]) {
             <button type="submit">Ajouter</button>
             <button onClick={() => setAddingTitle(false)}>Annuler</button>
           </form>
+        </div>
+      )}
+
+      {deletingCategory && (
+        <div className={styles.dialog}>
+          <p>Êtes-vous sûr de vouloir supprimer cette catégorie ?</p>
+          <button onClick={() => setDeletingCategory(false)}>Annuler</button>
+          <button onClick={() => {handleDeleteCategory(); setDeletingCategory(false);}}>Confirmer</button>
         </div>
       )}
     </div>
