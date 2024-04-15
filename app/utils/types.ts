@@ -36,3 +36,7 @@ export type NewDataList = {
   category_name: string;
   category_order: number;
 };
+
+export type kindOfDialog = "Ajouter" | "Modifier" | "Supprimer";
+
+export type kindOfDatas = "Category" | "SubCategory" | "Title";
