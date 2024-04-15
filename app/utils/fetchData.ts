@@ -33,6 +33,9 @@ export default async function fetchDatas() {
                     title_url: true, // Ajout de title_url
                     title_order: true,
                   },
+                  orderBy: {
+                    title_order: "asc",
+                  },
                 },
               },
               orderBy: {

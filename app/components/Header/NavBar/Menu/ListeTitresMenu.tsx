@@ -32,6 +32,8 @@ export default function ListeTitres(datas: DataList[]) {
   const [deletingCategory, setDeletingCategory] = useState(false);
   const [deletingCategoryId, setDeletingCategoryId] = useState(0);
 
+  const [length, setLength] = useState(0);
+
   const router = useRouter();
 
   const titleHeight = 65 / Object.values(dataList).length; // Calcul de la hauteur des titres
@@ -275,49 +277,49 @@ export default function ListeTitres(datas: DataList[]) {
         <ul>
           {dataList && selectedCategoryId !== null &&
           // dataList[selectedCategory?.category_order ? selectedCategory.category_order - 1 : 0]?.sub_categories?.map((subCategory, index) => ( // Ancienne version qui récupère la catégorie sélectionnée par son ordre, maintenant on récupère la catégorie sélectionnée par son id
-              selectedCategory?.sub_categories?.map((subCategory, index) => (
-                <li key={index} className={styles.sub_categorie}>
-                  <div className={styles.action_list}>
-                    {subCategory.sub_category_url ? (
-                      <a href={subCategory.sub_category_url}>
-                        <h2>{subCategory.sub_category_name}</h2>
+          (selectedCategory ? selectedCategory.sub_categories : dataList[0]?.sub_categories)?.map((subCategory, index) => (
+            <li key={index} className={styles.sub_categorie}>
+              <div className={styles.action_list}>
+                {subCategory.sub_category_url ? (
+                  <a href={subCategory.sub_category_url}>
+                    <h2>{subCategory.sub_category_name}</h2>
+                  </a>
+                ) : (
+                  <h2>{subCategory.sub_category_name}</h2>
+                )}
+                <a onClick={addTitle}>
+                  <Image className={styles.icon_action_list} src={plus} alt="plus" width={20} height={20} />
+                </a>
+                <a>
+                  <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={20} height={20} />
+                </a>
+                <a>
+                  <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={20} height={20} />
+                </a>
+              </div>
+              <ul>
+                {sortTitles(subCategory.titles).map((title, index) => (
+                  <li>
+                    <div className={styles.action_list}>
+                      {title.title_url ? (
+                        <a href={title.title_url}>
+                          <h3 key={index}>{title.title_name}</h3>
+                        </a>
+                      ) : (
+                        <h3 key={index}>{title.title_name}</h3>
+                      )}
+                      <a>
+                        <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={20} height={20} />
                       </a>
-                    ) : (
-                      <h2>{subCategory.sub_category_name}</h2>
-                    )}
-                    <a onClick={addTitle}>
-                      <Image className={styles.icon_action_list} src={plus} alt="plus" width={20} height={20} />
-                    </a>
-                    <a>
-                      <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={20} height={20} />
-                    </a>
-                    <a>
-                      <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={20} height={20} />
-                    </a>
-                  </div>
-                  <ul>
-                    {sortTitles(subCategory.titles).map((title, index) => (
-                      <li>
-                        <div className={styles.action_list}>
-                          {title.title_url ? (
-                            <a href={title.title_url}>
-                              <h3 key={index}>{title.title_name}</h3>
-                            </a>
-                          ) : (
-                            <h3 key={index}>{title.title_name}</h3>
-                          )}
-                          <a>
-                            <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={20} height={20} />
-                          </a>
-                          <a>
-                            <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={20} height={20} />
-                          </a>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
+                      <a>
+                        <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={20} height={20} />
+                      </a>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
           <a onClick={() => {addSubCategory; alert(JSON.stringify(selectedCategory));}}>
             <Image className={styles.icon_action_list} src={plus} alt="plus" width={32} height={32} />
           </a>
