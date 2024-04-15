@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { DataList, SubCategory, Title } from "@/app/utils/types";
+import { DataList, SubCategory, Title, NewDataList, NewSubCategory, NewTitle } from "@/app/utils/types";
 import styles from "./styles.module.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -96,7 +96,7 @@ export default function ListeTitres(datas: DataList[]) {
   // Soumettre le formulaire d'ajout de nouvelle catégorie
   const handleSubmitCategory = async(event: React.FormEvent) => {
     event.preventDefault();
-    const newCategory: any = {
+    const newCategory: NewDataList = {
       category_name: newCategoryName,
       category_order: newCategoryOrder,
     };
@@ -119,7 +119,7 @@ export default function ListeTitres(datas: DataList[]) {
 
   const handleDeleteCategory = async() => {
     try {
-      await fetch(`api/category/${deletingCategoryId}`, {
+      await fetch(`api/categories/${deletingCategoryId}`, {
         method: "DELETE",
       });
     }
@@ -132,12 +132,12 @@ export default function ListeTitres(datas: DataList[]) {
 
   const handleUpdateCategory = async(event: React.FormEvent) => {
     event.preventDefault();
-    const updatedCategory: any = {
+    const updatedCategory: NewDataList = {
       category_name: newCategoryName,
       category_order: newCategoryOrder,
     };
     try {
-      await fetch(`api/category/${updatingCategoryId}`, {
+      await fetch(`api/categories/${updatingCategoryId}`, {
         method: "PUT", // Utiliser la méthode PUT pour la mise à jour
         headers: {
           "Content-Type": "application/json",
@@ -157,32 +157,29 @@ export default function ListeTitres(datas: DataList[]) {
   const handleSubmitSubCategory = async(event: React.FormEvent) => {
     event.preventDefault();
     // Ajouter la nouvelle sous-catégorie à la liste des données
-    const updatedDataList = [...dataList];
-    const newSubCategory: SubCategory = {
-      sub_category_id: updatedDataList[selectedCategoryId!].sub_categories.length + 1,
+    const newSubCategory: NewSubCategory = {
       sub_category_name: newSubCategoryName,
       sub_category_url: newSubCategoryUrl,
       sub_category_order: newSubCategoryOrder,
-      titles: [],
     };
-    const response = await fetch(`url_de_votre_api/categories/${updatedDataList[selectedCategoryId!].category_id}/subcategories`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newSubCategory),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      updatedDataList[selectedCategoryId!].sub_categories.push(data);
-      setdataList(updatedDataList);
-      setNewSubCategoryName("");
-      setNewSubCategoryUrl("");
-      setNewSubCategoryOrder(0);
-      setAddingSubCategory(false);
-    } else {
-      console.error("Erreur lors de l'ajout de la sous-catégorie");
+    try{
+      await fetch(`api/categories/${selectedCategoryId}/add-subcategories`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newSubCategory),
+      });
     }
+    catch {
+      throw new Error("Erreur lors de l'ajout de la sous-catégorie");
+    }
+    router.refresh();
+    setNewSubCategoryName("");
+    setNewSubCategoryUrl("");
+    setNewSubCategoryOrder(0);
+    setAddingSubCategory(false);
+    setSelectedCategory(dataList[0]);
   };
 
   // Soumettre le formulaire d'ajout de nouveau titre
@@ -338,7 +335,7 @@ export default function ListeTitres(datas: DataList[]) {
               </ul>
             </li>
           ))}
-          <a onClick={() => {addSubCategory; alert(JSON.stringify(selectedCategory));}}>
+          <a onClick={() => {addSubCategory(); {/*alert(JSON.stringify(selectedCategory));*/}}}>
             <Image className={styles.icon_action_list} src={plus} alt="plus" width={32} height={32} />
           </a>
         </ul>
@@ -418,30 +415,35 @@ export default function ListeTitres(datas: DataList[]) {
       {/* Boîte de dialogue pour ajouter une nouvelle sous-catégorie */}
       {addingSubCategory && (
         <div className={styles.container_dialog}>
-
           <div className={styles.dialog}>
+            <h2>Choisissez le nom, l&apos;URL et l&apos;ordre de cette nouvelle sous-catégorie :</h2>
             <form onSubmit={handleSubmitSubCategory}>
-              <input
-                type="text"
-                placeholder="Nom de la sous-catégorie"
-                value={newSubCategoryName}
-                onChange={(e) => setNewSubCategoryName(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="URL de la sous-catégorie"
-                value={newSubCategoryUrl}
-                onChange={(e) => setNewSubCategoryUrl(e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="Ordre de la sous-catégorie"
-                value={newSubCategoryOrder}
-                onChange={(e) => setNewSubCategoryOrder(parseInt(e.target.value))}
-              />
+              <div className={styles.container_input}>
+                <h3>Nom : </h3>
+                <input
+                  type="text"
+                  placeholder="Nom de la sous-catégorie"
+                  value={newSubCategoryName}
+                  onChange={(e) => setNewSubCategoryName(e.target.value)}
+                />
+                <h3>URL : </h3>
+                <input
+                  type="text"
+                  placeholder="URL de la sous-catégorie"
+                  value={newSubCategoryUrl}
+                  onChange={(e) => setNewSubCategoryUrl(e.target.value)}
+                />
+                <h3>Ordre : </h3>
+                <input
+                  type="number"
+                  placeholder="Ordre de la sous-catégorie"
+                  value={newSubCategoryOrder}
+                  onChange={(e) => setNewSubCategoryOrder(parseInt(e.target.value))}
+                />
+              </div>
               <div className={styles.container_buttons}>
-                <button type="submit">Ajouter</button>
                 <button onClick={() => setAddingSubCategory(false)}>Annuler</button>
+                <button type="submit">Ajouter</button>
               </div>
             </form>
           </div>

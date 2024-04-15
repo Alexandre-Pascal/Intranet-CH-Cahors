@@ -24,3 +24,13 @@ export async function PUT(request, { params }) {
   });
   return NextResponse.json({ result });
 }
+
+export async function GET( params) {
+  const id = params.id;
+  const result = await prisma.main_categories.findUnique({
+    where: {
+      category_id : Number(id),
+    },
+  });
+  return NextResponse.json({ result });
+}

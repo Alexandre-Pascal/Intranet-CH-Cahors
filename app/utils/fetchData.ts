@@ -53,7 +53,7 @@ export default async function fetchDatas() {
         };
       })
     );
-    console.log(categoriesWithData);
+    // console.log(categoriesWithData);
     return categoriesWithData as DataList[];
   } catch (error) {
     console.error("Error fetching categories with subcategories and titles:", error);
