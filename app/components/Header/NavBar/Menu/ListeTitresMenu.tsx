@@ -34,6 +34,8 @@ export default function ListeTitres(datas: DataList[]) {
 
   const router = useRouter();
 
+  const titleHeight = 65 / Object.values(dataList).length; // Calcul de la hauteur des titres
+
   useEffect(() => {
     // Mettre à jour les titres chargés avec les titres reçus en props
     setdataList(datas);
@@ -226,6 +228,7 @@ export default function ListeTitres(datas: DataList[]) {
           <div className={styles.action_list}>
             <h1
               key={index}
+              style={{ height: `${titleHeight}vh` }}
               className={
                 selectedCategory === null && index === 0 ? styles.selectedCategory :
                   (selectedCategory !== null && selectedCategory.category_id === category.category_id ?
@@ -265,7 +268,7 @@ export default function ListeTitres(datas: DataList[]) {
           </div>
         ))}
         <a onClick={addCategory}>
-          <Image className={styles.icon_action_list} style={{ marginLeft : "2vw" }} src={plus} alt="plus" width={32} height={32} />
+          <Image className={styles.icon_action_list} style={{ position: "absolute", bottom: "2vh", left : "2vw" }} src={plus} alt="plus" width={32} height={32} />
         </a>
       </div>
       <div className={styles.list_sub_categories_and_titles}>
