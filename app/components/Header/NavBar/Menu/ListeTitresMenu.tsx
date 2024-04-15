@@ -32,16 +32,21 @@ export default function ListeTitres(datas: DataList[]) {
   const [deletingCategory, setDeletingCategory] = useState(false);
   const [deletingCategoryId, setDeletingCategoryId] = useState(0);
 
-  const [length, setLength] = useState(0);
+  const [length, setLength] = useState(1);
 
   const router = useRouter();
 
-  const titleHeight = 65 / Object.values(dataList).length; // Calcul de la hauteur des titres
+  const titleHeight = 65 / length; // Calcul de la hauteur des titres
 
   useEffect(() => {
     // Mettre à jour les titres chargés avec les titres reçus en props
     setdataList(datas);
   }, [datas]); // Rafraîchir les titres chargés lorsque les titres en props changent
+
+  useEffect(() => {
+    // Mettre à jour la longueur de la liste des catégories
+    setLength(Object.values(dataList).length);
+  }, [dataList]);
 
   // // Fonction pour trier les catégories par ordre
   // const sortCategories = (categories: DataList[]) => {
@@ -270,13 +275,26 @@ export default function ListeTitres(datas: DataList[]) {
           </div>
         ))}
         <a onClick={addCategory}>
-          <Image className={styles.icon_action_list} style={{ position: "absolute", bottom: "2vh", left : "2vw" }} src={plus} alt="plus" width={32} height={32} />
+          <Image
+            className={styles.icon_action_list}
+            style=
+              {
+                {
+                  position: "absolute",
+                  bottom: "2vh",
+                  left : "2vw",
+                }
+              }
+            src={plus}
+            alt="plus"
+            width={32}
+            height={32}
+          />
         </a>
       </div>
       <div className={styles.list_sub_categories_and_titles}>
         <ul>
           {dataList && selectedCategoryId !== null &&
-          // dataList[selectedCategory?.category_order ? selectedCategory.category_order - 1 : 0]?.sub_categories?.map((subCategory, index) => ( // Ancienne version qui récupère la catégorie sélectionnée par son ordre, maintenant on récupère la catégorie sélectionnée par son id
           (selectedCategory ? selectedCategory.sub_categories : dataList[0]?.sub_categories)?.map((subCategory, index) => (
             <li key={index} className={styles.sub_categorie}>
               <div className={styles.action_list}>
