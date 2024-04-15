@@ -13,7 +13,7 @@ export default function ListeTitres(datas: DataList[]) {
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<DataList | null>(null); // Ajouter un état pour stocker la catégorie sélectionnée
 
-  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(0); //
+  const [selectedSubCategoryId, {/*setSelectedSubCategoryId*/}] = useState(0); //
   const [addingCategory, setAddingCategory] = useState(false);
   const [addingSubCategory, setAddingSubCategory] = useState(false); //
   const [addingTitle, setAddingTitle] = useState(false);//
@@ -39,17 +39,17 @@ export default function ListeTitres(datas: DataList[]) {
     setdataList(datas);
   }, [datas]); // Rafraîchir les titres chargés lorsque les titres en props changent
 
-  // Fonction pour trier les catégories par ordre
-  const sortCategories = (categories: DataList[]) => {
-    if(categories) return categories.sort((a, b) => a.category_order - b.category_order);
-    return [];
-  };
+  // // Fonction pour trier les catégories par ordre
+  // const sortCategories = (categories: DataList[]) => {
+  //   if(categories) return categories.sort((a, b) => a.category_order - b.category_order);
+  //   return [];
+  // };
 
-  // Fonction pour trier les sous-catégories par ordre
-  const sortSubCategories = (subCategories: SubCategory[]) => {
-    if (subCategories) return subCategories.sort((a, b) => a.sub_category_order - b.sub_category_order);
-    return [];
-  };
+  // // Fonction pour trier les sous-catégories par ordre
+  // const sortSubCategories = (subCategories: SubCategory[]) => {
+  //   if (subCategories) return subCategories.sort((a, b) => a.sub_category_order - b.sub_category_order);
+  //   return [];
+  // };
 
   // Fonction pour trier les titres par ordre
   const sortTitles = (titles: Title[]) => {
@@ -187,13 +187,19 @@ export default function ListeTitres(datas: DataList[]) {
       title_url: newTitleUrl,
       title_order: newTitleOrder,
     };
-    const response = await fetch(`url_de_votre_api/categories/${updatedDataList[selectedCategoryId!].category_id}/subcategories/${updatedDataList[selectedCategoryId!].sub_categories[selectedSubCategoryId!].sub_category_id}/titles`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTitle),
-    });
+    const response = await fetch(
+      `url_de_votre_api/categories/
+      ${updatedDataList[selectedCategoryId!].category_id}
+      /subcategories/${updatedDataList[selectedCategoryId!]
+    .sub_categories[selectedSubCategoryId!].sub_category_id}/titles`,
+
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTitle),
+      });
     if (response.ok) {
       const data = await response.json();
       updatedDataList[selectedCategoryId!].sub_categories[selectedSubCategoryId!].titles.push(data);
@@ -209,7 +215,7 @@ export default function ListeTitres(datas: DataList[]) {
 
   // alert(dataList);
   useEffect(() => {
-    // alert(JSON.stringify(selectedCategory));
+    // alert(JSON.stringify(selectedCategory?.sub_categories));
   }
   , [selectedCategoryId]);
 
@@ -228,15 +234,33 @@ export default function ListeTitres(datas: DataList[]) {
               onClick={() => {
                 setSelectedCategoryId(category.category_id);
                 setSelectedCategory(category);
+                // alert(JSON.stringify(selectedCategory));
               }}
             >
               {category.category_name}
             </h1>
             <a>
-              <Image className={styles.icon_action_list} onClick={() => updateCategoryy(category.category_id, category.category_name, category.category_order)} src={crayon} alt="crayon" width={32} height={32} />
+              <Image className={styles.icon_action_list} onClick=
+                {
+                  () =>
+                    updateCategoryy
+                    (
+                      category.category_id,
+                      category.category_name,
+                      category.category_order
+                    )
+                }
+              src={crayon} alt="crayon" width={32} height={32}
+              />
             </a>
             <a>
-              <Image className={styles.icon_action_list} onClick={() => deleteCategory(category.category_id)} src={poubelle} alt="poubelle" width={32} height={32} />
+              <Image className={styles.icon_action_list} onClick=
+                {
+                  () =>
+                    deleteCategory(category.category_id)
+                }
+              src={poubelle} alt="poubelle" width={32} height={32}
+              />
             </a>
           </div>
         ))}
@@ -247,49 +271,50 @@ export default function ListeTitres(datas: DataList[]) {
       <div className={styles.list_sub_categories_and_titles}>
         <ul>
           {dataList && selectedCategoryId !== null &&
-            dataList[selectedCategory?.category_order ? selectedCategory.category_order - 1 : 0]?.sub_categories?.map((subCategory, index) => (
-              <li key={index} className={styles.sub_categorie}>
-                <div className={styles.action_list}>
-                  {subCategory.sub_category_url ? (
-                    <a href={subCategory.sub_category_url}>
+          // dataList[selectedCategory?.category_order ? selectedCategory.category_order - 1 : 0]?.sub_categories?.map((subCategory, index) => ( // Ancienne version qui récupère la catégorie sélectionnée par son ordre, maintenant on récupère la catégorie sélectionnée par son id
+              selectedCategory?.sub_categories?.map((subCategory, index) => (
+                <li key={index} className={styles.sub_categorie}>
+                  <div className={styles.action_list}>
+                    {subCategory.sub_category_url ? (
+                      <a href={subCategory.sub_category_url}>
+                        <h2>{subCategory.sub_category_name}</h2>
+                      </a>
+                    ) : (
                       <h2>{subCategory.sub_category_name}</h2>
+                    )}
+                    <a onClick={addTitle}>
+                      <Image className={styles.icon_action_list} src={plus} alt="plus" width={20} height={20} />
                     </a>
-                  ) : (
-                    <h2>{subCategory.sub_category_name}</h2>
-                  )}
-                  <a onClick={addTitle}>
-                    <Image className={styles.icon_action_list} src={plus} alt="plus" width={20} height={20} />
-                  </a>
-                  <a>
-                    <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={20} height={20} />
-                  </a>
-                  <a>
-                    <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={20} height={20} />
-                  </a>
-                </div>
-                <ul>
-                  {sortTitles(subCategory.titles).map((title, index) => (
-                    <li>
-                      <div className={styles.action_list}>
-                        {title.title_url ? (
-                          <a href={title.title_url}>
+                    <a>
+                      <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={20} height={20} />
+                    </a>
+                    <a>
+                      <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={20} height={20} />
+                    </a>
+                  </div>
+                  <ul>
+                    {sortTitles(subCategory.titles).map((title, index) => (
+                      <li>
+                        <div className={styles.action_list}>
+                          {title.title_url ? (
+                            <a href={title.title_url}>
+                              <h3 key={index}>{title.title_name}</h3>
+                            </a>
+                          ) : (
                             <h3 key={index}>{title.title_name}</h3>
+                          )}
+                          <a>
+                            <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={20} height={20} />
                           </a>
-                        ) : (
-                          <h3 key={index}>{title.title_name}</h3>
-                        )}
-                        <a>
-                          <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={20} height={20} />
-                        </a>
-                        <a>
-                          <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={20} height={20} />
-                        </a>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
+                          <a>
+                            <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={20} height={20} />
+                          </a>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
           <a onClick={() => {addSubCategory; alert(JSON.stringify(selectedCategory));}}>
             <Image className={styles.icon_action_list} src={plus} alt="plus" width={32} height={32} />
           </a>
@@ -300,7 +325,7 @@ export default function ListeTitres(datas: DataList[]) {
       {addingCategory && (
         <div className={styles.container_dialog}>
           <div className={styles.dialog}>
-            <h2>Choisissez le nom et l'ordre de cette nouvelle catégorie :</h2>
+            <h2>Choisissez le nom et l&apos;ordre de cette nouvelle catégorie :</h2>
             <form onSubmit={handleSubmitCategory}>
               <div className={styles.container_input}>
                 <h3>Nom : </h3>
@@ -330,7 +355,7 @@ export default function ListeTitres(datas: DataList[]) {
       {updatingCategory && (
         <div className={styles.container_dialog}>
           <div className={styles.dialog}>
-            <h2>Modifiez le nom et l'ordre de cette catégorie :</h2>
+            <h2>Modifiez le nom et l&apos;ordre de cette catégorie :</h2>
             <form onSubmit={handleUpdateCategory}>
               <div className={styles.container_input}>
                 <h3>Nom : </h3>
@@ -349,7 +374,16 @@ export default function ListeTitres(datas: DataList[]) {
                 />
               </div>
               <div className={styles.container_buttons}>
-                <button onClick={() => setUpdatingCategory(false)}>Annuler</button>
+                <button onClick=
+                  {
+                    () =>
+                    {
+                      setUpdatingCategory(false);
+                      setNewCategoryName("");
+                      setNewCategoryOrder(0);
+                    }
+                  }
+                >Annuler</button>
                 <button type="submit">Modifier</button>
               </div>
             </form>
