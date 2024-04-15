@@ -13,7 +13,7 @@ export default function ListeTitres(datas: DataList[]) {
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<DataList | null>(null); // Ajouter un état pour stocker la catégorie sélectionnée
 
-  const [selectedSubCategoryId, {/*setSelectedSubCategoryId*/}] = useState(0); //
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(0); //
   const [addingCategory, setAddingCategory] = useState(false);
   const [addingSubCategory, setAddingSubCategory] = useState(false); //
   const [addingTitle, setAddingTitle] = useState(false);//
@@ -31,6 +31,17 @@ export default function ListeTitres(datas: DataList[]) {
 
   const [deletingCategory, setDeletingCategory] = useState(false);
   const [deletingCategoryId, setDeletingCategoryId] = useState(0);
+
+  const [updatingSubCategory, setupdatingSubCategory] = useState(false);
+
+  const [deletingSubCategory, setDeletingSubCategory] = useState(false);
+  const [deletingSubCategoryId, setDeletingSubCategoryId] = useState(0);
+
+  const [selectedTitleId, setSelectedTitleId] = useState(0);
+  const [updatingTitle, setUpdatingTitle] = useState(false);
+
+  const [deletingTitle, setDeletingTitle] = useState(false);
+  const [deletingTitleId, setDeletingTitleId] = useState(0);
 
   const [length, setLength] = useState(1);
 
@@ -86,11 +97,37 @@ export default function ListeTitres(datas: DataList[]) {
     setDeletingCategoryId(id);
   };
 
+  const deleteSubCategory = (id : number) => {
+    setDeletingSubCategory(true);
+    setDeletingSubCategoryId(id);
+  };
+
+  const deleteTitle = (id : number) => {
+    setDeletingTitle(true);
+    setDeletingTitleId(id);
+  };
+
   const updateCategoryy = (id : number, name : string, order : number) =>{
     setUpdatingCategoryId(id);
     setNewCategoryName(name);
     setNewCategoryOrder(order);
     setUpdatingCategory(true);
+  };
+
+  const updateSubCategory = (id : number, name : string, url : string, order : number) =>{
+    setSelectedSubCategoryId(id);
+    setNewSubCategoryName(name);
+    setNewSubCategoryUrl(url);
+    setNewSubCategoryOrder(order);
+    setupdatingSubCategory(true);
+  };
+
+  const updateTitle = (id : number, name : string, url : string, order : number) =>{
+    setSelectedTitleId(id);
+    setNewTitleName(name);
+    setNewTitleUrl(url);
+    setNewTitleOrder(order);
+    setUpdatingTitle(true);
   };
 
   // Soumettre le formulaire d'ajout de nouvelle catégorie
@@ -101,7 +138,7 @@ export default function ListeTitres(datas: DataList[]) {
       category_order: newCategoryOrder,
     };
     try {
-      await fetch("/api/add-category", {
+      await fetch("/api/categories/add-category", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -115,19 +152,6 @@ export default function ListeTitres(datas: DataList[]) {
     setNewCategoryName("");
     setNewCategoryOrder(0);
     setAddingCategory(false);
-  };
-
-  const handleDeleteCategory = async() => {
-    try {
-      await fetch(`api/categories/${deletingCategoryId}`, {
-        method: "DELETE",
-      });
-    }
-    catch {
-      throw new Error("Erreur lors de la suppression de la catégorie");
-    }
-    router.refresh();
-    setDeletingCategoryId(0);
   };
 
   const handleUpdateCategory = async(event: React.FormEvent) => {
@@ -153,6 +177,19 @@ export default function ListeTitres(datas: DataList[]) {
     setUpdatingCategory(false);
   };
 
+  const handleDeleteCategory = async() => {
+    try {
+      await fetch(`api/categories/${deletingCategoryId}`, {
+        method: "DELETE",
+      });
+    }
+    catch {
+      throw new Error("Erreur lors de la suppression de la catégorie");
+    }
+    router.refresh();
+    setDeletingCategoryId(0);
+  };
+
   // Soumettre le formulaire d'ajout de nouvelle sous-catégorie
   const handleSubmitSubCategory = async(event: React.FormEvent) => {
     event.preventDefault();
@@ -163,7 +200,7 @@ export default function ListeTitres(datas: DataList[]) {
       sub_category_order: newSubCategoryOrder,
     };
     try{
-      await fetch(`api/categories/${selectedCategoryId}/add-subcategories`, {
+      await fetch(`api/categories/${selectedCategoryId}/subcategories/add-subcategories`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -182,41 +219,113 @@ export default function ListeTitres(datas: DataList[]) {
     setSelectedCategory(dataList[0]);
   };
 
+  const handleUpdateSubCategory = async(event: React.FormEvent) => {
+    event.preventDefault();
+    const updatedSubCategory: NewSubCategory = {
+      sub_category_name: newSubCategoryName,
+      sub_category_url: newSubCategoryUrl,
+      sub_category_order: newSubCategoryOrder,
+    };
+    try {
+      await fetch(`api/categories/${selectedCategoryId}/subcategories/${selectedSubCategoryId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedSubCategory),
+      });
+    } catch (error) {
+      throw new Error("Erreur lors de la mise à jour de la sous-catégorie");
+    }
+    router.refresh();
+    setNewSubCategoryName("");
+    setNewSubCategoryUrl("");
+    setNewSubCategoryOrder(0);
+    setupdatingSubCategory(false);
+  };
+
+  const handleDeleteSubCategory = async() => {
+    try {
+      await fetch(`api/categories/${selectedCategoryId}/subcategories/${deletingSubCategoryId}`,
+        {
+          method: "DELETE",
+        });
+    }
+    catch {
+      throw new Error("Erreur lors de la suppression de la sous-catégorie");
+    }
+    router.refresh();
+    setDeletingSubCategoryId(0);
+  };
+
   // Soumettre le formulaire d'ajout de nouveau titre
   const handleSubmitTitle = async(event: React.FormEvent) => {
     event.preventDefault();
     // Ajouter le nouveau titre à la liste des données
-    const updatedDataList = [...dataList];
-    const newTitle: Title = {
-      title_id: updatedDataList[selectedCategoryId!].sub_categories[selectedSubCategoryId!].titles.length + 1,
+    const newTitle: NewTitle = {
       title_name: newTitleName,
       title_url: newTitleUrl,
       title_order: newTitleOrder,
     };
-    const response = await fetch(
-      `url_de_votre_api/categories/
-      ${updatedDataList[selectedCategoryId!].category_id}
-      /subcategories/${updatedDataList[selectedCategoryId!]
-    .sub_categories[selectedSubCategoryId!].sub_category_id}/titles`,
 
-      {
-        method: "POST",
+    try {
+    //await fetch(`api/categories/${selectedCategoryId}/subcategories/add-subcategories`, {
+      await fetch(`api/categories/${selectedCategoryId}/subcategories/${selectedSubCategoryId}/titles/add-title`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newTitle),
+        });
+    }
+    catch {
+      throw new Error("Erreur lors de l'ajout du titre");
+    }
+    router.refresh();
+    setNewTitleName("");
+    setNewTitleUrl("");
+    setNewTitleOrder(0);
+    setAddingTitle(false);
+  };
+
+  const handleUpdateTitle = async(event: React.FormEvent) => {
+    event.preventDefault();
+    const updatedTitle: NewTitle = {
+      title_name: newTitleName,
+      title_url: newTitleUrl,
+      title_order: newTitleOrder,
+    };
+    try {
+      await fetch(`api/categories/${selectedCategoryId}/subcategories/${selectedSubCategoryId}/titles/${selectedTitleId}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newTitle),
+        body: JSON.stringify(updatedTitle),
       });
-    if (response.ok) {
-      const data = await response.json();
-      updatedDataList[selectedCategoryId!].sub_categories[selectedSubCategoryId!].titles.push(data);
-      setdataList(updatedDataList);
-      setNewTitleName("");
-      setNewTitleUrl("");
-      setNewTitleOrder(0);
-      setAddingTitle(false);
-    } else {
-      console.error("Erreur lors de l'ajout du titre");
+    } catch (error) {
+      throw new Error("Erreur lors de la mise à jour du titre");
     }
+    router.refresh();
+    setNewTitleName("");
+    setNewTitleUrl("");
+    setNewTitleOrder(0);
+    setAddingTitle(false);
+  };
+
+  const handleDeleteTitle = async() => {
+    try {
+      await fetch(`api/categories/${selectedCategoryId}/subcategories/${selectedSubCategoryId}/titles/${deletingTitleId}`,
+        {
+          method: "DELETE",
+        });
+    }
+    catch {
+      throw new Error("Erreur lors de la suppression du titre");
+    }
+    router.refresh();
+    setDeletingTitleId(0);
   };
 
   // alert(dataList);
@@ -302,14 +411,31 @@ export default function ListeTitres(datas: DataList[]) {
                 ) : (
                   <h2>{subCategory.sub_category_name}</h2>
                 )}
-                <a onClick={addTitle}>
+                <a onClick={()=> {addTitle(); setSelectedSubCategoryId(subCategory.sub_category_id);}}>
                   <Image className={styles.icon_action_list} src={plus} alt="plus" width={20} height={20} />
                 </a>
                 <a>
-                  <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={20} height={20} />
+                  <Image className={styles.icon_action_list} onClick=
+                    {
+                      () => updateSubCategory
+                      (
+                        subCategory.sub_category_id,
+                        subCategory.sub_category_name,
+                        subCategory.sub_category_url,
+                        subCategory.sub_category_order
+                      )
+                    }
+                  src={crayon} alt="crayon" width={20} height={20}
+                  />
                 </a>
                 <a>
-                  <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={20} height={20} />
+                  <Image className={styles.icon_action_list}
+                    onClick=
+                      {
+                        () =>
+                          deleteSubCategory(subCategory.sub_category_id )
+                      }
+                    src={poubelle} alt="poubelle" width={20} height={20} />
                 </a>
               </div>
               <ul>
@@ -324,10 +450,10 @@ export default function ListeTitres(datas: DataList[]) {
                         <h3 key={index}>{title.title_name}</h3>
                       )}
                       <a>
-                        <Image className={styles.icon_action_list} src={crayon} alt="crayon" width={20} height={20} />
+                        <Image className={styles.icon_action_list} onClick={() => updateTitle(title.title_id, title.title_name, title.title_url, title.title_order)} src={crayon} alt="crayon" width={20} height={20} />
                       </a>
                       <a>
-                        <Image className={styles.icon_action_list} src={poubelle} alt="poubelle" width={20} height={20} />
+                        <Image className={styles.icon_action_list} onClick={() => deleteTitle(title.title_id)} src={poubelle} alt="poubelle" width={20} height={20} />
                       </a>
                     </div>
                   </li>
@@ -412,6 +538,103 @@ export default function ListeTitres(datas: DataList[]) {
       )
       }
 
+      {updatingSubCategory && (
+        <div className={styles.container_dialog}>
+          <div className={styles.dialog}>
+            <h2>Modifiez le nom, l&apos;URL et l&apos;ordre de cette sous-catégorie :</h2>
+            <form onSubmit={handleUpdateSubCategory}>
+              <div className={styles.container_input}>
+                <h3>Nom : </h3>
+                <input
+                  type="text"
+                  placeholder="Nom de la sous-catégorie"
+                  value={newSubCategoryName}
+                  onChange={(e) => setNewSubCategoryName(e.target.value)}
+                />
+                <h3>URL : </h3>
+                <input
+                  type="text"
+                  placeholder="URL de la sous-catégorie"
+                  value={newSubCategoryUrl}
+                  onChange={(e) => setNewSubCategoryUrl(e.target.value)}
+                />
+                <h3>Ordre : </h3>
+                <input
+                  type="number"
+                  placeholder="Ordre de la sous-catégorie"
+                  value={newSubCategoryOrder}
+                  onChange={(e) => setNewSubCategoryOrder(parseInt(e.target.value))}
+                />
+              </div>
+              <div className={styles.container_buttons}>
+                <button onClick=
+                  {
+                    () =>
+                    {
+                      setupdatingSubCategory(false);
+                      setNewSubCategoryName("");
+                      setNewSubCategoryUrl("");
+                      setNewSubCategoryOrder(0);
+                    }
+                  }
+                >Annuler</button>
+                <button type="submit">Modifier</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )
+      }
+
+      {
+        updatingTitle && (
+          <div className={styles.container_dialog}>
+            <div className={styles.dialog}>
+              <h2>Modifiez le nom, l&apos;URL et l&apos;ordre de ce titre :</h2>
+              <form onSubmit={handleUpdateTitle}>
+                <div className={styles.container_input}>
+                  <h3>Nom : </h3>
+                  <input
+                    type="text"
+                    placeholder="Nom du titre"
+                    value={newTitleName}
+                    onChange={(e) => setNewTitleName(e.target.value)}
+                  />
+                  <h3>URL : </h3>
+                  <input
+                    type="text"
+                    placeholder="URL du titre"
+                    value={newTitleUrl}
+                    onChange={(e) => setNewTitleUrl(e.target.value)}
+                  />
+                  <h3>Ordre : </h3>
+                  <input
+                    type="number"
+                    placeholder="Ordre du titre"
+                    value={newTitleOrder}
+                    onChange={(e) => setNewTitleOrder(parseInt(e.target.value))}
+                  />
+                </div>
+                <div className={styles.container_buttons}>
+                  <button onClick=
+                    {
+                      () =>
+                      {
+                        setUpdatingTitle(false);
+                        setNewTitleName("");
+                        setNewTitleUrl("");
+                        setNewTitleOrder(0);
+                      }
+                    }
+                  >Annuler</button>
+                  <button type="submit">Modifier</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )
+      }
+
       {/* Boîte de dialogue pour ajouter une nouvelle sous-catégorie */}
       {addingSubCategory && (
         <div className={styles.container_dialog}>
@@ -454,33 +677,40 @@ export default function ListeTitres(datas: DataList[]) {
       {addingTitle && (
         <div className={styles.container_dialog}>
           <div className={styles.dialog}>
+            <h2>Choisissez le nom, l&apos;URL et l&apos;ordre de ce nouveau titre :</h2>
             <form onSubmit={handleSubmitTitle}>
-              <input
-                type="text"
-                placeholder="Nom du titre"
-                value={newTitleName}
-                onChange={(e) => setNewTitleName(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="URL du titre"
-                value={newTitleUrl}
-                onChange={(e) => setNewTitleUrl(e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="Ordre du titre"
-                value={newTitleOrder}
-                onChange={(e) => setNewTitleOrder(parseInt(e.target.value))}
-              />
+              <div className={styles.container_input}>
+                <h3>Nom : </h3>
+                <input
+                  type="text"
+                  placeholder="Nom du titre"
+                  value={newTitleName}
+                  onChange={(e) => setNewTitleName(e.target.value)}
+                />
+                <h3>URL : </h3>
+                <input
+                  type="text"
+                  placeholder="URL du titre"
+                  value={newTitleUrl}
+                  onChange={(e) => setNewTitleUrl(e.target.value)}
+                />
+                <h3>Ordre : </h3>
+                <input
+                  type="number"
+                  placeholder="Ordre du titre"
+                  value={newTitleOrder}
+                  onChange={(e) => setNewTitleOrder(parseInt(e.target.value))}
+                />
+              </div>
               <div className={styles.container_buttons}>
-                <button type="submit">Ajouter</button>
                 <button onClick={() => setAddingTitle(false)}>Annuler</button>
+                <button type="submit">Ajouter</button>
               </div>
             </form>
           </div>
         </div>
-      )}
+      )
+      }
 
       {deletingCategory && (
         <div className={styles.container_dialog}>
@@ -489,6 +719,30 @@ export default function ListeTitres(datas: DataList[]) {
             <div className={styles.container_buttons}>
               <button onClick={() => setDeletingCategory(false)}>Annuler</button>
               <button onClick={() => {handleDeleteCategory(); setDeletingCategory(false);}}>Confirmer</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deletingSubCategory && (
+        <div className={styles.container_dialog}>
+          <div className={styles.dialog}>
+            <h2>Êtes-vous sûr de vouloir supprimer cette sous-catégorie ?</h2>
+            <div className={styles.container_buttons}>
+              <button onClick={() => setDeletingSubCategory(false)}>Annuler</button>
+              <button onClick={() => {handleDeleteSubCategory(); setDeletingSubCategory(false);}}>Confirmer</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deletingTitle && (
+        <div className={styles.container_dialog}>
+          <div className={styles.dialog}>
+            <h2>Êtes-vous sûr de vouloir supprimer ce titre ?</h2>
+            <div className={styles.container_buttons}>
+              <button onClick={() => setDeletingTitle(false)}>Annuler</button>
+              <button onClick={() => {handleDeleteTitle(); setDeletingTitle(false);}}>Confirmer</button>
             </div>
           </div>
         </div>
