@@ -61,16 +61,18 @@ export default function ListeTitres(datas: DataList[]) {
   };
 
   // Ajouter une nouvelle sous-catégorie
-  const addSubCategory = () => {
+  const addSubCategory = (selectedCategory : DataList | null) => {
+    setSelectedCategory(selectedCategory);
     setAddingSubCategory(true);
   };
 
   // Ajouter un nouveau titre
-  const addTitle = () => {
+  const addTitle = (subCategoryId : number) => {
+    setSelectedSubCategoryId(subCategoryId);
     setAddingTitle(true);
   };
 
-  const updateCategory = (id : number, name : string, order : number) =>{
+  const updateCategory = (name : string, order : number) =>{
     setName(name);
     setOrder(order);
     setUpdatingCategory(true);
@@ -94,18 +96,18 @@ export default function ListeTitres(datas: DataList[]) {
   };
 
   const deleteCategory = (selectedCategory : DataList) => {
-    setDeletingCategory(true);
     setSelectedCategory(selectedCategory);
+    setDeletingCategory(true);
   };
 
-  const deleteSubCategory = (id : number) => {
-    setDeletingSubCategory(true);
-    setSelectedSubCategoryId(id);
-  };
-
-  const deleteTitle = (subCategoryId : number, id : number) => {
+  const deleteSubCategory = (subCategoryId : number) => {
     setSelectedSubCategoryId(subCategoryId);
-    setSelectedTitleId(id);
+    setDeletingSubCategory(true);
+  };
+
+  const deleteTitle = (subCategoryId : number, titleId : number) => {
+    setSelectedSubCategoryId(subCategoryId);
+    setSelectedTitleId(titleId);
     setDeletingTitle(true);
   };
 
@@ -134,7 +136,6 @@ export default function ListeTitres(datas: DataList[]) {
                   () =>
                     updateCategory
                     (
-                      category.category_id,
                       category.category_name,
                       category.category_order
                     )
@@ -187,7 +188,7 @@ export default function ListeTitres(datas: DataList[]) {
                 ) : (
                   <h2>{subCategory.sub_category_name}</h2>
                 )}
-                <a onClick={()=> {addTitle(); setSelectedSubCategoryId(subCategory.sub_category_id);}}>
+                <a onClick={()=> addTitle(subCategory.sub_category_id)}>
                   <Image className={styles.icon_action_list} src={plus} alt="plus" width={20} height={20} />
                 </a>
                 <a>
@@ -237,7 +238,7 @@ export default function ListeTitres(datas: DataList[]) {
               </ul>
             </li>
           ))}
-          <a onClick={() => {addSubCategory(); setSelectedCategory(selectedCategory);}}>
+          <a onClick={() => addSubCategory(selectedCategory)}>
             <Image className={styles.icon_action_list} src={plus} alt="plus" width={32} height={32} />
           </a>
         </ul>
