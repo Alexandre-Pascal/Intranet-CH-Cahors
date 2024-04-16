@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import styles from "./styles.module.css";
-import { kindOfDatas, kindOfDialog } from "@/app/utils/types";
-export default function SubmitUpdateContainer(dialogType : kindOfDialog, datasType : kindOfDatas, title : string, functionToCall : any) {
+import { dataObject, kindOfDatas, kindOfDialog } from "@/app/utils/types";
+import { submitItem, deleteItem, updateItem } from "../itemFunctions";
+export default function SubmitUpdateDeleteContainer(datas : dataObject) {
 
-  const [isDialogShown, setisDialogShown] = useState(false);
-  const [newName, setnewName] = useState("");
-  const [newOrder, setOrder] = useState(0);
-  const [newUrl, setNewUrl] = useState("");
-
-  switch (dialogType) {
+  switch (datas.dialogType) {
   case "Ajouter":
     var dialogButton = "Ajouter";
     break;
@@ -19,50 +15,78 @@ export default function SubmitUpdateContainer(dialogType : kindOfDialog, datasTy
     var dialogButton = "Confirmer";
     break;
   }
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Appelle la fonction passée en paramètre
+    switch (datas.dialogType) {
+    case "Ajouter":
+      // alert(JSON.stringify(datas));
+      submitItem(datas);
+      break;
+    case "Modifier":
+      // alert(JSON.stringify(datas));
+      updateItem(datas);
+      break;
+    case "Supprimer":
+      alert(JSON.stringify(datas));
+      deleteItem(datas);
+      break;
+    }
+    datas.setDoing(false);
+  };
+
+  const handleCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    datas.setDoing(false);
+    datas.setnewName("");
+    datas.setNewOrder(0);
+    datas.setNewUrl ? datas.setNewUrl("") : "";
+    // Ajoutez ici le code pour masquer le dialogue ou effectuer toute autre action nécessaire
+  };
 
   return (
-    <div>
-      {isDialogShown && (
-        <div className={styles.container_dialog}>
-          <div className={styles.dialog}>
-            <h2>{title}</h2>
-            <form onSubmit={functionToCall}>
-              <div className={styles.container_input}>
+    <div className={styles.container_dialog}>
+      <div className={styles.dialog}>
+        <h2>{datas.title}</h2>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.container_input}>
+            {datas.dialogType !== "Supprimer" && (
+              <>
                 <h3>Nom : </h3>
                 <input
                   type="text"
                   placeholder="Veuillez renseigner ce champ"
-                  value={newName}
-                  onChange={(e) => setnewName(e.target.value)}
+                  value={datas.newName}
+                  onChange={(e) => datas.setnewName(e.target.value)}
                 />
                 <h3>Ordre : </h3>
                 <input
                   type="number"
                   placeholder="Veuillez renseigner ce champ"
-                  value={newOrder}
-                  onChange={(e) => setOrder(parseInt(e.target.value))}
+                  value={datas.newOrder}
+                  onChange={(e) => datas.setNewOrder(parseInt(e.target.value))}
                 />
-                {datasType === ("Title" || "SubCategory" && (
+                {(datas.datasType == "Title" || datas.datasType == "SubCategory") && (
                   <>
                     <h3>URL : </h3>
                     <input
                       type="text"
                       placeholder="Champ non obligatoire"
-                      value={newUrl}
-                      onChange={(e) => setNewUrl(e.target.value)}
+                      value={datas.newUrl}
+                      onChange={(e) =>datas.setNewUrl ? datas.setNewUrl(e.target.value) : ""}
                     />
                   </>
-                ))
+                )
                 }
-              </div>
-              <div className={styles.container_buttons}>
-                <button onClick={() => setisDialogShown(false)}>Annuler</button>
-                <button type="submit">{dialogButton}</button>
-              </div>
-            </form>
+              </>
+            )}
           </div>
-        </div>
-      )}
+          <div className={styles.container_buttons}>
+            <button onClick={handleCancel}>Annuler</button>
+            <button type="submit">{dialogButton}</button>
+          </div>
+        </form>
+      </div>
     </div>
 
   );

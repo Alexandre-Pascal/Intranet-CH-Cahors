@@ -20,7 +20,7 @@ model sub_categories {
   sub_category_name  String          @db.VarChar(100)
   sub_category_url   String?
   sub_category_order Int
-  main_categories    main_categories @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
+  main_categories    main_categories @relation(fields: [category_id], references: [category_id], onDelete: Cascade, onUpdate: NoAction)
   titles             titles[]
 }
 
@@ -30,5 +30,5 @@ model titles {
   title_name      String         @db.VarChar(100)
   title_url       String?
   title_order     Int
-  sub_categories  sub_categories @relation(fields: [sub_category_id], references: [sub_category_id], onDelete: NoAction, onUpdate: NoAction, map: "sub_titles_sub_category_id_fkey")
+  sub_categories  sub_categories @relation(fields: [sub_category_id], references: [sub_category_id], onDelete: Cascade, onUpdate: NoAction, map: "sub_titles_sub_category_id_fkey")
 }

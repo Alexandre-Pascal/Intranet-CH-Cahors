@@ -8,12 +8,8 @@ export async function POST(request, { params }) {
       category_id: Number(params.categoryId),
       sub_category_order: res.sub_category_order,
       sub_category_name: res.sub_category_name,
+      sub_category_url: res.sub_category_url,
     },
-    // main_categories: {
-    //   connect: {
-    //     category_id: params.id,
-    //   },
-    // },
   }
   );
   return NextResponse.json({ result });

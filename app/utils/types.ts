@@ -40,3 +40,22 @@ export type NewDataList = {
 export type kindOfDialog = "Ajouter" | "Modifier" | "Supprimer";
 
 export type kindOfDatas = "Category" | "SubCategory" | "Title";
+
+export type dataObject = {
+  dialogType : kindOfDialog,
+  datasType : kindOfDatas,
+  title : string,
+  newName : string,
+  setnewName : React.Dispatch<React.SetStateAction<string>>,
+  newOrder : number,
+  setNewOrder : React.Dispatch<React.SetStateAction<number>>,
+  newUrl? : string,
+  setNewUrl? : React.Dispatch<React.SetStateAction<string>>
+  setDoing : React.Dispatch<React.SetStateAction<boolean>>
+  selectedCategory : DataList | null,
+  setSelectCategory : React.Dispatch<React.SetStateAction<DataList | null>>,
+  selectedSubCategoryId : number
+  setSelectSubCategoryId : React.Dispatch<React.SetStateAction<number>>,
+  selectedTitleId : number,
+  setSelectTitleId : React.Dispatch<React.SetStateAction<number>>,
+}
