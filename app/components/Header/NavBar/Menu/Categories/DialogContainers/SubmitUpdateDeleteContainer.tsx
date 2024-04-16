@@ -2,16 +2,20 @@ import React from "react";
 import styles from "./styles.module.css";
 import { dataObject } from "@/app/utils/types";
 import { submitItem, deleteItem, updateItem } from "../itemFunctions";
+import { KIND_OF_ADD, KIND_OF_UPDATE, KIND_OF_DELETE } from "@/app/utils/constantes";
+
 export default function SubmitUpdateDeleteContainer(datas : dataObject) {
 
+  var dialogButton = "";
+
   switch (datas.dialogType) {
-  case "Ajouter":
+  case KIND_OF_ADD:
     var dialogButton = "Ajouter";
     break;
-  case "Modifier":
+  case KIND_OF_UPDATE:
     var dialogButton = "Modifier";
     break;
-  case "Supprimer":
+  case KIND_OF_DELETE:
     var dialogButton = "Confirmer";
     break;
   }
@@ -19,23 +23,23 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
   const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     switch (datas.dialogType) {
-    case "Ajouter":
+    case KIND_OF_ADD:
       submitItem(datas);
       break;
-    case "Modifier":
+    case KIND_OF_UPDATE:
       updateItem(datas);
       break;
-    case "Supprimer":
+    case KIND_OF_DELETE:
       alert(JSON.stringify(datas));
       deleteItem(datas);
       break;
     }
-    datas.setDoing(false);
+    datas.setDoing({ itemType: "None", dialogType: "None" });
   };
 
   const handleCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    datas.setDoing(false);
+    datas.setDoing({ itemType: "None", dialogType: "None" });
     datas.setName("");
     datas.setOrder(0);
     datas.setUrl ? datas.setUrl("") : "";
@@ -47,7 +51,7 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
         <h2>{datas.title}</h2>
         <form onSubmit={handleSubmit}>
           <div className={styles.container_input}>
-            {datas.dialogType !== "Supprimer" && (
+            {datas.dialogType !== KIND_OF_DELETE && (
               <>
                 <h3>Nom : </h3>
                 <input

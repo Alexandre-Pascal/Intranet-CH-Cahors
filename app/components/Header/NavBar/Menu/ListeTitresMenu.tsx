@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { DataList, SubCategory, Title, NewDataList, NewSubCategory, NewTitle, kindOfDatas, dataObject } from "@/app/utils/types";
+import { DataList, SubCategory, Title, NewDataList, NewSubCategory, NewTitle, kindOfDatas, dataObject, kindOfDialog, dataObjectAddSubCategory, dataObjectAddTitle, dataObjectUpdateCategory, dataObjectUpdateSubCategory, dataObjectUpdateTitle, dataObjectDeleteCategory, dataObjectDeleteSubCategory, dataObjectDeleteTitle, dataObjectAddCategory } from "@/app/utils/types";
 import styles from "./styles.module.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { handleSubmitItem, handleDeleteItem, handleUpdateItem } from "./Categories/itemApiCalls";
+import { KIND_OF_ADD, KIND_OF_UPDATE, KIND_OF_DELETE, KIND_OF_CATEGORY, KIND_OF_SUBCATEGORY, KIND_OF_TITLE } from "@/app/utils/constantes";
 
 import crayon from "../../../../assets/icons/crayon.png";
 import plus from "../../../../assets/icons/plus.png";
@@ -33,6 +34,8 @@ export default function ListeTitres(datas: DataList[]) {
   const [deletingSubCategory, setDeletingSubCategory] = useState(false);
   const [deletingTitle, setDeletingTitle] = useState(false);
 
+  const [isActive, setIsActive] = useState<{itemType: kindOfDatas, dialogType: kindOfDialog}>({ itemType: "None", dialogType: "None" });
+
   const [length, setLength] = useState(1);
 
   const router = useRouter();
@@ -55,60 +58,81 @@ export default function ListeTitres(datas: DataList[]) {
     return [];
   };
 
-  // Ajouter une nouvelle catégorie
-  const addCategory = () => {
-    setAddingCategory(true);
-  };
+  useEffect(() => {
+    if (isActive.itemType !== "None" || isActive.dialogType !== "None")
+      // alert(JSON.stringify(isActive));
+      console.log(JSON.stringify(isActive));
 
-  // Ajouter une nouvelle sous-catégorie
-  const addSubCategory = (selectedCategory : DataList | null) => {
-    setSelectedCategory(selectedCategory);
-    setAddingSubCategory(true);
-  };
+  }), [isActive];
 
-  // Ajouter un nouveau titre
-  const addTitle = (subCategoryId : number) => {
-    setSelectedSubCategoryId(subCategoryId);
-    setAddingTitle(true);
-  };
-
-  const updateCategory = (name : string, order : number) =>{
-    setName(name);
-    setOrder(order);
-    setUpdatingCategory(true);
-  };
-
-  const updateSubCategory = (id : number, name : string, url : string, order : number) =>{
-    setSelectedSubCategoryId(id);
-    setName(name);
-    setUrl(url);
-    setOrder(order);
-    setupdatingSubCategory(true);
-  };
-
-  const updateTitle = (subCategoryId : number, id : number, name : string, url : string, order : number) =>{
-    setSelectedSubCategoryId(subCategoryId);
-    setSelectedTitleId(id);
-    setName(name);
-    setUrl(url);
-    setOrder(order);
-    setUpdatingTitle(true);
-  };
-
-  const deleteCategory = (selectedCategory : DataList) => {
-    setSelectedCategory(selectedCategory);
-    setDeletingCategory(true);
-  };
-
-  const deleteSubCategory = (subCategoryId : number) => {
-    setSelectedSubCategoryId(subCategoryId);
-    setDeletingSubCategory(true);
-  };
-
-  const deleteTitle = (subCategoryId : number, titleId : number) => {
-    setSelectedSubCategoryId(subCategoryId);
-    setSelectedTitleId(titleId);
-    setDeletingTitle(true);
+  const itemAction = (dialogType: kindOfDialog, itemType: kindOfDatas, dataObjectAddCategory? : dataObjectAddCategory, dataObjectAddSubCategory?: dataObjectAddSubCategory, dataObjectAddTitle? : dataObjectAddTitle, dataObjectUpdateCategory? : dataObjectUpdateCategory, dataObjectUpdateSubCategory? : dataObjectUpdateSubCategory, dataObjectUpdateTitle? : dataObjectUpdateTitle, dataObjectDeleteCategory? : dataObjectDeleteCategory, dataObjectDeleteSubCategory? : dataObjectDeleteSubCategory, dataObjectDeleteTitle? : dataObjectDeleteTitle ) => {
+    switch (dialogType) {
+    case KIND_OF_ADD:
+      switch (itemType) {
+      case KIND_OF_CATEGORY:
+        setIsActive({ dialogType : KIND_OF_ADD, itemType:KIND_OF_CATEGORY });
+        break;
+      case KIND_OF_SUBCATEGORY:
+        if (dataObjectAddSubCategory){
+          setIsActive({ dialogType : KIND_OF_ADD, itemType:KIND_OF_SUBCATEGORY });
+          setSelectedCategory(dataObjectAddSubCategory?.selectedCategory);
+        }
+        break;
+      case KIND_OF_TITLE:
+        if (dataObjectAddTitle){
+          setIsActive({ dialogType : KIND_OF_ADD, itemType:KIND_OF_TITLE });
+          setSelectedSubCategoryId(dataObjectAddTitle?.selectedSubCategoryId);
+        }
+        break;
+      }
+      break;
+    case KIND_OF_UPDATE:
+      switch (itemType) {
+      case KIND_OF_CATEGORY:
+        if (dataObjectUpdateCategory){
+          setIsActive({ dialogType : KIND_OF_UPDATE, itemType:KIND_OF_CATEGORY });
+          setName(dataObjectUpdateCategory.name);
+          setOrder(dataObjectUpdateCategory.order);
+        }
+        break;
+      case KIND_OF_SUBCATEGORY:
+        if (dataObjectUpdateSubCategory){
+          setIsActive({ dialogType : KIND_OF_UPDATE, itemType:KIND_OF_SUBCATEGORY });
+          setName(dataObjectUpdateSubCategory.name);
+          setUrl(dataObjectUpdateSubCategory.url);
+          setOrder(dataObjectUpdateSubCategory.order);
+        }
+        break;
+      case KIND_OF_TITLE:
+        if (dataObjectUpdateTitle){
+          setIsActive({ dialogType : KIND_OF_UPDATE, itemType:KIND_OF_TITLE });
+          setName(dataObjectUpdateTitle.name);
+          setUrl(dataObjectUpdateTitle.url);
+          setOrder(dataObjectUpdateTitle.order);
+        }
+        break;
+      }
+      break;
+    case KIND_OF_DELETE:
+      switch (itemType) {
+      case KIND_OF_CATEGORY:
+        if (dataObjectDeleteCategory){
+          setIsActive({ dialogType : KIND_OF_DELETE, itemType:KIND_OF_CATEGORY });
+        }
+        break;
+      case KIND_OF_SUBCATEGORY:
+        if (dataObjectDeleteSubCategory){
+          setIsActive({ dialogType : KIND_OF_DELETE, itemType:KIND_OF_SUBCATEGORY });
+        }
+        break;
+      case KIND_OF_TITLE:
+        if (dataObjectDeleteTitle){
+          setIsActive({ dialogType : KIND_OF_DELETE, itemType:KIND_OF_TITLE });
+        }
+        break;
+      }
+      break;
+    }
   };
 
   return (
@@ -133,12 +157,7 @@ export default function ListeTitres(datas: DataList[]) {
             <a>
               <Image className={styles.icon_action_list} onClick=
                 {
-                  () =>
-                    updateCategory
-                    (
-                      category.category_name,
-                      category.category_order
-                    )
+                  () => itemAction(KIND_OF_UPDATE, KIND_OF_CATEGORY, undefined, undefined, undefined, { name: category.category_name, order: category.category_order } as dataObjectUpdateCategory)
                 }
               src={crayon} alt="crayon" width={32} height={32}
               />
@@ -146,17 +165,14 @@ export default function ListeTitres(datas: DataList[]) {
             <a>
               <Image className={styles.icon_action_list} onClick=
                 {
-                  () =>
-                  {
-                    deleteCategory(category);
-                  }
+                  () => itemAction(KIND_OF_DELETE, KIND_OF_CATEGORY, undefined, undefined, undefined, undefined, undefined, undefined, { selectedCategory: category } as dataObjectDeleteCategory)
                 }
               src={poubelle} alt="poubelle" width={32} height={32}
               />
             </a>
           </div>
         ))}
-        <a onClick={addCategory}>
+        <a onClick={() => itemAction(KIND_OF_ADD, KIND_OF_CATEGORY)}>
           <Image
             className={styles.icon_action_list}
             style=
@@ -188,19 +204,13 @@ export default function ListeTitres(datas: DataList[]) {
                 ) : (
                   <h2>{subCategory.sub_category_name}</h2>
                 )}
-                <a onClick={()=> addTitle(subCategory.sub_category_id)}>
+                <a onClick={()=> itemAction(KIND_OF_ADD, KIND_OF_TITLE, undefined, undefined, { selectedCategory: selectedCategory, selectedSubCategoryId: subCategory.sub_category_id } as dataObjectAddTitle)}>
                   <Image className={styles.icon_action_list} src={plus} alt="plus" width={20} height={20} />
                 </a>
                 <a>
                   <Image className={styles.icon_action_list} onClick=
                     {
-                      () => updateSubCategory
-                      (
-                        subCategory.sub_category_id,
-                        subCategory.sub_category_name,
-                        subCategory.sub_category_url,
-                        subCategory.sub_category_order
-                      )
+                      () => itemAction(KIND_OF_UPDATE, KIND_OF_SUBCATEGORY, undefined, undefined, undefined, undefined, { name: subCategory.sub_category_name, url: subCategory.sub_category_url, order: subCategory.sub_category_order } as dataObjectUpdateSubCategory)
                     }
                   src={crayon} alt="crayon" width={20} height={20}
                   />
@@ -209,8 +219,7 @@ export default function ListeTitres(datas: DataList[]) {
                   <Image className={styles.icon_action_list}
                     onClick=
                       {
-                        () =>
-                          deleteSubCategory(subCategory.sub_category_id )
+                        () => itemAction(KIND_OF_DELETE, KIND_OF_SUBCATEGORY, undefined, undefined, undefined, undefined, undefined, undefined, undefined, { selectedCategory: selectedCategory, selectedSubCategoryId: subCategory.sub_category_id } as dataObjectDeleteSubCategory)
                       }
                     src={poubelle} alt="poubelle" width={20} height={20} />
                 </a>
@@ -227,10 +236,12 @@ export default function ListeTitres(datas: DataList[]) {
                         <h3 key={index}>{title.title_name}</h3>
                       )}
                       <a>
-                        <Image className={styles.icon_action_list} onClick={() => updateTitle(subCategory.sub_category_id, title.title_id, title.title_name, title.title_url, title.title_order)} src={crayon} alt="crayon" width={20} height={20} />
+                        <Image className={styles.icon_action_list} onClick={() => itemAction(KIND_OF_UPDATE, KIND_OF_TITLE, undefined, undefined, undefined, undefined, undefined, { name: title.title_name, url: title.title_url, order: title.title_order } as dataObjectUpdateTitle)}
+                          src={crayon} alt="crayon" width={20} height={20} />
                       </a>
                       <a>
-                        <Image className={styles.icon_action_list} onClick={() => deleteTitle(subCategory.sub_category_id, title.title_id)} src={poubelle} alt="poubelle" width={20} height={20} />
+                        <Image className={styles.icon_action_list} onClick={() => itemAction(KIND_OF_DELETE, KIND_OF_TITLE, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, { selectedCategory: selectedCategory, selectedSubCategoryId: subCategory.sub_category_id, selectedTitleId: title.title_id } as dataObjectDeleteTitle)}
+                          src={poubelle} alt="poubelle" width={20} height={20} />
                       </a>
                     </div>
                   </li>
@@ -238,23 +249,23 @@ export default function ListeTitres(datas: DataList[]) {
               </ul>
             </li>
           ))}
-          <a onClick={() => addSubCategory(selectedCategory)}>
+          <a onClick={() => itemAction(KIND_OF_ADD, KIND_OF_SUBCATEGORY, undefined, { selectedCategory: selectedCategory }, undefined, undefined, undefined, undefined, undefined, undefined, undefined)}>
             <Image className={styles.icon_action_list} src={plus} alt="plus" width={32} height={32} />
           </a>
         </ul>
       </div>
 
-      { addingCategory && (
+      {isActive && isActive.dialogType === KIND_OF_ADD && isActive.itemType === KIND_OF_CATEGORY && (
         SubmitUpdateDeleteContainer
         ({
-          dialogType: "Ajouter",
-          datasType: "Category",
+          dialogType: KIND_OF_ADD,
+          datasType: KIND_OF_CATEGORY,
           title: "Choisissez le nom et l&apos;ordre de cette nouvelle catégorie :",
           name: name,
           setName: setName,
           order: order,
           setOrder: setOrder,
-          setDoing: setAddingCategory,
+          setDoing: setIsActive,
           selectedCategory: selectedCategory,
           setSelectCategory: setSelectedCategory,
           selectedSubCategoryId: selectedSubCategoryId,
@@ -265,17 +276,17 @@ export default function ListeTitres(datas: DataList[]) {
         )
       )}
 
-      { updatingCategory && (
+      { isActive && isActive.dialogType === KIND_OF_UPDATE && isActive.itemType === KIND_OF_CATEGORY && (
         SubmitUpdateDeleteContainer
         ({
-          dialogType: "Modifier",
-          datasType: "Category",
+          dialogType: KIND_OF_UPDATE,
+          datasType: KIND_OF_CATEGORY,
           title: "Modifiez le nom et l&apos;ordre de cette catégorie :",
           name: name,
           setName: setName,
           order: order,
           setOrder: setOrder,
-          setDoing: setUpdatingCategory,
+          setDoing: setIsActive,
           selectedCategory: selectedCategory,
           setSelectCategory: setSelectedCategory,
           selectedSubCategoryId: selectedSubCategoryId,
@@ -286,17 +297,17 @@ export default function ListeTitres(datas: DataList[]) {
         )
       )}
 
-      { deletingCategory && (
+      { isActive && isActive.dialogType === KIND_OF_DELETE && isActive.itemType === KIND_OF_CATEGORY && (
         SubmitUpdateDeleteContainer
         ({
-          dialogType: "Supprimer",
-          datasType: "Category",
-          title: "Êtes-vous sûr de vouloir supprimer cette catégorie ?",
+          dialogType: KIND_OF_DELETE,
+          datasType: KIND_OF_CATEGORY,
+          title: "Êtes-vous sûr de vouloir Delete cette catégorie ?",
           name: name,
           setName: setName,
           order: order,
           setOrder: setOrder,
-          setDoing: setDeletingCategory,
+          setDoing: setIsActive,
           selectedCategory: selectedCategory,
           setSelectCategory: setSelectedCategory,
           selectedSubCategoryId: selectedSubCategoryId,
@@ -307,11 +318,11 @@ export default function ListeTitres(datas: DataList[]) {
         )
       )}
 
-      { addingSubCategory && (
+      { isActive && isActive.dialogType === KIND_OF_ADD && isActive.itemType === KIND_OF_SUBCATEGORY && (
         SubmitUpdateDeleteContainer
         ({
-          dialogType: "Ajouter",
-          datasType: "SubCategory",
+          dialogType: KIND_OF_ADD,
+          datasType: KIND_OF_SUBCATEGORY,
           title: "Choisissez le nom, l&apos;URL et l&apos;ordre de cette nouvelle sous-catégorie :",
           name: name,
           setName: setName,
@@ -319,7 +330,7 @@ export default function ListeTitres(datas: DataList[]) {
           setOrder: setOrder,
           url: url,
           setUrl: setUrl,
-          setDoing: setAddingSubCategory,
+          setDoing: setIsActive,
           selectedCategory: selectedCategory,
           setSelectCategory: setSelectedCategory,
           selectedSubCategoryId: selectedSubCategoryId,
@@ -330,11 +341,11 @@ export default function ListeTitres(datas: DataList[]) {
         )
       )}
 
-      { updatingSubCategory && (
+      { isActive && isActive.dialogType === KIND_OF_UPDATE && isActive.itemType === KIND_OF_SUBCATEGORY && (
         SubmitUpdateDeleteContainer
         ({
-          dialogType: "Modifier",
-          datasType: "SubCategory",
+          dialogType: KIND_OF_UPDATE,
+          datasType: KIND_OF_SUBCATEGORY,
           title: "Modifiez le nom, l&apos;URL et l&apos;ordre de cette sous-catégorie :",
           name: name,
           setName: setName,
@@ -342,7 +353,7 @@ export default function ListeTitres(datas: DataList[]) {
           setOrder: setOrder,
           url: url,
           setUrl: setUrl,
-          setDoing: setupdatingSubCategory,
+          setDoing: setIsActive,
           selectedCategory: selectedCategory,
           setSelectCategory: setSelectedCategory,
           selectedSubCategoryId: selectedSubCategoryId,
@@ -353,19 +364,19 @@ export default function ListeTitres(datas: DataList[]) {
         )
       )}
 
-      { deletingSubCategory && (
+      { isActive && isActive.dialogType === KIND_OF_DELETE && isActive.itemType === KIND_OF_SUBCATEGORY && (
         SubmitUpdateDeleteContainer
         ({
-          dialogType: "Supprimer",
-          datasType: "SubCategory",
-          title: "Êtes-vous sûr de vouloir supprimer cette sous-catégorie ?",
+          dialogType: KIND_OF_DELETE,
+          datasType: KIND_OF_SUBCATEGORY,
+          title: "Êtes-vous sûr de vouloir Delete cette sous-catégorie ?",
           name: name,
           setName: setName,
           order: order,
           setOrder: setOrder,
           url: url,
           setUrl: setUrl,
-          setDoing: setDeletingSubCategory,
+          setDoing: setIsActive,
           selectedCategory: selectedCategory,
           setSelectCategory: setSelectedCategory,
           selectedSubCategoryId: selectedSubCategoryId,
@@ -376,11 +387,11 @@ export default function ListeTitres(datas: DataList[]) {
         )
       )}
 
-      { addingTitle && (
+      { isActive && isActive.dialogType === KIND_OF_ADD && isActive.itemType === KIND_OF_TITLE && (
         SubmitUpdateDeleteContainer
         ({
-          dialogType: "Ajouter",
-          datasType: "Title",
+          dialogType: KIND_OF_ADD,
+          datasType: KIND_OF_TITLE,
           title: "Choisissez le nom, l'URL et l'ordre de ce nouveau titre :",
           name: name,
           setName: setName,
@@ -388,7 +399,7 @@ export default function ListeTitres(datas: DataList[]) {
           setOrder: setOrder,
           url: url,
           setUrl: setUrl,
-          setDoing: setAddingTitle,
+          setDoing: setIsActive,
           selectedCategory: selectedCategory,
           setSelectCategory: setSelectedCategory,
           selectedSubCategoryId: selectedSubCategoryId,
@@ -399,11 +410,11 @@ export default function ListeTitres(datas: DataList[]) {
         )
       )}
 
-      { updatingTitle && (
+      { isActive && isActive.dialogType === KIND_OF_UPDATE && isActive.itemType === KIND_OF_TITLE && (
         SubmitUpdateDeleteContainer
         ({
-          dialogType: "Modifier",
-          datasType: "Title",
+          dialogType: KIND_OF_UPDATE,
+          datasType: KIND_OF_TITLE,
           title: "Modifiez le nom, l&apos;URL et l&apos;ordre de ce titre :",
           name: name,
           setName: setName,
@@ -411,7 +422,7 @@ export default function ListeTitres(datas: DataList[]) {
           setOrder: setOrder,
           url: url,
           setUrl: setUrl,
-          setDoing: setUpdatingTitle,
+          setDoing: setIsActive,
           selectedCategory: selectedCategory,
           setSelectCategory: setSelectedCategory,
           selectedSubCategoryId: selectedSubCategoryId,
@@ -422,19 +433,19 @@ export default function ListeTitres(datas: DataList[]) {
         )
       )}
 
-      { deletingTitle && (
+      { isActive && isActive.dialogType === KIND_OF_DELETE && isActive.itemType === KIND_OF_TITLE && (
         SubmitUpdateDeleteContainer
         ({
-          dialogType: "Supprimer",
-          datasType: "Title",
-          title: "Êtes-vous sûr de vouloir supprimer ce titre ?",
+          dialogType: KIND_OF_DELETE,
+          datasType: KIND_OF_TITLE,
+          title: "Êtes-vous sûr de vouloir Delete ce titre ?",
           name: name,
           setName: setName,
           order: order,
           setOrder: setOrder,
           url: url,
           setUrl: setUrl,
-          setDoing: setDeletingTitle,
+          setDoing: setIsActive,
           selectedCategory: selectedCategory,
           setSelectCategory: setSelectedCategory,
           selectedSubCategoryId: selectedSubCategoryId,

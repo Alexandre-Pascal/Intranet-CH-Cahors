@@ -37,9 +37,9 @@ export type NewDataList = {
   category_order: number;
 };
 
-export type kindOfDialog = "Ajouter" | "Modifier" | "Supprimer";
+export type kindOfDialog = "Add" | "Update" | "Delete" | "None";
 
-export type kindOfDatas = "Category" | "SubCategory" | "Title";
+export type kindOfDatas = "Category" | "SubCategory" | "Title" | "None";
 
 export type dataObject = {
   dialogType : kindOfDialog,
@@ -51,7 +51,7 @@ export type dataObject = {
   setOrder : React.Dispatch<React.SetStateAction<number>>,
   url? : string,
   setUrl? : React.Dispatch<React.SetStateAction<string>>
-  setDoing : React.Dispatch<React.SetStateAction<boolean>>
+  setDoing : React.Dispatch<React.SetStateAction<{itemType: kindOfDatas, dialogType: kindOfDialog}>>
   selectedCategory : DataList | null,
   setSelectCategory : React.Dispatch<React.SetStateAction<DataList | null>>,
   selectedSubCategoryId : number
@@ -62,3 +62,47 @@ export type dataObject = {
   currentOrder? : number,
   currentUrl? : string,
 };
+
+export type dataObjectAddCategory = {
+};
+
+export type dataObjectAddSubCategory = {
+  selectedCategory : DataList | null,
+};
+
+export type dataObjectAddTitle = {
+  selectedSubCategoryId : number,
+};
+
+export type dataObjectUpdateCategory = {
+  name : string,
+  order : number
+};
+
+export type dataObjectUpdateSubCategory = {
+  name : string,
+  order : number,
+  url : string
+};
+
+export type dataObjectUpdateTitle = {
+  name : string,
+  order : number,
+  url : string
+};
+
+export type dataObjectDeleteCategory = {
+  selectedCategory : DataList | null,
+};
+
+export type dataObjectDeleteSubCategory = {
+  selectedCategory : DataList | null,
+  selectedSubCategoryId : number,
+};
+
+export type dataObjectDeleteTitle = {
+  selectedCategory : DataList | null,
+  selectedSubCategoryId : number,
+  selectedTitleId : number,
+};
+
