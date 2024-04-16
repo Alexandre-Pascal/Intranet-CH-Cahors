@@ -6,34 +6,72 @@ export const submitItem = async(datas : dataObject) => {
   switch (datas.datasType) {
   case "Category":{
     let newItem = {
-      category_name: datas.newName,
-      category_order: datas.newOrder,
+      category_name: datas.name,
+      category_order: datas.order,
     } as NewDataList;
+
     let apiEndpoint = "/api/categories/add-category";
-    handleSubmitItem(newItem, apiEndpoint, datas.setnewName, datas.setNewOrder, datas.setDoing);
+    handleSubmitItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDoing);
     break;
   }
   case "SubCategory":{
     // alert(JSON.stringify(datas));
     let newItem = {
-      sub_category_name: datas.newName,
-      sub_category_url: datas.newUrl,
-      sub_category_order: datas.newOrder,
+      sub_category_name: datas.name,
+      sub_category_url: datas.url,
+      sub_category_order: datas.order,
     } as NewSubCategory;
-    // alert(JSON.stringify(newItem));
+
     let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/add-subcategories`;
-    // alert(apiEndpoint);
-    handleSubmitItem(newItem, apiEndpoint, datas.setnewName, datas.setNewOrder, datas.setDoing, datas.setNewUrl);
+    handleSubmitItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDoing, datas.setUrl);
     break;
   }
   case "Title":{
     let newItem = {
-      title_name: datas.newName,
-      title_url: datas.newUrl,
-      title_order: datas.newOrder,
+      title_name: datas.name,
+      title_url: datas.url,
+      title_order: datas.order,
     } as NewTitle;
+
     let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/${datas.selectedSubCategoryId}/titles/add-title`;
-    handleSubmitItem(newItem, apiEndpoint, datas.setnewName, datas.setNewOrder, datas.setDoing, datas.setNewUrl);
+    handleSubmitItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDoing, datas.setUrl);
+    break;
+  }
+  }
+};
+
+export const updateItem = async(datas : dataObject) => {
+  switch (datas.datasType) {
+  case "Category":{
+    let newItem = {
+      category_name: datas.name,
+      category_order: datas.order,
+    } as NewDataList;
+
+    let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}`;
+    handleUpdateItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDoing);
+    break;
+  }
+  case "SubCategory":{
+    let newItem = {
+      sub_category_name: datas.name,
+      sub_category_url: datas.url,
+      sub_category_order: datas.order,
+    } as NewSubCategory;
+
+    let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/${datas.selectedSubCategoryId}`;
+    handleUpdateItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDoing, datas.setUrl);
+    break;
+  }
+  case "Title":{
+    let newItem = {
+      title_name: datas.name,
+      title_url: datas.url,
+      title_order: datas.order,
+    } as NewTitle;
+
+    let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/${datas.selectedSubCategoryId}/titles/${datas.selectedTitleId}`;
+    handleUpdateItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDoing, datas.setUrl);
     break;
   }
   }
@@ -43,7 +81,6 @@ export const deleteItem = async(datas : dataObject) => {
   switch (datas.datasType) {
   case "Category":{
     let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}`;
-    // alert(apiEndpoint);
     handleDeleteItem(apiEndpoint);
     break;
   }
@@ -60,42 +97,3 @@ export const deleteItem = async(datas : dataObject) => {
   }
 };
 
-export const updateItem = async(datas : dataObject) => {
-  // alert(JSON.stringify(datas));
-  switch (datas.datasType) {
-  case "Category":{
-    let newItem = {
-      category_name: datas.newName,
-      category_order: datas.newOrder,
-    } as NewDataList;
-    // alert(JSON.stringify(newItem));
-    let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}`;
-    // alert(apiEndpoint);
-    handleUpdateItem(newItem, apiEndpoint, datas.setnewName, datas.setNewOrder, datas.setDoing);
-    break;
-  }
-  case "SubCategory":{
-    let newItem = {
-      sub_category_name: datas.newName,
-      sub_category_url: datas.newUrl,
-      sub_category_order: datas.newOrder,
-    } as NewSubCategory;
-    let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/${datas.selectedSubCategoryId}`;
-    handleUpdateItem(newItem, apiEndpoint, datas.setnewName, datas.setNewOrder, datas.setDoing, datas.setNewUrl);
-    break;
-  }
-  case "Title":{
-    let newItem = {
-      title_name: datas.newName,
-      title_url: datas.newUrl,
-      title_order: datas.newOrder,
-    } as NewTitle;
-    alert(JSON.stringify(newItem));
-    alert(JSON.stringify(datas));
-    let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/${datas.selectedSubCategoryId}/titles/${datas.selectedTitleId}`;
-    alert(apiEndpoint);
-    handleUpdateItem(newItem, apiEndpoint, datas.setnewName, datas.setNewOrder, datas.setDoing, datas.setNewUrl);
-    break;
-  }
-  }
-};

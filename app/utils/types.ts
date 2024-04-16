@@ -45,12 +45,12 @@ export type dataObject = {
   dialogType : kindOfDialog,
   datasType : kindOfDatas,
   title : string,
-  newName : string,
-  setnewName : React.Dispatch<React.SetStateAction<string>>,
-  newOrder : number,
-  setNewOrder : React.Dispatch<React.SetStateAction<number>>,
-  newUrl? : string,
-  setNewUrl? : React.Dispatch<React.SetStateAction<string>>
+  name : string,
+  setName : React.Dispatch<React.SetStateAction<string>>,
+  order : number,
+  setOrder : React.Dispatch<React.SetStateAction<number>>,
+  url? : string,
+  setUrl? : React.Dispatch<React.SetStateAction<string>>
   setDoing : React.Dispatch<React.SetStateAction<boolean>>
   selectedCategory : DataList | null,
   setSelectCategory : React.Dispatch<React.SetStateAction<DataList | null>>,
@@ -58,4 +58,7 @@ export type dataObject = {
   setSelectSubCategoryId : React.Dispatch<React.SetStateAction<number>>,
   selectedTitleId : number,
   setSelectTitleId : React.Dispatch<React.SetStateAction<number>>,
-}
+  currentName? : string,
+  currentOrder? : number,
+  currentUrl? : string,
+};
