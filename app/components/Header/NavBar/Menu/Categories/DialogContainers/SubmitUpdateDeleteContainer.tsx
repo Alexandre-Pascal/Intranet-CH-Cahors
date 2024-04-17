@@ -2,20 +2,20 @@ import React from "react";
 import styles from "./styles.module.css";
 import { dataObject } from "@/app/utils/types";
 import { submitItem, deleteItem, updateItem } from "../itemFunctions";
-import { KIND_OF_ADD, KIND_OF_UPDATE, KIND_OF_DELETE } from "@/app/utils/constantes";
+import { ADD, UPDATE, DELETE } from "@/app/utils/constantes";
 
 export default function SubmitUpdateDeleteContainer(datas : dataObject) {
 
   var dialogButton = "";
 
   switch (datas.dialogType) {
-  case KIND_OF_ADD:
+  case ADD:
     var dialogButton = "Ajouter";
     break;
-  case KIND_OF_UPDATE:
+  case UPDATE:
     var dialogButton = "Modifier";
     break;
-  case KIND_OF_DELETE:
+  case DELETE:
     var dialogButton = "Confirmer";
     break;
   }
@@ -23,13 +23,13 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
   const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     switch (datas.dialogType) {
-    case KIND_OF_ADD:
+    case ADD:
       submitItem(datas);
       break;
-    case KIND_OF_UPDATE:
+    case UPDATE:
       updateItem(datas);
       break;
-    case KIND_OF_DELETE:
+    case DELETE:
       deleteItem(datas);
       break;
     }
@@ -50,7 +50,7 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
         <h2>{datas.title}</h2>
         <form onSubmit={handleSubmit}>
           <div className={styles.container_input}>
-            {datas.dialogType !== KIND_OF_DELETE && (
+            {datas.dialogType !== DELETE && (
               <>
                 <h3>Nom : </h3>
                 <input
