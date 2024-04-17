@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { DataList, kindOfDatas, kindOfDialog, dataObjectAddSubCategory, dataObjectAddTitle, dataObjectUpdateCategory, dataObjectUpdateSubCategory, dataObjectUpdateTitle, dataObjectDeleteCategory, dataObjectDeleteSubCategory, dataObjectDeleteTitle, dataObjectAddCategory } from "@/app/utils/types";
 import styles from "./styles.module.css";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { ADD, UPDATE, DELETE, CATEGORY, SUBCATEGORY, TITLE } from "@/app/utils/constantes";
 
 import crayon from "../../../../assets/icons/crayon.png";
@@ -24,8 +23,6 @@ export default function ListeTitres(datas: DataList[]) {
   const [isActive, setIsActive] = useState<{itemType: kindOfDatas, dialogType: kindOfDialog}>({ itemType: "None", dialogType: "None" });
 
   const [length, setLength] = useState(1);
-
-  const router = useRouter();
 
   const titleHeight = 65 / length; // Calcul de la hauteur totale des titres
 
@@ -237,151 +234,125 @@ export default function ListeTitres(datas: DataList[]) {
         </ul>
       </div>
 
-      {isActive && isActive.dialogType === ADD && isActive.itemType === CATEGORY && (
-        SubmitUpdateDeleteContainer
-        ({
-          dialogType: ADD,
-          datasType: CATEGORY,
-          title: "Choisissez le nom et l'ordre de cette nouvelle catégorie :",
-          name: name,
-          setName: setName,
-          order: order,
-          setOrder: setOrder,
-          setDoing: setIsActive,
-        }
-        )
-      )}
-
-      { isActive && isActive.dialogType === UPDATE && isActive.itemType === CATEGORY && (
-        SubmitUpdateDeleteContainer
-        ({
-          dialogType: UPDATE,
-          datasType: CATEGORY,
-          title: "Modifiez le nom et l'ordre de cette catégorie :",
-          name: name,
-          setName: setName,
-          order: order,
-          setOrder: setOrder,
-          setDoing: setIsActive,
-          selectedCategory: selectedCategory,
-        }
-        )
-      )}
-
-      { isActive && isActive.dialogType === DELETE && isActive.itemType === CATEGORY && (
-        SubmitUpdateDeleteContainer
-        ({
-          dialogType: DELETE,
-          datasType: CATEGORY,
-          title: "Êtes-vous sûr de vouloir supprimer cette catégorie ?",
-          setDoing: setIsActive,
-          selectedCategory: selectedCategory,
-        }
-        )
-      )}
-
-      { isActive && isActive.dialogType === ADD && isActive.itemType === SUBCATEGORY && (
-        SubmitUpdateDeleteContainer
-        ({
-          dialogType: ADD,
-          datasType: SUBCATEGORY,
-          title: "Choisissez le nom, l'URL et l'ordre de cette nouvelle sous-catégorie :",
-          name: name,
-          setName: setName,
-          order: order,
-          setOrder: setOrder,
-          url: url,
-          setUrl: setUrl,
-          setDoing: setIsActive,
-          selectedCategory: selectedCategory,
-        }
-        )
-      )}
-
-      { isActive && isActive.dialogType === UPDATE && isActive.itemType === SUBCATEGORY && (
-        SubmitUpdateDeleteContainer
-        ({
-          dialogType: UPDATE,
-          datasType: SUBCATEGORY,
-          title: "Modifiez le nom, l'URL et l'ordre de cette sous-catégorie :",
-          name: name,
-          setName: setName,
-          order: order,
-          setOrder: setOrder,
-          url: url,
-          setUrl: setUrl,
-          setDoing: setIsActive,
-          selectedCategory: selectedCategory,
-          selectedSubCategoryId: selectedSubCategoryId,
-        }
-        )
-      )}
-
-      { isActive && isActive.dialogType === DELETE && isActive.itemType === SUBCATEGORY && (
-        SubmitUpdateDeleteContainer
-        ({
-          dialogType: DELETE,
-          datasType: SUBCATEGORY,
-          title: "Êtes-vous sûr de vouloir supprimer cette sous-catégorie ?",
-          setDoing: setIsActive,
-          selectedCategory: selectedCategory,
-          selectedSubCategoryId: selectedSubCategoryId,
-        }
-        )
-      )}
-
-      { isActive && isActive.dialogType === ADD && isActive.itemType === TITLE && (
-        SubmitUpdateDeleteContainer
-        ({
-          dialogType: ADD,
-          datasType: TITLE,
-          title: "Choisissez le nom, l'URL et l'ordre de ce nouveau titre :",
-          name: name,
-          setName: setName,
-          order: order,
-          setOrder: setOrder,
-          url: url,
-          setUrl: setUrl,
-          setDoing: setIsActive,
-          selectedCategory: selectedCategory,
-          selectedSubCategoryId: selectedSubCategoryId,
-        }
-        )
-      )}
-
-      { isActive && isActive.dialogType === UPDATE && isActive.itemType === TITLE && (
-        SubmitUpdateDeleteContainer
-        ({
-          dialogType: UPDATE,
-          datasType: TITLE,
-          title: "Modifiez le nom, l'URL et l'ordre de ce titre :",
-          name: name,
-          setName: setName,
-          order: order,
-          setOrder: setOrder,
-          url: url,
-          setUrl: setUrl,
-          setDoing: setIsActive,
-          selectedCategory: selectedCategory,
-          selectedSubCategoryId: selectedSubCategoryId,
-          selectedTitleId: selectedTitleId,
-        }
-        )
-      )}
-
-      { isActive && isActive.dialogType === DELETE && isActive.itemType === TITLE && (
-        SubmitUpdateDeleteContainer
-        ({
-          dialogType: DELETE,
-          datasType: TITLE,
-          title: "Êtes-vous sûr de vouloir supprimer ce titre ?",
-          setDoing: setIsActive,
-          selectedCategory: selectedCategory,
-          selectedSubCategoryId: selectedSubCategoryId,
-          selectedTitleId: selectedTitleId,
-        }
-        )
-      )}
+      {isActive ? (
+        isActive.dialogType === ADD ? (
+          isActive.itemType === CATEGORY ? (
+            <SubmitUpdateDeleteContainer
+              dialogType={ADD}
+              datasType={CATEGORY}
+              title="Choisissez le nom et l'ordre de cette nouvelle catégorie :"
+              name={name}
+              setName={setName}
+              order={order}
+              setOrder={setOrder}
+              setDoing={setIsActive}
+            />
+          ) : isActive.itemType === SUBCATEGORY ? (
+            <SubmitUpdateDeleteContainer
+              dialogType={ADD}
+              datasType={SUBCATEGORY}
+              title="Choisissez le nom, l'URL et l'ordre de cette nouvelle sous-catégorie :"
+              name={name}
+              setName={setName}
+              order={order}
+              setOrder={setOrder}
+              url={url}
+              setUrl={setUrl}
+              setDoing={setIsActive}
+              selectedCategory={selectedCategory}
+            />
+          ) : (
+            <SubmitUpdateDeleteContainer
+              dialogType={ADD}
+              datasType={TITLE}
+              title="Choisissez le nom, l'URL et l'ordre de ce nouveau titre :"
+              name={name}
+              setName={setName}
+              order={order}
+              setOrder={setOrder}
+              url={url}
+              setUrl={setUrl}
+              setDoing={setIsActive}
+              selectedCategory={selectedCategory}
+              selectedSubCategoryId={selectedSubCategoryId}
+            />
+          )
+        ) : isActive.dialogType === UPDATE ? (
+          isActive.itemType === CATEGORY ? (
+            <SubmitUpdateDeleteContainer
+              dialogType={UPDATE}
+              datasType={CATEGORY}
+              title="Modifiez le nom et l'ordre de cette catégorie :"
+              name={name}
+              setName={setName}
+              order={order}
+              setOrder={setOrder}
+              setDoing={setIsActive}
+              selectedCategory={selectedCategory}
+            />
+          ) : isActive.itemType === SUBCATEGORY ? (
+            <SubmitUpdateDeleteContainer
+              dialogType={UPDATE}
+              datasType={SUBCATEGORY}
+              title="Modifiez le nom, l'URL et l'ordre de cette sous-catégorie :"
+              name={name}
+              setName={setName}
+              order={order}
+              setOrder={setOrder}
+              url={url}
+              setUrl={setUrl}
+              setDoing={setIsActive}
+              selectedCategory={selectedCategory}
+              selectedSubCategoryId={selectedSubCategoryId}
+            />
+          ) : (
+            <SubmitUpdateDeleteContainer
+              dialogType={UPDATE}
+              datasType={TITLE}
+              title="Modifiez le nom, l'URL et l'ordre de ce titre :"
+              name={name}
+              setName={setName}
+              order={order}
+              setOrder={setOrder}
+              url={url}
+              setUrl={setUrl}
+              setDoing={setIsActive}
+              selectedCategory={selectedCategory}
+              selectedSubCategoryId={selectedSubCategoryId}
+              selectedTitleId={selectedTitleId}
+            />
+          )
+        ) : isActive.dialogType === DELETE ? (
+          isActive.itemType === CATEGORY ? (
+            <SubmitUpdateDeleteContainer
+              dialogType={DELETE}
+              datasType={CATEGORY}
+              title="Êtes-vous sûr de vouloir supprimer cette catégorie ?"
+              setDoing={setIsActive}
+              selectedCategory={selectedCategory}
+            />
+          ) : isActive.itemType === SUBCATEGORY ? (
+            <SubmitUpdateDeleteContainer
+              dialogType={DELETE}
+              datasType={SUBCATEGORY}
+              title="Êtes-vous sûr de vouloir supprimer cette sous-catégorie ?"
+              setDoing={setIsActive}
+              selectedCategory={selectedCategory}
+              selectedSubCategoryId={selectedSubCategoryId}
+            />
+          ) : (
+            <SubmitUpdateDeleteContainer
+              dialogType={DELETE}
+              datasType={TITLE}
+              title="Êtes-vous sûr de vouloir supprimer ce titre ?"
+              setDoing={setIsActive}
+              selectedCategory={selectedCategory}
+              selectedSubCategoryId={selectedSubCategoryId}
+              selectedTitleId={selectedTitleId}
+            />
+          )
+        ) : null
+      ) : null}
     </div>
   );
 }
