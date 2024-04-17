@@ -45,22 +45,16 @@ export type dataObject = {
   dialogType : kindOfDialog,
   datasType : kindOfDatas,
   title : string,
-  name : string,
-  setName : React.Dispatch<React.SetStateAction<string>>,
-  order : number,
-  setOrder : React.Dispatch<React.SetStateAction<number>>,
+  setDoing : React.Dispatch<React.SetStateAction<{itemType: kindOfDatas, dialogType: kindOfDialog}>>
+  name? : string,
+  order? : number,
+  setName? : React.Dispatch<React.SetStateAction<string>>,
+  setOrder? : React.Dispatch<React.SetStateAction<number>>,
   url? : string,
   setUrl? : React.Dispatch<React.SetStateAction<string>>
-  setDoing : React.Dispatch<React.SetStateAction<{itemType: kindOfDatas, dialogType: kindOfDialog}>>
-  selectedCategory : DataList | null,
-  setSelectCategory : React.Dispatch<React.SetStateAction<DataList | null>>,
-  selectedSubCategoryId : number
-  setSelectSubCategoryId : React.Dispatch<React.SetStateAction<number>>,
-  selectedTitleId : number,
-  setSelectTitleId : React.Dispatch<React.SetStateAction<number>>,
-  currentName? : string,
-  currentOrder? : number,
-  currentUrl? : string,
+  selectedCategory? : DataList | null,
+  selectedSubCategoryId? : number
+  selectedTitleId? : number,
 };
 
 export type dataObjectAddCategory = {
@@ -75,17 +69,21 @@ export type dataObjectAddTitle = {
 };
 
 export type dataObjectUpdateCategory = {
+  selectedCategory : DataList | null,
   name : string,
   order : number
 };
 
 export type dataObjectUpdateSubCategory = {
+  selectedSubCategoryId : number,
   name : string,
   order : number,
   url : string
 };
 
 export type dataObjectUpdateTitle = {
+  selectedSubCategoryId : number,
+  selectedTitleId : number,
   name : string,
   order : number,
   url : string
@@ -96,12 +94,10 @@ export type dataObjectDeleteCategory = {
 };
 
 export type dataObjectDeleteSubCategory = {
-  selectedCategory : DataList | null,
   selectedSubCategoryId : number,
 };
 
 export type dataObjectDeleteTitle = {
-  selectedCategory : DataList | null,
   selectedSubCategoryId : number,
   selectedTitleId : number,
 };

@@ -30,7 +30,6 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
       updateItem(datas);
       break;
     case KIND_OF_DELETE:
-      alert(JSON.stringify(datas));
       deleteItem(datas);
       break;
     }
@@ -40,8 +39,8 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
   const handleCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     datas.setDoing({ itemType: "None", dialogType: "None" });
-    datas.setName("");
-    datas.setOrder(0);
+    datas.setName ? datas.setName("") : "";
+    datas.setOrder ? datas.setOrder(0) : "";
     datas.setUrl ? datas.setUrl("") : "";
   };
 
@@ -58,14 +57,14 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
                   type="text"
                   placeholder="Veuillez renseigner ce champ"
                   value={datas.name}
-                  onChange={(e) => datas.setName(e.target.value)}
+                  onChange={(e) => datas.setName ? datas.setName(e.target.value) : ""}
                 />
                 <h3>Ordre : </h3>
                 <input
                   type="number"
                   placeholder="Veuillez renseigner ce champ"
                   value={datas.order}
-                  onChange={(e) => datas.setOrder(parseInt(e.target.value))}
+                  onChange={(e) => datas.setOrder ? datas.setOrder(parseInt(e.target.value)) : ""}
                 />
                 {(datas.datasType == "Title" || datas.datasType == "SubCategory") && (
                   <>

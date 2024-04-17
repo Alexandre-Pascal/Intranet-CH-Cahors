@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-export const handleSubmitItem = async(newItem: any, apiEndpoint: string, setNewItemName: Dispatch<SetStateAction<string>>,setNewItemOrder: Dispatch<SetStateAction<number>>, setAddingItem: Dispatch<SetStateAction<boolean>>,setNewUrl?: Dispatch<SetStateAction<string>> ) => {
+export const handleSubmitItem = async(newItem: any, apiEndpoint: string, setNewItemName: Dispatch<SetStateAction<string>>,setNewItemOrder: Dispatch<SetStateAction<number>>, setNewUrl?: Dispatch<SetStateAction<string>> ) => {
   try {
     await fetch(apiEndpoint, {
       method: "POST",
@@ -14,11 +14,10 @@ export const handleSubmitItem = async(newItem: any, apiEndpoint: string, setNewI
   }
   setNewItemName("");
   setNewItemOrder(0);
-  setAddingItem(false);
   setNewUrl ? setNewUrl("") : null;
 };
 
-export const handleUpdateItem = async(updatedItem: any, apiEndpoint: string, setNewItemName: Dispatch<SetStateAction<string>>,setNewItemOrder: Dispatch<SetStateAction<number>>, setUpdatingItem: Dispatch<SetStateAction<boolean>>,setNewUrl?: Dispatch<SetStateAction<string>> ) => {
+export const handleUpdateItem = async(updatedItem: any, apiEndpoint: string, setNewItemName: Dispatch<SetStateAction<string>>,setNewItemOrder: Dispatch<SetStateAction<number>>, setNewUrl?: Dispatch<SetStateAction<string>> ) => {
   try {
     await fetch(apiEndpoint, {
       method: "PUT",
@@ -32,7 +31,6 @@ export const handleUpdateItem = async(updatedItem: any, apiEndpoint: string, set
   }
   setNewItemName("");
   setNewItemOrder(0);
-  setUpdatingItem(false);
   setNewUrl ? setNewUrl("") : null;
 };
 
