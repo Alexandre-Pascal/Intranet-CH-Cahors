@@ -30,26 +30,13 @@ export default function ListeTitres(datas: DataList[]) {
   const router = useRouter();
 
   useEffect(() => {
-    // alert(JSON.stringify(datas));
     setLength(Object.keys(datas).length);
-    // Mettre à jour les titres chargés avec les titres reçus en props
-    setdataList(datas);
-    // alert(JSON.stringify(selectedCategory));
-    if (Object.keys(datas).length > 0){
-      // alert("refresh");
-      // alert(JSON.stringify(selectedCategory));
-      setSelectedCategory(datas[selectedCategory ? selectedCategory.category_order - 1 : 0]);
-      // router.refresh();
+    setdataList(datas); // Mettre à jour la liste des catégories
+    if (Object.keys(datas).length > 0){ // Si la liste des catégories n'est pas vide, et que le contenu de datas a été mis a jour, cela veux dire que l'on doit refresh, donc pour cela on a fait un router.refresh mais maintenant il faut actualiser l'affichage des composants à l'intérireur (donc on réaffiche la même chose)
+      const selectedIndex = Object.values(datas).findIndex(item => item.category_id === selectedCategory?.category_id);
+      setSelectedCategory(datas[selectedCategory ? selectedIndex : 0]);
     }
   }, [datas]);
-
-  // useEffect(() => {
-  //   // Mettre à jour la longueur de la liste des catégories
-  //   setLength(Object.values(dataList).length);
-  //   // alert(JSON.stringify(datas));
-  //   setSelectedCategory(datas[selectedCategory ? selectedCategory.category_order - 1 : 4]);
-
-  // }, [dataList]);
 
   const itemAction = (dialogType: kindOfDialog, itemType: kindOfDatas, dataObjectAddCategory? : dataObjectAddCategory, dataObjectAddSubCategory?: dataObjectAddSubCategory, dataObjectAddTitle? : dataObjectAddTitle, dataObjectUpdateCategory? : dataObjectUpdateCategory, dataObjectUpdateSubCategory? : dataObjectUpdateSubCategory, dataObjectUpdateTitle? : dataObjectUpdateTitle, dataObjectDeleteCategory? : dataObjectDeleteCategory, dataObjectDeleteSubCategory? : dataObjectDeleteSubCategory, dataObjectDeleteTitle? : dataObjectDeleteTitle ) => {
     switch (dialogType) {
@@ -139,7 +126,7 @@ export default function ListeTitres(datas: DataList[]) {
               style={{ height: `${titleHeight}vh` }}
               className={
                 selectedCategory === null && index === 0 ? styles.selectedCategory :
-                  (selectedCategory !== null && selectedCategory.category_id === category.category_id ?
+                  (selectedCategory !== undefined && selectedCategory?.category_id === category.category_id ?
                     styles.selectedCategory : styles.notSelectedCategory)
               }
               onClick={() => {

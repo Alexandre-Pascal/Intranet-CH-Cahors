@@ -34,21 +34,6 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
       break;
     }
     datas.setDoing({ itemType: "None", dialogType: "None" });
-    // if (datas.dataList && datas.selectedCategory?.category_id){
-    //   // alert(datas.selectedCategory?.category_order);
-
-    //   // datas.setSelectedCategory(datas.dataList[0]);
-    //   //attendre 1 seconde pour que la base de données soit mise à jour
-
-    //   // setTimeout(() => {
-    //   //   if (datas.dataList && datas.selectedCategory?.category_id){
-    //   //     datas.setSelectedCategory(datas.dataList[datas.selectedCategory.category_order - 1]);
-    //   //   }
-    //   // }
-    //   // , 4000);
-
-    //   // alert(JSON.stringify(datas.selectedCategory));
-    // }
   };
 
   const handleCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
