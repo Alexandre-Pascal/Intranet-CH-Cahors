@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { DataList, kindOfDatas, kindOfDialog, dataObjectAddSubCategory, dataObjectAddTitle, dataObjectUpdateCategory, dataObjectUpdateSubCategory, dataObjectUpdateTitle, dataObjectDeleteCategory, dataObjectDeleteSubCategory, dataObjectDeleteTitle, dataObjectAddCategory } from "@/app/utils/types";
+import {
+  DataList, kindOfDatas, kindOfDialog, dataObjectAddSubCategory, dataObjectAddTitle, dataObjectUpdateCategory,
+  dataObjectUpdateSubCategory, dataObjectUpdateTitle, dataObjectDeleteCategory, dataObjectDeleteSubCategory,
+  dataObjectDeleteTitle, dataObjectAddCategory,
+} from "@/app/utils/types";
+
 import styles from "./styles.module.css";
 import Image from "next/image";
 import { ADD, UPDATE, DELETE, CATEGORY, SUBCATEGORY, TITLE } from "@/app/utils/constantes";
@@ -32,13 +37,25 @@ export default function ListeTitres(datas: DataList[]) {
   useEffect(() => {
     setLength(Object.keys(datas).length);
     setdataList(datas); // Mettre à jour la liste des catégories
-    if (Object.keys(datas).length > 0){ // Si la liste des catégories n'est pas vide, et que le contenu de datas a été mis a jour, cela veux dire que l'on doit refresh, donc pour cela on a fait un router.refresh mais maintenant il faut actualiser l'affichage des composants à l'intérireur (donc on réaffiche la même chose)
+    if (Object.keys(datas).length > 0){
       const selectedIndex = Object.values(datas).findIndex(item => item.category_id === selectedCategory?.category_id);
       setSelectedCategory(datas[selectedCategory ? selectedIndex : 0]);
     }
-  }, [datas]);
+  }, [datas, selectedCategory]);
 
-  const itemAction = (dialogType: kindOfDialog, itemType: kindOfDatas, dataObjectAddCategory? : dataObjectAddCategory, dataObjectAddSubCategory?: dataObjectAddSubCategory, dataObjectAddTitle? : dataObjectAddTitle, dataObjectUpdateCategory? : dataObjectUpdateCategory, dataObjectUpdateSubCategory? : dataObjectUpdateSubCategory, dataObjectUpdateTitle? : dataObjectUpdateTitle, dataObjectDeleteCategory? : dataObjectDeleteCategory, dataObjectDeleteSubCategory? : dataObjectDeleteSubCategory, dataObjectDeleteTitle? : dataObjectDeleteTitle ) => {
+  const itemAction = (
+    dialogType: kindOfDialog,
+    itemType: kindOfDatas,
+    dataObjectAddCategory? : dataObjectAddCategory,
+    dataObjectAddSubCategory?: dataObjectAddSubCategory,
+    dataObjectAddTitle? : dataObjectAddTitle,
+    dataObjectUpdateCategory? : dataObjectUpdateCategory,
+    dataObjectUpdateSubCategory? : dataObjectUpdateSubCategory,
+    dataObjectUpdateTitle? : dataObjectUpdateTitle,
+    dataObjectDeleteCategory? : dataObjectDeleteCategory,
+    dataObjectDeleteSubCategory? : dataObjectDeleteSubCategory,
+    dataObjectDeleteTitle? : dataObjectDeleteTitle
+  ) => {
     switch (dialogType) {
     case ADD:
       switch (itemType) {
@@ -138,7 +155,18 @@ export default function ListeTitres(datas: DataList[]) {
             <a>
               <Image className={styles.icon_action_list} onClick=
                 {
-                  () => itemAction(UPDATE, CATEGORY, undefined, undefined, undefined, { selectedCategory: category , name: category.category_name, order: category.category_order } as dataObjectUpdateCategory)
+                  () => itemAction(
+                    UPDATE,
+                    CATEGORY,
+                    undefined,
+                    undefined,
+                    undefined,
+                     {
+                       selectedCategory: category ,
+                       name: category.category_name,
+                       order: category.category_order,
+                     } as dataObjectUpdateCategory
+                  )
                 }
               src={crayon} alt="crayon" width={32} height={32}
               />
@@ -146,7 +174,19 @@ export default function ListeTitres(datas: DataList[]) {
             <a>
               <Image className={styles.icon_action_list} onClick=
                 {
-                  () => itemAction(DELETE, CATEGORY, undefined, undefined, undefined, undefined, undefined, undefined, { selectedCategory: category } as dataObjectDeleteCategory)
+                  () => itemAction(
+                    DELETE,
+                    CATEGORY,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    {
+                      selectedCategory: category,
+                    } as dataObjectDeleteCategory
+                  )
                 }
               src={poubelle} alt="poubelle" width={32} height={32}
               />
@@ -185,13 +225,35 @@ export default function ListeTitres(datas: DataList[]) {
                 ) : (
                   <h2>{subCategory.sub_category_name}</h2>
                 )}
-                <a onClick={()=> itemAction(ADD, TITLE, undefined, undefined, { selectedCategory: selectedCategory, selectedSubCategoryId: subCategory.sub_category_id } as dataObjectAddTitle)}>
+                <a onClick={()=> itemAction(
+                  ADD,
+                  TITLE,
+                  undefined,
+                  undefined,
+                  {
+                    selectedCategory: selectedCategory,
+                    selectedSubCategoryId: subCategory.sub_category_id,
+                  } as dataObjectAddTitle
+                )}>
                   <Image className={styles.icon_action_list} src={plus} alt="plus" width={20} height={20} />
                 </a>
                 <a>
                   <Image className={styles.icon_action_list} onClick=
                     {
-                      () => itemAction(UPDATE, SUBCATEGORY, undefined, undefined, undefined, undefined, { selectedSubCategoryId: subCategory.sub_category_id, name: subCategory.sub_category_name, url: subCategory.sub_category_url, order: subCategory.sub_category_order } as dataObjectUpdateSubCategory)
+                      () => itemAction(
+                        UPDATE,
+                        SUBCATEGORY,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        {
+                          selectedSubCategoryId: subCategory.sub_category_id,
+                          name: subCategory.sub_category_name,
+                          url: subCategory.sub_category_url,
+                          order: subCategory.sub_category_order,
+                        } as dataObjectUpdateSubCategory
+                      )
                     }
                   src={crayon} alt="crayon" width={20} height={20}
                   />
@@ -200,7 +262,20 @@ export default function ListeTitres(datas: DataList[]) {
                   <Image className={styles.icon_action_list}
                     onClick=
                       {
-                        () => itemAction(DELETE, SUBCATEGORY, undefined, undefined, undefined, undefined, undefined, undefined, undefined, { selectedSubCategoryId: subCategory.sub_category_id } as dataObjectDeleteSubCategory)
+                        () => itemAction(
+                          DELETE,
+                          SUBCATEGORY,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          {
+                            selectedSubCategoryId: subCategory.sub_category_id,
+                          } as dataObjectDeleteSubCategory
+                        )
                       }
                     src={poubelle} alt="poubelle" width={20} height={20} />
                 </a>
@@ -217,12 +292,44 @@ export default function ListeTitres(datas: DataList[]) {
                         <h3 key={index}>{title.title_name}</h3>
                       )}
                       <a>
-                        <Image className={styles.icon_action_list} onClick={() => itemAction(UPDATE, TITLE, undefined, undefined, undefined, undefined, undefined, { selectedSubCategoryId:subCategory.sub_category_id, selectedTitleId: title.title_id ,name: title.title_name, url: title.title_url, order: title.title_order } as dataObjectUpdateTitle)}
-                          src={crayon} alt="crayon" width={20} height={20} />
+                        <Image className={styles.icon_action_list} onClick={() => itemAction(
+                          UPDATE,
+                          TITLE,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          {
+                            selectedSubCategoryId:subCategory.sub_category_id,
+                            selectedTitleId: title.title_id,
+                            name: title.title_name,
+                            url: title.title_url,
+                            order: title.title_order,
+                          } as dataObjectUpdateTitle
+                        )
+                        }
+                        src={crayon} alt="crayon" width={20} height={20} />
                       </a>
                       <a>
-                        <Image className={styles.icon_action_list} onClick={() => itemAction(DELETE, TITLE, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, { selectedSubCategoryId: subCategory.sub_category_id, selectedTitleId: title.title_id } as dataObjectDeleteTitle)}
-                          src={poubelle} alt="poubelle" width={20} height={20} />
+                        <Image className={styles.icon_action_list} onClick={() => itemAction(
+                          DELETE,
+                          TITLE,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          undefined,
+                          {
+                            selectedSubCategoryId: subCategory.sub_category_id,
+                            selectedTitleId: title.title_id,
+                          } as dataObjectDeleteTitle
+                        )
+                        }
+                        src={poubelle} alt="poubelle" width={20} height={20} />
                       </a>
                     </div>
                   </li>
@@ -230,7 +337,21 @@ export default function ListeTitres(datas: DataList[]) {
               </ul>
             </li>
           ))}
-          <a onClick={() => itemAction(ADD, SUBCATEGORY, undefined, { selectedCategory: selectedCategory }, undefined, undefined, undefined, undefined, undefined, undefined, undefined)}>
+          <a onClick={() => itemAction(
+            ADD,
+            SUBCATEGORY,
+            undefined,
+            {
+              selectedCategory: selectedCategory,
+            },
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined
+          )}>
             <Image className={styles.icon_action_list} src={plus} alt="plus" width={32} height={32} />
           </a>
         </ul>
@@ -248,7 +369,6 @@ export default function ListeTitres(datas: DataList[]) {
               order={order}
               setOrder={setOrder}
               setDoing={setIsActive}
-              setDatalist={setdataList}
               router={router}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
@@ -267,7 +387,6 @@ export default function ListeTitres(datas: DataList[]) {
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
-              setDatalist={setdataList}
               router={router}
               dataList={dataList}
 
@@ -287,7 +406,6 @@ export default function ListeTitres(datas: DataList[]) {
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
-              setDatalist={setdataList}
               router={router}
             />
           )
@@ -304,7 +422,6 @@ export default function ListeTitres(datas: DataList[]) {
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
-              setDatalist={setdataList}
               router={router}
             />
           ) : isActive.itemType === SUBCATEGORY ? (
@@ -322,7 +439,6 @@ export default function ListeTitres(datas: DataList[]) {
               selectedCategory={selectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
               setSelectedCategory={setSelectedCategory}
-              setDatalist={setdataList}
               router={router}
             />
           ) : (
@@ -341,7 +457,6 @@ export default function ListeTitres(datas: DataList[]) {
               setSelectedCategory={setSelectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
               selectedTitleId={selectedTitleId}
-              setDatalist={setdataList}
               router={router}
             />
           )
@@ -354,7 +469,6 @@ export default function ListeTitres(datas: DataList[]) {
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
-              setDatalist={setdataList}
               router={router}
             />
           ) : isActive.itemType === SUBCATEGORY ? (
@@ -366,7 +480,6 @@ export default function ListeTitres(datas: DataList[]) {
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
-              setDatalist={setdataList}
               router={router}
             />
           ) : (
@@ -379,7 +492,6 @@ export default function ListeTitres(datas: DataList[]) {
               setSelectedCategory={setSelectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
               selectedTitleId={selectedTitleId}
-              setDatalist={setdataList}
               router={router}
             />
           )

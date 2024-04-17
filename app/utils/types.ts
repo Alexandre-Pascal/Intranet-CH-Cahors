@@ -46,7 +46,6 @@ export type dataObject = {
   datasType : kindOfDatas,
   title : string,
   setDoing : React.Dispatch<React.SetStateAction<{itemType: kindOfDatas, dialogType: kindOfDialog}>>
-  setDatalist : React.Dispatch<React.SetStateAction<DataList[]>>,
   router : any,
   dataList? : DataList[],
   name? : string,
