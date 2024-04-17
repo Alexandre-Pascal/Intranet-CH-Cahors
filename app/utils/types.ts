@@ -46,13 +46,17 @@ export type dataObject = {
   datasType : kindOfDatas,
   title : string,
   setDoing : React.Dispatch<React.SetStateAction<{itemType: kindOfDatas, dialogType: kindOfDialog}>>
+  setDatalist : React.Dispatch<React.SetStateAction<DataList[]>>,
+  router : any,
+  dataList? : DataList[],
   name? : string,
   order? : number,
   setName? : React.Dispatch<React.SetStateAction<string>>,
   setOrder? : React.Dispatch<React.SetStateAction<number>>,
   url? : string,
   setUrl? : React.Dispatch<React.SetStateAction<string>>
-  selectedCategory? : DataList | null,
+  selectedCategory : DataList | null,
+  setSelectedCategory : React.Dispatch<React.SetStateAction<DataList | null>>,
   selectedSubCategoryId? : number
   selectedTitleId? : number,
 };

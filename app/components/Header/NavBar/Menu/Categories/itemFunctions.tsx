@@ -12,7 +12,7 @@ export const submitItem = async(datas : dataObject) => {
       } as NewDataList;
 
       let apiEndpoint = "/api/categories/add-category";
-      handleSubmitItem(newItem, apiEndpoint, datas.setName, datas.setOrder);
+      handleSubmitItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDatalist, datas.router);
       break;
     }
   }
@@ -25,7 +25,7 @@ export const submitItem = async(datas : dataObject) => {
       } as NewSubCategory;
 
       let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/add-subcategories`;
-      handleSubmitItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setUrl);
+      handleSubmitItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDatalist, datas.router, datas.setUrl,);
       break;
     }
   }
@@ -38,7 +38,7 @@ export const submitItem = async(datas : dataObject) => {
       } as NewTitle;
 
       let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/${datas.selectedSubCategoryId}/titles/add-title`;
-      handleSubmitItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setUrl);
+      handleSubmitItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDatalist, datas.router, datas.setUrl,);
       break;
     }
   }
@@ -56,7 +56,7 @@ export const updateItem = async(datas : dataObject) => {
       } as NewDataList;
 
       let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}`;
-      handleUpdateItem(newItem, apiEndpoint, datas.setName, datas.setOrder,);
+      handleUpdateItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDatalist, datas.router);
       break;
     }
   }
@@ -69,7 +69,7 @@ export const updateItem = async(datas : dataObject) => {
       } as NewSubCategory;
 
       let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/${datas.selectedSubCategoryId}`;
-      handleUpdateItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setUrl);
+      handleUpdateItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDatalist, datas.router, datas.setUrl);
       break;
     }
   }
@@ -82,7 +82,7 @@ export const updateItem = async(datas : dataObject) => {
       } as NewTitle;
 
       let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/${datas.selectedSubCategoryId}/titles/${datas.selectedTitleId}`;
-      handleUpdateItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setUrl);
+      handleUpdateItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.setDatalist, datas.router, datas.setUrl);
       break;
     }
   }
@@ -93,17 +93,17 @@ export const deleteItem = async(datas : dataObject) => {
   switch (datas.datasType) {
   case "Category":{
     let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}`;
-    handleDeleteItem(apiEndpoint);
+    handleDeleteItem(apiEndpoint, datas.setDatalist, datas.router);
     break;
   }
   case "SubCategory":{
     let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/${datas.selectedSubCategoryId}`;
-    handleDeleteItem(apiEndpoint);
+    handleDeleteItem(apiEndpoint, datas.setDatalist, datas.router);
     break;
   }
   case "Title":{
     let apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/${datas.selectedSubCategoryId}/titles/${datas.selectedTitleId}`;
-    handleDeleteItem(apiEndpoint);
+    handleDeleteItem(apiEndpoint, datas.setDatalist, datas.router);
     break;
   }
   }

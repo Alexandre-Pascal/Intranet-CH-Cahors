@@ -3,6 +3,7 @@ import { DataList, kindOfDatas, kindOfDialog, dataObjectAddSubCategory, dataObje
 import styles from "./styles.module.css";
 import Image from "next/image";
 import { ADD, UPDATE, DELETE, CATEGORY, SUBCATEGORY, TITLE } from "@/app/utils/constantes";
+import { useRouter } from "next/navigation";
 
 import crayon from "../../../../assets/icons/crayon.png";
 import plus from "../../../../assets/icons/plus.png";
@@ -26,15 +27,29 @@ export default function ListeTitres(datas: DataList[]) {
 
   const titleHeight = 65 / length; // Calcul de la hauteur totale des titres
 
-  useEffect(() => {
-    // Mettre à jour les titres chargés avec les titres reçus en props
-    setdataList(datas);
-  }, [datas]);
+  const router = useRouter();
 
   useEffect(() => {
-    // Mettre à jour la longueur de la liste des catégories
-    setLength(Object.values(dataList).length);
-  }, [dataList]);
+    // alert(JSON.stringify(datas));
+    setLength(Object.keys(datas).length);
+    // Mettre à jour les titres chargés avec les titres reçus en props
+    setdataList(datas);
+    // alert(JSON.stringify(selectedCategory));
+    if (Object.keys(datas).length > 0){
+      // alert("refresh");
+      // alert(JSON.stringify(selectedCategory));
+      setSelectedCategory(datas[selectedCategory ? selectedCategory.category_order - 1 : 0]);
+      // router.refresh();
+    }
+  }, [datas]);
+
+  // useEffect(() => {
+  //   // Mettre à jour la longueur de la liste des catégories
+  //   setLength(Object.values(dataList).length);
+  //   // alert(JSON.stringify(datas));
+  //   setSelectedCategory(datas[selectedCategory ? selectedCategory.category_order - 1 : 4]);
+
+  // }, [dataList]);
 
   const itemAction = (dialogType: kindOfDialog, itemType: kindOfDatas, dataObjectAddCategory? : dataObjectAddCategory, dataObjectAddSubCategory?: dataObjectAddSubCategory, dataObjectAddTitle? : dataObjectAddTitle, dataObjectUpdateCategory? : dataObjectUpdateCategory, dataObjectUpdateSubCategory? : dataObjectUpdateSubCategory, dataObjectUpdateTitle? : dataObjectUpdateTitle, dataObjectDeleteCategory? : dataObjectDeleteCategory, dataObjectDeleteSubCategory? : dataObjectDeleteSubCategory, dataObjectDeleteTitle? : dataObjectDeleteTitle ) => {
     switch (dialogType) {
@@ -246,6 +261,10 @@ export default function ListeTitres(datas: DataList[]) {
               order={order}
               setOrder={setOrder}
               setDoing={setIsActive}
+              setDatalist={setdataList}
+              router={router}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
             />
           ) : isActive.itemType === SUBCATEGORY ? (
             <SubmitUpdateDeleteContainer
@@ -260,6 +279,11 @@ export default function ListeTitres(datas: DataList[]) {
               setUrl={setUrl}
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              setDatalist={setdataList}
+              router={router}
+              dataList={dataList}
+
             />
           ) : (
             <SubmitUpdateDeleteContainer
@@ -274,7 +298,10 @@ export default function ListeTitres(datas: DataList[]) {
               setUrl={setUrl}
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
+              setDatalist={setdataList}
+              router={router}
             />
           )
         ) : isActive.dialogType === UPDATE ? (
@@ -289,6 +316,9 @@ export default function ListeTitres(datas: DataList[]) {
               setOrder={setOrder}
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              setDatalist={setdataList}
+              router={router}
             />
           ) : isActive.itemType === SUBCATEGORY ? (
             <SubmitUpdateDeleteContainer
@@ -304,6 +334,9 @@ export default function ListeTitres(datas: DataList[]) {
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
+              setSelectedCategory={setSelectedCategory}
+              setDatalist={setdataList}
+              router={router}
             />
           ) : (
             <SubmitUpdateDeleteContainer
@@ -318,8 +351,11 @@ export default function ListeTitres(datas: DataList[]) {
               setUrl={setUrl}
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
               selectedTitleId={selectedTitleId}
+              setDatalist={setdataList}
+              router={router}
             />
           )
         ) : isActive.dialogType === DELETE ? (
@@ -330,6 +366,9 @@ export default function ListeTitres(datas: DataList[]) {
               title="Êtes-vous sûr de vouloir supprimer cette catégorie ?"
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              setDatalist={setdataList}
+              router={router}
             />
           ) : isActive.itemType === SUBCATEGORY ? (
             <SubmitUpdateDeleteContainer
@@ -338,7 +377,10 @@ export default function ListeTitres(datas: DataList[]) {
               title="Êtes-vous sûr de vouloir supprimer cette sous-catégorie ?"
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
+              setDatalist={setdataList}
+              router={router}
             />
           ) : (
             <SubmitUpdateDeleteContainer
@@ -347,8 +389,11 @@ export default function ListeTitres(datas: DataList[]) {
               title="Êtes-vous sûr de vouloir supprimer ce titre ?"
               setDoing={setIsActive}
               selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
               selectedTitleId={selectedTitleId}
+              setDatalist={setdataList}
+              router={router}
             />
           )
         ) : null
