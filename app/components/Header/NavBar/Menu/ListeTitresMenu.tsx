@@ -3,11 +3,11 @@ import {
   DataList, kindOfDatas, kindOfDialog, dataObjectAddSubCategory, dataObjectAddTitle, dataObjectUpdateCategory,
   dataObjectUpdateSubCategory, dataObjectUpdateTitle, dataObjectDeleteCategory, dataObjectDeleteSubCategory,
   dataObjectDeleteTitle, dataObjectAddCategory,
-} from "@/app/utils/types";
+} from "@/app/lib/utils/types";
 
 import styles from "./styles.module.css";
 import Image from "next/image";
-import { ADD, UPDATE, DELETE, CATEGORY, SUBCATEGORY, TITLE } from "@/app/utils/constantes";
+import { ADD, UPDATE, DELETE, CATEGORY, SUBCATEGORY, TITLE } from "@/app/lib/utils/constantes";
 import { useRouter } from "next/navigation";
 
 import crayon from "../../../../assets/icons/crayon.png";

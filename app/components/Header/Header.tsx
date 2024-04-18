@@ -1,6 +1,6 @@
 "use client";
 
-import { DataList } from "@/app/utils/types";
+import { DataList } from "@/app/lib/utils/types";
 import LogosList from "./LogosList/LogosList";
 import ListeTitres from "./NavBar/Menu/ListeTitresMenu";
 import NavBar from "./NavBar/NavBar";

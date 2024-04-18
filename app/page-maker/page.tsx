@@ -1,6 +1,5 @@
 import React from "react";
 import TextEditor from "./Editor/TextEditor";
-
 export default function PageMaker() {
   return (
     <div>
@@ -8,5 +7,4 @@ export default function PageMaker() {
       <TextEditor />
     </div>
   );
-
 }

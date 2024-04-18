@@ -1,30 +1,34 @@
 "use client";
-import dynamic from "next/dynamic";
-import { useState, useMemo } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 
-export default function TextEditor() {
-  const [value, setValue] = useState("");
-  const ReactQuill = useMemo(() => dynamic(() => import("react-quill"), { ssr: false }),[]);
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
+import SlashCommand from "./slash-command";
+import Table from "@tiptap/extension-table"; // Importez l'extension de tableau
+import TableRow from "@tiptap/extension-table-row"; // Importez l'extension de ligne de tableau
+import TableHeader from "@tiptap/extension-table-header"; // Importez l'extension d'en-tête de tableau
+import TableCell from "@tiptap/extension-table-cell"; // Importez l'extension de cellule de tableau
 
-  var toolbarOptions = [ ["bold", "italic", "underline", "strike"], // toggled buttons
-    ["blockquote", "image", "video", "link"], // blocks
-    [{ "header": 1 }, { "header": 2 }], // custom button values
-    [{ "list": "ordered" }, { "list": "bullet" }],
-    [{ "script": "sub" }, { "script": "super" }], // superscript/subscript
-    [{ "indent": "-1" }, { "indent": "+1" }], // outdent/indent
-    [{ "direction": "rtl" }], // text direction
-    [{ "size": ["small", false, "large", "huge"] }], // custom dropdown
-    [{ "color": [] }, { "background": [] }], // dropdown with defaults from theme
-    [{ "font": [] }],
-    [{ "align": [] }],
-    ["clean"], // remove formatting button
-  ];
+export default function Editor() {
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder,
+      SlashCommand,
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
+    ]
+    ,
+    content: "<h1>Untitled</h1>",
+  });
 
-  const modules = {
-    toolbar: toolbarOptions,
-  };
-
-  return <ReactQuill modules={modules} theme="snow" value={value} onChange={setValue} />;
+  return (
+    <div>
+      <EditorContent editor={editor} />
+    </div>
+  );
 }

@@ -23,6 +23,10 @@
     justify-content: center;
 }
 
+.menu ul{
+    list-style: none;
+}
+
 .menu h1 {
     font-size: xx-large;
     font-weight: bold;
@@ -107,6 +111,8 @@
     background-color: white;
 }
 
+
+
 @media screen and (max-width: 1354px) {
     .icon_text_menu_container {
       position: absolute;
@@ -114,3 +120,4 @@
       left: 2vw;
     }
   }
+

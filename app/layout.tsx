@@ -5,9 +5,10 @@ import "./globals.css";
 
 import Header from "./components/Header/Header";
 import React from "react";
-import { DataList } from "@/app/utils/types";
+import { DataList } from "@/app/lib/utils/types";
 
-import fetchDatas from "./utils/fetchData";
+import fetchDatas from "./lib/utils/fetchData";
+import { Toaster } from "./components/ui/toaster";
 
 // import Footer from "./components/Footer/Footer";
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <Header {...datas}/>
         {children}
+        <Toaster />
         {/* <Footer /> */}
       </body>
     </html>

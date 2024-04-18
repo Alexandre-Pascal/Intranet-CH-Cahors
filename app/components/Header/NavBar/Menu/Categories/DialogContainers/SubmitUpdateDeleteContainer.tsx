@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./styles.module.css";
-import { dataObject } from "@/app/utils/types";
+import { dataObject } from "@/app/lib/utils/types";
 import { submitItem, deleteItem, updateItem } from "../itemFunctions";
-import { ADD, UPDATE, DELETE } from "@/app/utils/constantes";
+import { ADD, UPDATE, DELETE } from "@/app/lib/utils/constantes";
 
 export default function SubmitUpdateDeleteContainer(datas : dataObject) {
 

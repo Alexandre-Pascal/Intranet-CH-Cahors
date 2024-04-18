@@ -1,5 +1,5 @@
 
-import { dataObject, NewDataList, NewSubCategory, NewTitle } from "@/app/utils/types";
+import { dataObject, NewDataList, NewSubCategory, NewTitle } from "@/app/lib/utils/types";
 import { handleDeleteItem, handleSubmitItem, handleUpdateItem } from "./itemApiCalls";
 
 export const submitItem = async(datas : dataObject) => {

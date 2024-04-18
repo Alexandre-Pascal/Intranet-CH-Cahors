@@ -12,19 +12,43 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@hocuspocus/provider": "^2.11.3",
+    "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "^5.12.1",
+    "@radix-ui/react-scroll-area": "^1.0.5",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
+    "@tailwindcss/typography": "^0.5.12",
+    "@tiptap/extension-collaboration": "^2.3.0",
+    "@tiptap/extension-placeholder": "^2.3.0",
+    "@tiptap/extension-table": "^2.3.0",
+    "@tiptap/extension-table-cell": "^2.3.0",
+    "@tiptap/extension-table-header": "^2.3.0",
+    "@tiptap/extension-table-row": "^2.3.0",
     "@tiptap/pm": "^2.3.0",
     "@tiptap/react": "^2.3.0",
     "@tiptap/starter-kit": "^2.3.0",
+    "@tiptap/suggestion": "^2.3.0",
     "axios": "^1.6.8",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "concurrently": "^8.2.2",
     "html-react-parser": "^5.1.10",
+    "lucide-react": "^0.371.0",
     "next": "14.1.4",
     "prisma": "^5.12.1",
     "react": "^18",
+    "react-colorful": "^5.6.1",
     "react-dom": "^18",
+    "react-hook-form": "^7.51.3",
     "react-quill": "^2.0.0",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7",
+    "tiptap-extension-auto-joiner": "^0.1.2",
+    "tiptap-extension-global-drag-handle": "^0.1.6",
+    "yjs": "^13.6.14",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -35,7 +59,7 @@
     "eslint-config-next": "14.1.4",
     "nodemon": "^3.1.0",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0",
+    "tailwindcss": "^3.4.3",
     "typescript": "^5"
   }
 }
