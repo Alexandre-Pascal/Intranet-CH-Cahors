@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/Header/NavBar/Menu/Menu.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/Header/NavBar/Menu/Menu.jsx", "app/page-maker/Editor/App.js"],
   "exclude": ["node_modules"]
 }
