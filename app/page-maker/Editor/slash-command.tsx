@@ -331,6 +331,48 @@ const SlashCommand = Command.configure({
     items: getSuggestionItems,
     render: renderItems,
   },
+  // addOptions() {
+  //   return {
+  //     commands: {
+  //       addColumnBefore: ({ editor }: { editor: Editor }) => {
+  //         const { selection } = editor.state;
+  //         if (selection && selection.$from.parent.type.name === "table_cell") {
+  //           editor.chain().focus().addColumnBefore().run();
+  //         }
+  //       },
+  //       addColumnAfter: ({ editor }: { editor: Editor }) => {
+  //         const { selection } = editor.state;
+  //         if (selection && selection.$from.parent.type.name === "table_cell") {
+  //           editor.chain().focus().addColumnAfter().run();
+  //         }
+  //       },
+  //       addRowBefore: ({ editor }: { editor: Editor }) => {
+  //         const { selection } = editor.state;
+  //         if (selection && selection.$from.parent.type.name === "table_row") {
+  //           editor.chain().focus().addRowBefore().run();
+  //         }
+  //       },
+  //       addRowAfter: ({ editor }: { editor: Editor }) => {
+  //         const { selection } = editor.state;
+  //         if (selection && selection.$from.parent.type.name === "table_row") {
+  //           editor.chain().focus().addRowAfter().run();
+  //         }
+  //       },
+  //       deleteColumn: ({ editor }: { editor: Editor }) => {
+  //         const { selection } = editor.state;
+  //         if (selection && selection.$from.parent.type.name === "table_cell") {
+  //           editor.chain().focus().deleteColumn().run();
+  //         }
+  //       },
+  //       deleteRow: ({ editor }: { editor: Editor }) => {
+  //         const { selection } = editor.state;
+  //         if (selection && selection.$from.parent.type.name === "table_row") {
+  //           editor.chain().focus().deleteRow().run();
+  //         }
+  //       },
+  //     },
+  //   };
+  // },
 });
 
 export default SlashCommand;

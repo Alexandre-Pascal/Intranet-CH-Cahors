@@ -3,6 +3,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import SlashCommand from "./slash-command";
 import GlobalDragHanle from "tiptap-extension-global-drag-handle";
 import AutoJoiner from "tiptap-extension-auto-joiner"; // optional
+import BubbleMenu from "@tiptap/extension-bubble-menu";
 
 export const TipTapEditorExtensions = [
   StarterKit.configure({
