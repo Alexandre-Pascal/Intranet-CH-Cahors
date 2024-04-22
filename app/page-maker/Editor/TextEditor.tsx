@@ -9,7 +9,7 @@ import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
 import TableCell from "@tiptap/extension-table-cell";
 import React, { useEffect } from "react";
-import Icon from "@/app/lib/utils/Icon";
+import { Icon } from "@/app/lib/utils/Icon";
 import styles from "./styles.module.css";
 import Image from "next/image";
 
@@ -21,6 +21,15 @@ import supprCol from "@/app/assets/icons/supprCol.png";
 import supprLigne from "@/app/assets/icons/supprLigne.png";
 import supprTable from "@/app/assets/icons/supprimer.png";
 import insererTable from "@/app/assets/icons/insererTab.png";
+import { Bold, Italic, Strikethrough } from "lucide-react";
+import { TextMenu } from "./TextMenu/TextMenu";
+import TaskItem from "@tiptap/extension-task-item";
+import TaskList from "@tiptap/extension-task-list";
+import OrderedList from "@tiptap/extension-ordered-list";
+import FontFamily from "@tiptap/extension-font-family";
+import TextStyle from "@tiptap/extension-text-style";
+import { FontSize, Link, Underline } from "@/app/extensions";
+import Highlight from "@tiptap/extension-highlight";
 
 export default function Editor() {
   const editor = useEditor({
@@ -34,6 +43,15 @@ export default function Editor() {
       TableRow,
       TableHeader,
       TableCell,
+      TaskItem,
+      TaskList,//marche pas
+      OrderedList, // mrche pas
+      FontFamily,
+      TextStyle,
+      FontSize,
+      Underline,
+      Link,
+      Highlight,
     ],
     content: "<h1>Untitled</h1>",
   });
@@ -62,39 +80,40 @@ export default function Editor() {
             <div className={styles.columns}>
               <div onClick={() => editor.chain().focus().addColumnBefore().run()}>
                 <Icon name="ArrowLeftToLine" />
-                <button>Insérer colonne à gauche</button>
+                <Image>Insérer colonne à gauche</Image>
               </div>
               <div onClick={() => editor.chain().focus().addColumnAfter().run()}>
                 <Icon name="ArrowRightToLine" />
-                <button>Insérer colonne à droite </button>
+                <Image>Insérer colonne à droite </Image>
               </div>
               <div onClick={() => editor.chain().focus().deleteColumn().run()}>
                 <Icon name="Trash" />
-                <button>Supprimer colonne</button>
+                <Image>Supprimer colonne</Image>
               </div>
             </div>
             <div className={styles.columns}>
               <div onClick={() => editor.chain().focus().addRowBefore().run()}>
                 <Icon name="ArrowUpToLine" />
-                <button >Insérer ligne au dessus</button>
+                <Image >Insérer ligne au dessus</Image>
               </div>
               <div onClick={() => editor.chain().focus().addRowAfter().run()}>
                 <Icon name="ArrowDownToLine" />
-                <button>Insérer ligne en dessous</button>
+                <Image>Insérer ligne en dessous</Image>
               </div>
               <div onClick={() => editor.chain().focus().deleteRow().run()}>
                 <Icon name="Trash" />
-                <button>Supprimer ligne</button>
+                <Image>Supprimer ligne</Image>
               </div>
             </div>
           </div>
           <div className={styles.deleteTable} onClick={() => editor.chain().focus().deleteTable().run()}>
             <Icon name="Trash" />
-            <button>Supprimer tableau</button>
+            <Image>Supprimer tableau</Image>
           </div>
         </div>
       </BubbleMenu>
       } */}
+      {editor && <TextMenu editor={editor} />}
 
       {
         editor &&
@@ -114,6 +133,31 @@ export default function Editor() {
         </div>
       </BubbleMenu>
       }
+      {/*
+      {
+        editor &&
+      <BubbleMenu editor={editor}
+        tippyOptions={{ duration: 100 }}
+      >
+        <div className={styles.text_icons}>
+
+          <Bold
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={`${styles.icons} ${styles.mono}`} width={32} height={32}
+          />
+
+          <Italic
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={`${styles.icons} ${styles.mono}`} width={32} height={32}
+          />
+
+          <Strikethrough
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={`${styles.icons} ${styles.mono}`} width={32} height={32}
+          />
+        </div>
+      </BubbleMenu>
+      } */}
 
     </>
   );

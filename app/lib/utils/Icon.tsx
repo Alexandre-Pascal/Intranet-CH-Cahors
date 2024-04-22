@@ -1,15 +1,21 @@
+import { cn } from "@/app/lib/utils";
 import { icons } from "lucide-react";
+import { memo } from "react";
 
 export type IconProps = {
-    name: keyof typeof icons
-    className?: string
-    strokeWidth?: number
+  name: keyof typeof icons
+  className?: string
+  strokeWidth?: number
+}
+
+export const Icon = memo(({ name, className, strokeWidth }: IconProps) => {
+  const IconComponent = icons[name];
+
+  if (!IconComponent) {
+    return null;
   }
 
-const Icon = ({ name, className, strokeWidth } : IconProps) => {
-  const LucideIcon = icons[name];
+  return <IconComponent className={cn("w-4 h-4", className)} strokeWidth={strokeWidth || 2.5} />;
+});
 
-  return <LucideIcon className={className} strokeWidth={strokeWidth || 2.5} />;
-};
-
-export default Icon;
+Icon.displayName = "Icon";

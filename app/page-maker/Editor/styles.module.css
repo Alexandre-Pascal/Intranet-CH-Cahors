@@ -79,3 +79,16 @@
   margin-right: 4px;
   cursor: pointer;
 }
+
+.mono {
+  border: 1px solid #000000;
+  border-radius: 6px;
+  background-color: #eeeeee;
+  padding: 4px;
+}
+
+.text_icons {
+  display: flex;
+  flex-direction: row;
+ 
+}
