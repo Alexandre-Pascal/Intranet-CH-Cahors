@@ -55,7 +55,9 @@ export default function Editor() {
       FontSize,
       Underline,
       Link,
-      Highlight,
+      Highlight.configure({
+        multicolor: true,
+      }),
       Color,
       Subscript,
       Superscript,
