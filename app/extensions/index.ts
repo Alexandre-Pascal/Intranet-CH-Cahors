@@ -22,4 +22,7 @@ export { TextStyle } from '@tiptap/extension-text-style'
 export { FontSize } from './FontSize'
 export { Underline } from '@tiptap/extension-underline'
 export { Highlight } from '@tiptap/extension-highlight'
-
+export { Color } from '@tiptap/extension-color'
+export { Subscript } from '@tiptap/extension-subscript'
+export { Superscript } from '@tiptap/extension-superscript'
+export { TextAlign } from '@tiptap/extension-text-align'

@@ -7,8 +7,8 @@ import { API } from "@/app/lib/api";
 import {
 //   BlockquoteFigure,
 //   CharacterCount,
-//   Color,
-//   Document,
+  Color,
+  //   Document,
   Dropcursor,
   //   Emoji,
   Figcaption,
@@ -25,14 +25,14 @@ import {
   //   Selection,
   //   SlashCommand,
   StarterKit,
-  //   Subscript,
-  //   Superscript,
+  Subscript,
+  Superscript,
   //   Table,
   // //   TableOfContents,
   //   TableCell,
   //   TableHeader,
   //   TableRow,
-  //   TextAlign,
+  TextAlign,
   TextStyle,
   //   TrailingNode,
   //   Typography,
@@ -84,7 +84,7 @@ export const ExtensionKit = ({ provider, userId, userName = "Maxi" }: ExtensionK
   TextStyle,
   FontSize,
   FontFamily,
-  //   Color,
+  Color,
   //   TrailingNode,
   Link.configure({
     openOnClick: false,
@@ -123,15 +123,15 @@ export const ExtensionKit = ({ provider, userId, userName = "Maxi" }: ExtensionK
   //     enableEmoticons: true,
   //     suggestion: emojiSuggestion,
   //   }),
-  //   TextAlign.extend({
-  //     addKeyboardShortcuts() {
-  //       return {}
-  //     },
-  //   }).configure({
-  //     types: ['heading', 'paragraph'],
-  //   }),
-  //   Subscript,
-  //   Superscript,
+  TextAlign.extend({
+    addKeyboardShortcuts() {
+      return {};
+    },
+  }).configure({
+    types: ["heading", "paragraph"],
+  }),
+  Subscript,
+  Superscript,
   //   Table,
   //   TableCell,
   //   TableHeader,

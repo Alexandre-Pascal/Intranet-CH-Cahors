@@ -30,6 +30,10 @@ import FontFamily from "@tiptap/extension-font-family";
 import TextStyle from "@tiptap/extension-text-style";
 import { FontSize, Link, Underline } from "@/app/extensions";
 import Highlight from "@tiptap/extension-highlight";
+import Color from "@tiptap/extension-color";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import TextAlign from "@tiptap/extension-text-align";
 
 export default function Editor() {
   const editor = useEditor({
@@ -52,6 +56,12 @@ export default function Editor() {
       Underline,
       Link,
       Highlight,
+      Color,
+      Subscript,
+      Superscript,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
     ],
     content: "<h1>Untitled</h1>",
   });
