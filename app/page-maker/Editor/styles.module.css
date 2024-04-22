@@ -19,5 +19,63 @@
     text-transform: uppercase;
   }
 
+.table{
+  position: relative;
+  left: 8.65vw;
+  background-color: white;
+}
 
+.rows {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .rows div {
+    display: flex;
+    padding-top: 5px;
+    padding-bottom:5px;
+    cursor: pointer;
+  }
   
+.columns {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+   
+}
+
+.columns div {
+    display: flex;
+    padding-top: 5px;
+    padding-bottom:5px;
+    justify-content: space-around;
+    cursor: pointer;
+  }
+
+.deleteTable{
+  border: 1px solid #ccc;
+  display: flex;
+  padding-top: 5px;
+  padding-bottom:5px;
+  justify-content: center;
+  cursor: pointer;
+}
+.deleteTable button{
+  padding-left: 1vw;
+}
+
+
+.columnsIcons{
+  position: relative;
+  left: 160px;
+  display: flex;
+  /* justify-content: center; */
+  padding-top: 5px;
+  padding-bottom:5px;
+}
+
+.icons{
+  margin-left: 4px;
+  margin-right: 4px;
+  cursor: pointer;
+}
