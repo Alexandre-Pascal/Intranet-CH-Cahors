@@ -39,12 +39,12 @@ export const ImageUploader = ({ onUpload }: { onUpload: (url: string) => void })
       <Icon name="Image" className="w-12 h-12 mb-4 text-black dark:text-white opacity-20" />
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="text-sm font-medium text-center text-neutral-400 dark:text-neutral-500">
-          {draggedInside ? "Drop image here" : "Drag and drop or"}
+          {draggedInside ? "Déposez votre image ici" : "Glissez et déposez ou"}
         </div>
         <div>
           <Button disabled={draggedInside} onClick={handleUploadClick} variant="primary" buttonSize="small">
             <Icon name="Upload" />
-            Upload an image
+            Chargez une image
           </Button>
         </div>
       </div>
