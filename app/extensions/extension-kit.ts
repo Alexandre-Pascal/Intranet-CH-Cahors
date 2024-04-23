@@ -43,10 +43,10 @@ import {
   TaskItem,
   TaskList,
 } from ".";
-import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
+// import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
 import { ImageUpload } from "./ImageUpload";
-import { TableOfContentsNode } from "./TableOfContentsNode";
-import { lowlight } from "lowlight";
+// import { TableOfContentsNode } from "./TableOfContentsNode";
+// import { lowlight } from "lowlight";
 
 interface ExtensionKitProps {
   provider?: HocuspocusProvider | null
@@ -77,10 +77,10 @@ export const ExtensionKit = ({ provider, userId, userName = "Maxi" }: ExtensionK
     history: false,
     codeBlock: false,
   }),
-  CodeBlockLowlight.configure({
-    lowlight,
-    defaultLanguage: null,
-  }),
+  //   CodeBlockLowlight.configure({
+  //     lowlight,
+  //     defaultLanguage: null,
+  //   }),
   TextStyle,
   FontSize,
   FontFamily,
@@ -93,30 +93,30 @@ export const ExtensionKit = ({ provider, userId, userName = "Maxi" }: ExtensionK
   Underline,
   //   CharacterCount.configure({ limit: 50000 }),
   //   TableOfContents,
-  TableOfContentsNode,
+  //   TableOfContentsNode,
   ImageUpload.configure({
     clientId: provider?.document?.clientID,
   }),
   ImageBlock,
   //   FileHandler.configure({
-  //     allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
-  //     onDrop: (currentEditor, files, pos) => {
-  //       files.forEach(async () => {
-  //         const url = await API.uploadImage()
+  //     allowedMimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"],
+  //     onDrop: (currentEditor : any, files : any, pos : any) => {
+  //       files.forEach(async() => {
+  //         const url = await API.uploadImage();
 
-  //         currentEditor.chain().setImageBlockAt({ pos, src: url }).focus().run()
-  //       })
-  // //     },
-  //     onPaste: (currentEditor, files) => {
-  //       files.forEach(async () => {
-  //         const url = await API.uploadImage()
+  //         currentEditor.chain().setImageBlockAt({ pos, src: url }).focus().run();
+  //       });
+  //     },
+  //     onPaste: (currentEditor : any, files : any) => {
+  //       files.forEach(async() => {
+  //         const url = await API.uploadImage();
 
   //         return currentEditor
   //           .chain()
   //           .setImageBlockAt({ pos: currentEditor.state.selection.anchor, src: url })
   //           .focus()
-  //           .run()
-  //       })
+  //           .run();
+  //       });
   //     },
   //   }),
   //   Emoji.configure({

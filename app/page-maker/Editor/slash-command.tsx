@@ -15,6 +15,7 @@ import {
   Heading1,
   Heading2,
   Heading3,
+  Image,
   Italic,
   List,
   ListOrdered,
@@ -22,6 +23,7 @@ import {
   Table,
   Text,
 } from "lucide-react";
+import { title } from "process";
 
   interface CommandItemProps {
     title: string;
@@ -140,6 +142,14 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       icon: <Table size={18} />,
       command: ({ editor, range }: Command) => {
         editor.chain().focus().deleteRange(range).insertTable({ rows: 3, cols: 3, withHeaderRow: false }).run();
+      },
+    },
+    {
+      title: "Image",
+      description: "Insérez une image.",
+      icon: <Image size={18} />,
+      command: ({ editor, range }: Command) => {
+        editor.chain().focus().deleteRange(range).setImageUpload().run();
       },
     },
     {
