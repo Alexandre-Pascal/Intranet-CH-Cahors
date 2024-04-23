@@ -26,18 +26,26 @@ import { TextMenu } from "./TextMenu/TextMenu";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import OrderedList from "@tiptap/extension-ordered-list";
+import ListItem from "@tiptap/extension-list-item";
 import FontFamily from "@tiptap/extension-font-family";
 import TextStyle from "@tiptap/extension-text-style";
-import { FontSize, Link, Underline } from "@/app/extensions";
+import { BulletList, FontSize, Link, Underline } from "@/app/extensions";
 import Highlight from "@tiptap/extension-highlight";
 import Color from "@tiptap/extension-color";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import TextAlign from "@tiptap/extension-text-align";
 
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
+
 export default function Editor() {
   const editor = useEditor({
     extensions: [
+      Document,
+      Paragraph,
+      Text,
       StarterKit,
       Placeholder,
       SlashCommand,
@@ -48,8 +56,20 @@ export default function Editor() {
       TableHeader,
       TableCell,
       TaskItem,
-      TaskList,//marche pas
-      OrderedList, // mrche pas
+      //TaskList,//marche pas ; update c'est bon marche mais je dégage
+      OrderedList.configure({
+        HTMLAttributes: {
+          class: "list-decimal",
+        },
+        keepMarks: true,
+        keepAttributes: true,
+      }) , // mrche pas
+      BulletList.configure({
+        HTMLAttributes: {
+          class: "list-disc",
+        },
+      }),
+      ListItem,
       FontFamily,
       TextStyle,
       FontSize,
@@ -80,6 +100,13 @@ export default function Editor() {
     <>
       <div>
         <EditorContent editor={editor} />
+        {editor &&
+        <button
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          className={editor.isActive("orderedList") ? "is-active" : ""}
+        >
+        toggleOrderedList
+        </button>}
       </div>
       {/* {
         editor &&
