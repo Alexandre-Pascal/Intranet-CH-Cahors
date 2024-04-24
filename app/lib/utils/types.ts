@@ -42,6 +42,11 @@ export type NewDataList = {
   category_order: number;
 };
 
+export type newPage = {
+  title: string,
+  content: string
+}
+
 export type kindOfDialog = "Add" | "Update" | "Delete" | "None";
 
 export type kindOfDatas = "Category" | "SubCategory" | "Title" | "None";
@@ -124,3 +129,4 @@ export interface ShouldShowProps {
   from?: number
   to?: number
 }
+

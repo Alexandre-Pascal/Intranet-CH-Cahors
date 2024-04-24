@@ -13,6 +13,10 @@
       list-style: inherit;
     } 
 
+    p:empty::after {
+      content: "\00A0";
+  }
+
     :root {
       /* overflow: hidden; Empêche le défilement de la page */
       --foreground-rgb: 0, 0, 0;
@@ -110,6 +114,7 @@
     /* text-align: center; */
     padding: 3vh 5vw 3vh 5vw;
     margin: 3vh 10vw 3vh 10vw;
+    position: inherit;
 
     .tableWrapper {
       @apply my-12;

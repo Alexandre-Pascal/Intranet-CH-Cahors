@@ -39,12 +39,27 @@ import ImageBlockMenu from "@/app/extensions/ImageBlock/components/ImageBlockMen
 import Image from "@tiptap/extension-image";
 import { TextMenu } from "./TextMenu/TextMenu";
 
+import { newPage } from "@/app/lib/utils/types";
+
 import { Form, useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { title } from "process";
+import generateTitleId from "@/app/lib/utils/generateId";
 
 export default function Editor() {
-  let description : string = "";
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: "",
+    },
+  });
+
   const editor = useEditor({
     extensions: [
       Document,
@@ -97,19 +112,6 @@ export default function Editor() {
     onUpdate({ editor }) {
       console.log(editor.getHTML());
     },
-    content: description,
-  });
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      title: "",
-      content: "",
-    },
   });
 
   const [isEditable, setIsEditable] = React.useState(true);
@@ -120,9 +122,32 @@ export default function Editor() {
     }
   }, [isEditable, editor]);
 
+  async function handleSubmitForm(title : string) {
+    let newPage = {
+      title: title,
+      content: editor?.getHTML(),
+    } as newPage;
+    try {
+      await fetch(
+        "/api/articles/add-article",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newPage),
+        }
+      );
+      const newPageUrl = generateTitleId(title);
+      window.location.href = `/articles/${newPageUrl}`; //redirige vers la page nouvellement créée
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du formulaire :", error);
+    }
+  }
+
   return (
     <div>
-      <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
+      <form onSubmit={handleSubmit((data) => handleSubmitForm(data.title))} className="w-full">
 
         <input {...register("title", { required : true, minLength : 3, maxLength: 50 })} type="text" placeholder="Titre de la page" className="w-full p-2 text-4xl font-bold text-center mt-4" />
         <EditorContent editor={editor} />
@@ -149,8 +174,8 @@ export default function Editor() {
           {errors.title && <p className="text-red-500 text-lg font-bold">Le titre  doit contenir au moins 3 caractères et maximum 50 !</p>}
 
           <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Publier</button>
-          <button type="submit" onClick={() => handleUpdateForm ()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button>
-          <button type="button" onClick={() => cancelForm() } className="bg-stone-300 hover:bg-stone-500	 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
+          {/* <button type="submit" onClick={() => handleUpdateForm ()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button> */}
+          <button type="button" onClick={() => window.location.href = "/" } className="bg-stone-300 hover:bg-stone-500	 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
 
         </>
         }
