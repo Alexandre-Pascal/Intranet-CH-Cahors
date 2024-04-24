@@ -32,3 +32,10 @@ model titles {
   title_order     Int
   sub_categories  sub_categories @relation(fields: [sub_category_id], references: [sub_category_id], onDelete: Cascade, onUpdate: NoAction, map: "sub_titles_sub_category_id_fkey")
 }
+
+model page_datas {
+  id      Int     @id @default(autoincrement())
+  title   String
+  content String?
+  files   String?
+}

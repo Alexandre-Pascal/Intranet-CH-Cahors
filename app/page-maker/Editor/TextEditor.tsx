@@ -37,16 +37,23 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import ImageBlockMenu from "@/app/extensions/ImageBlock/components/ImageBlockMenu";
 import Image from "@tiptap/extension-image";
+import { TextMenu } from "./TextMenu/TextMenu";
+
+import { Form, useForm } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Editor() {
-
+  let description : string = "";
   const editor = useEditor({
     extensions: [
       Document,
       Paragraph,
       Text,
       StarterKit,
-      Placeholder,
+      Placeholder.configure({
+        placeholder: "Tapez '/' pour voir les commandes disponibles ou commencez à écrire du texte.",
+      }),
       SlashCommand,
       Table.configure({
         resizable: true,
@@ -87,7 +94,22 @@ export default function Editor() {
       Image,
       ImageUpload,
     ],
-    content: "<h1>Untitled</h1>",
+    onUpdate({ editor }) {
+      console.log(editor.getHTML());
+    },
+    content: description,
+  });
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: "",
+      content: "",
+    },
   });
 
   const [isEditable, setIsEditable] = React.useState(true);
@@ -99,101 +121,40 @@ export default function Editor() {
   }, [isEditable, editor]);
 
   return (
-    <>
-      <div>
+    <div>
+      <form onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
+
+        <input {...register("title", { required : true, minLength : 3, maxLength: 50 })} type="text" placeholder="Titre de la page" className="w-full p-2 text-4xl font-bold text-center mt-4" />
         <EditorContent editor={editor} />
         {editor &&
-        <ImageBlockMenu editor={editor}/>
+        <>
+          <ImageBlockMenu editor={editor}/>
+          <TextMenu editor={editor}/>
+          <BubbleMenu editor={editor}
+            shouldShow={({ editor }) => editor.isActive("table") ? true : false}
+            tippyOptions={{ duration: 100 }}
+          >
+            <div className={styles.columnsIcons}>
+              <NextImage className={styles.icons} height={32} width={32} src={ajoutLigneHaut} title="Insérer une ligne au dessus" alt="Insérer une ligne au dessus" onClick={() => editor.chain().focus().addRowBefore().run()} />
+              <NextImage className={styles.icons} height={32} width={32} src={ajoutLigneBas} title="Insérer une ligne en dessous" alt="Insérer une ligne en dessous" onClick={() => editor.chain().focus().addRowAfter().run()} />
+              <NextImage className={styles.icons} height={32} width={32} src={ajoutColGauche} title="Insérer une colonne à gauche" alt="Insérer une colonne à gauche" onClick={() => editor.chain().focus().addColumnBefore().run()} />
+              <NextImage className={styles.icons} height={32} width={32} src={ajoutColDroit} title="Insérer une colonne à droite" alt="Insérer une colonne à droite" onClick={() => editor.chain().focus().addColumnAfter().run()} />
+              <NextImage className={styles.icons} height={32} width={32} src={supprLigne} title="Supprimer une ligne" alt="Supprimer une ligne" onClick={() => editor.chain().focus().deleteRow().run()} />
+              <NextImage className={styles.icons} height={32} width={32} src={supprCol} title="Supprimer une colonne" alt="Supprimer une colonne" onClick={() => editor.chain().focus().deleteColumn().run()} />
+              <NextImage className={styles.icons} height={32} width={32} src={supprTable} title="Supprimer le tableau" alt="Supprimer le tableau" onClick={() => editor.chain().focus().deleteTable().run()} />
+              <NextImage className={styles.icons} height={32} width={32} src={insererTable} title="Insérer un tableau" alt="Insérer un tableau" onClick={() => editor.chain().focus().insertTable().run()} />
+            </div>
+          </BubbleMenu>
+
+          {errors.title && <p className="text-red-500 text-lg font-bold">Le titre  doit contenir au moins 3 caractères et maximum 50 !</p>}
+
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Publier</button>
+          <button type="submit" onClick={() => handleUpdateForm ()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button>
+          <button type="button" onClick={() => cancelForm() } className="bg-stone-300 hover:bg-stone-500	 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
+
+        </>
         }
-      </div>
-      {/* {
-        editor &&
-      <BubbleMenu editor={editor}
-        shouldShow={({ editor }) => editor.isActive("table") ? true : false}
-        tippyOptions={{ duration: 100 }}
-      >
-        <div className={styles.table}>
-          <div className={styles.rows}>
-            <div className={styles.columns}>
-              <div onClick={() => editor.chain().focus().addColumnBefore().run()}>
-                <Icon name="ArrowLeftToLine" />
-                <NextImage>Insérer colonne à gauche</NextImage>
-              </div>
-              <div onClick={() => editor.chain().focus().addColumnAfter().run()}>
-                <Icon name="ArrowRightToLine" />
-                <NextImage>Insérer colonne à droite </NextImage>
-              </div>
-              <div onClick={() => editor.chain().focus().deleteColumn().run()}>
-                <Icon name="Trash" />
-                <NextImage>Supprimer colonne</NextImage>
-              </div>
-            </div>
-            <div className={styles.columns}>
-              <div onClick={() => editor.chain().focus().addRowBefore().run()}>
-                <Icon name="ArrowUpToLine" />
-                <NextImage >Insérer ligne au dessus</NextImage>
-              </div>
-              <div onClick={() => editor.chain().focus().addRowAfter().run()}>
-                <Icon name="ArrowDownToLine" />
-                <NextImage>Insérer ligne en dessous</NextImage>
-              </div>
-              <div onClick={() => editor.chain().focus().deleteRow().run()}>
-                <Icon name="Trash" />
-                <NextImage>Supprimer ligne</NextImage>
-              </div>
-            </div>
-          </div>
-          <div className={styles.deleteTable} onClick={() => editor.chain().focus().deleteTable().run()}>
-            <Icon name="Trash" />
-            <NextImage>Supprimer tableau</NextImage>
-          </div>
-        </div>
-      </BubbleMenu>
-      } */}
-      {
-        editor &&
-      <BubbleMenu editor={editor}
-        shouldShow={({ editor }) => editor.isActive("table") ? true : false}
-        tippyOptions={{ duration: 100 }}
-      >
-        <div className={styles.columnsIcons}>
-          <NextImage className={styles.icons} height={32} width={32} src={ajoutLigneHaut} title="Insérer une ligne au dessus" alt="Insérer une ligne au dessus" onClick={() => editor.chain().focus().addRowBefore().run()} />
-          <NextImage className={styles.icons} height={32} width={32} src={ajoutLigneBas} title="Insérer une ligne en dessous" alt="Insérer une ligne en dessous" onClick={() => editor.chain().focus().addRowAfter().run()} />
-          <NextImage className={styles.icons} height={32} width={32} src={ajoutColGauche} title="Insérer une colonne à gauche" alt="Insérer une colonne à gauche" onClick={() => editor.chain().focus().addColumnBefore().run()} />
-          <NextImage className={styles.icons} height={32} width={32} src={ajoutColDroit} title="Insérer une colonne à droite" alt="Insérer une colonne à droite" onClick={() => editor.chain().focus().addColumnAfter().run()} />
-          <NextImage className={styles.icons} height={32} width={32} src={supprLigne} title="Supprimer une ligne" alt="Supprimer une ligne" onClick={() => editor.chain().focus().deleteRow().run()} />
-          <NextImage className={styles.icons} height={32} width={32} src={supprCol} title="Supprimer une colonne" alt="Supprimer une colonne" onClick={() => editor.chain().focus().deleteColumn().run()} />
-          <NextImage className={styles.icons} height={32} width={32} src={supprTable} title="Supprimer le tableau" alt="Supprimer le tableau" onClick={() => editor.chain().focus().deleteTable().run()} />
-          <NextImage className={styles.icons} height={32} width={32} src={insererTable} title="Insérer un tableau" alt="Insérer un tableau" onClick={() => editor.chain().focus().insertTable().run()} />
-        </div>
-      </BubbleMenu>
-      }
-      {/*
-      {
-        editor &&
-      <BubbleMenu editor={editor}
-        tippyOptions={{ duration: 100 }}
-      >
-        <div className={styles.text_icons}>
-
-          <Bold
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            className={`${styles.icons} ${styles.mono}`} width={32} height={32}
-          />
-
-          <Italic
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={`${styles.icons} ${styles.mono}`} width={32} height={32}
-          />
-
-          <Strikethrough
-            onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={`${styles.icons} ${styles.mono}`} width={32} height={32}
-          />
-        </div>
-      </BubbleMenu>
-      } */}
-
-    </>
+      </form>
+    </div>
   );
 }

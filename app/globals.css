@@ -108,8 +108,8 @@
 
   .ProseMirror {
     /* text-align: center; */
-    padding: 10vh 10vw 10vh 10vw;
-    margin: 10vh 10vw 10vh 10vw;
+    padding: 3vh 5vw 3vh 5vw;
+    margin: 3vh 10vw 3vh 10vw;
 
     .tableWrapper {
       @apply my-12;
