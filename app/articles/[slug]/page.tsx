@@ -1,3 +1,4 @@
+import { Button } from "@/app/components/ui/button";
 import prisma from "@/app/lib/utils/prisma";
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -24,6 +25,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <div>
           <h1>{data.title}</h1>
           <div dangerouslySetInnerHTML={{ __html: data.content }} />
+          <Button onClick={() => console.log("edit")}>Edit</Button>
+          <Button onClick={() => console.log("delete")}>Delete</Button>
         </div>
       )}
 

@@ -41,14 +41,9 @@ import { TextMenu } from "./TextMenu/TextMenu";
 
 import { newPage } from "@/app/lib/utils/types";
 
-import { Form, useForm } from "react-hook-form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { title } from "process";
-import generateTitleId from "@/app/lib/utils/generateId";
+import { useForm } from "react-hook-form";
 
-export default function Editor() {
-
+export default function Editor({ kind } : {kind : string}) {
   const {
     register,
     handleSubmit,
@@ -173,8 +168,9 @@ export default function Editor() {
 
           {errors.title && <p className="text-red-500 text-lg font-bold">Le titre  doit contenir au moins 3 caractères et maximum 50 !</p>}
 
-          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Publier</button>
-          {/* <button type="submit" onClick={() => handleUpdateForm ()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button> */}
+          { kind === "create" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Publier</button>}
+
+          { kind === "update" && <button type="submit" onClick={() => handleUpdateForm ()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button> }
           <button type="button" onClick={() => window.location.href = "/" } className="bg-stone-300 hover:bg-stone-500	 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
 
         </>
