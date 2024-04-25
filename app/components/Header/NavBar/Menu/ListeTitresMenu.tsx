@@ -3,6 +3,7 @@ import {
   DataList, kindOfDatas, kindOfDialog, dataObjectAddSubCategory, dataObjectAddTitle, dataObjectUpdateCategory,
   dataObjectUpdateSubCategory, dataObjectUpdateTitle, dataObjectDeleteCategory, dataObjectDeleteSubCategory,
   dataObjectDeleteTitle, dataObjectAddCategory,
+  article,
 } from "@/app/lib/utils/types";
 
 import styles from "./styles.module.css";
@@ -25,6 +26,7 @@ export default function ListeTitres(datas: DataList[]) {
   const [name, setName] = useState("");
   const [order, setOrder] = useState(0);
   const [url, setUrl] = useState("");
+  const [articleLinked, setArticleLinked] = useState<article | null>(null);
 
   const [isActive, setIsActive] = useState<{itemType: kindOfDatas, dialogType: kindOfDialog}>({ itemType: "None", dialogType: "None" });
 
@@ -441,6 +443,8 @@ export default function ListeTitres(datas: DataList[]) {
               selectedSubCategoryId={selectedSubCategoryId}
               setSelectedCategory={setSelectedCategory}
               router={router}
+              articleLinked={articleLinked}
+              setArticleLinked={setArticleLinked}
             />
           ) : (
             <SubmitUpdateDeleteContainer
@@ -459,6 +463,8 @@ export default function ListeTitres(datas: DataList[]) {
               selectedSubCategoryId={selectedSubCategoryId}
               selectedTitleId={selectedTitleId}
               router={router}
+              articleLinked={articleLinked}
+              setArticleLinked={setArticleLinked}
             />
           )
         ) : isActive.dialogType === DELETE ? (

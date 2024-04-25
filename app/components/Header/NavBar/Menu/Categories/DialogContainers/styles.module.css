@@ -46,6 +46,12 @@
     width: 11vw;
 }
 
+.container_input input:disabled {
+    background-color: rgba(255, 255, 255, 0.616);
+    border: 2px solid rgb(236, 236, 236);
+    color: rgba(0, 0, 0, 0.3);
+}
+
 .container_input h3 {
     font-size: large;
     font-weight: bold;

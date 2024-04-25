@@ -39,7 +39,7 @@ import ImageBlockMenu from "@/app/extensions/ImageBlock/components/ImageBlockMen
 import Image from "@tiptap/extension-image";
 import { TextMenu } from "./TextMenu/TextMenu";
 
-import { newPage } from "@/app/lib/utils/types";
+import { newArticle, article } from "@/app/lib/utils/types";
 
 import { useForm } from "react-hook-form";
 import generateTitleId from "@/app/lib/utils/generateId";
@@ -140,10 +140,10 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
   }, [editor]);
 
   async function handleSubmitForm(title : string) {
-    let newPage = {
+    let newArticle = {
       title: title,
       content: editor?.getHTML(),
-    } as newPage;
+    } as newArticle;
     try {
       await fetch(
         "/api/articles/add-article",
@@ -152,21 +152,21 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(newPage),
+          body: JSON.stringify(newArticle),
         }
       );
-      const newPageUrl = generateTitleId(title);
-      window.location.href = `/articles/${newPageUrl}`; //redirige vers la page nouvellement créée
+      const newArticleUrl = generateTitleId(title);
+      window.location.href = `/articles/${newArticleUrl}`; //redirige vers la page nouvellement créée
     } catch (error) {
       console.error("Erreur lors de l'envoi du formulaire :", error);
     }
   }
 
   async function handleUpdateForm() {
-    let newPage = {
+    let newArticle = {
       title: watch("title"),
       content: editor?.getHTML(),
-    } as newPage;
+    } as newArticle;
     try {
       await fetch(
         `/api/articles/${idPage}`,
@@ -175,12 +175,12 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(newPage),
+          body: JSON.stringify(newArticle),
         }
       );
-      const newPageUrl = generateTitleId(watch("title"));
-      console.log(newPage);
-      window.location.href = `/articles/${newPageUrl}`; //redirige vers la page nouvellement créée
+      const newArticleUrl = generateTitleId(watch("title"));
+      console.log(newArticle);
+      window.location.href = `/articles/${newArticleUrl}`; //redirige vers la page nouvellement créée
     } catch (error) {
       console.error("Erreur lors de l'envoi du formulaire :", error);
     }

@@ -4,7 +4,7 @@
     align-items: center;
     flex-wrap: wrap;
     height: 17vh;
-    cursor: pointer;
+    
 }
 
 .logosList img {
@@ -12,6 +12,7 @@
     margin-bottom: 1vh; */
     margin-left: 2vw;
     margin-right: 2vw;
+    cursor: pointer;
 }
 
 .chc {

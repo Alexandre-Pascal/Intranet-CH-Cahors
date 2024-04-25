@@ -1,6 +1,7 @@
 
 import { dataObject, NewDataList, NewSubCategory, NewTitle } from "@/app/lib/utils/types";
 import { handleDeleteItem, handleSubmitItem, handleUpdateItem } from "./itemApiCalls";
+import generateTitleId from "@/app/lib/utils/generateId";
 
 export const submitItem = async(datas : dataObject) => {
   switch (datas.datasType) {
@@ -66,10 +67,12 @@ export const updateItem = async(datas : dataObject) => {
     }
   }
   case "SubCategory":{
-    if (datas.setName && datas.setOrder && datas.setUrl){
+    if (datas.setName && datas.setOrder && (datas.setUrl || datas.articleLinked)){
+      const pageLinked = datas.url !== "" ? datas.url : datas.articleLinked?.id;
+      alert(datas.url);
       let newItem = {
         sub_category_name: datas.name,
-        sub_category_url: datas.url,
+        sub_category_url: pageLinked,
         sub_category_order: datas.order,
       } as NewSubCategory;
 
@@ -80,10 +83,11 @@ export const updateItem = async(datas : dataObject) => {
     }
   }
   case "Title":{
-    if (datas.setName && datas.setOrder && datas.setUrl){
+    if (datas.setName && datas.setOrder && (datas.setUrl || datas.articleLinked)){
+      const pageLinked = datas.url ? datas.url : generateTitleId(datas.articleLinked);
       let newItem = {
         title_name: datas.name,
-        title_url: datas.url,
+        title_url: pageLinked,
         title_order: datas.order,
       } as NewTitle;
 

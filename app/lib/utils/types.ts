@@ -42,7 +42,13 @@ export type NewDataList = {
   category_order: number;
 };
 
-export type newPage = {
+export type newArticle = {
+  title: string,
+  content: string
+}
+
+export type article = {
+  id: string,
   title: string,
   content: string
 }
@@ -68,6 +74,8 @@ export type dataObject = {
   setSelectedCategory : React.Dispatch<React.SetStateAction<DataList | null>>,
   selectedSubCategoryId? : number
   selectedTitleId? : number,
+  articleLinked? : article | null,
+  setArticleLinked? : React.Dispatch<React.SetStateAction<article | null>>
 };
 
 export type dataObjectAddCategory = {

@@ -7,9 +7,9 @@ import styles from "./styles.module.css";
 
 export default function LogosList() {
   return (
-    <div onClick={() => window.location.href = "/"} className={styles.logosList}>
-      <Image className={styles.chc} src={CHCahors} alt="CH Cahors"/>
-      <Image className={styles.ght} src={GHT} alt="GHT"/>
+    <div className={styles.logosList}>
+      <Image onClick={() => window.location.href = "/"} className={styles.chc} src={CHCahors} alt="CH Cahors"/>
+      <Image onClick={() => window.location.href = "/"} className={styles.ght} src={GHT} alt="GHT"/>
     </div>
   );
 }

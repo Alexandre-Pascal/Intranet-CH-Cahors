@@ -1,8 +1,10 @@
 import React from "react";
 import styles from "./styles.module.css";
-import { dataObject } from "@/app/lib/utils/types";
+import { article, dataObject } from "@/app/lib/utils/types";
 import { submitItem, deleteItem, updateItem } from "../itemFunctions";
 import { ADD, UPDATE, DELETE } from "@/app/lib/utils/constantes";
+import SelectorArticle from "./SelectorArticle";
+import generateTitleId from "@/app/lib/utils/generateId";
 
 export default function SubmitUpdateDeleteContainer(datas : dataObject) {
 
@@ -43,7 +45,8 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
     datas.setOrder ? datas.setOrder(0) : "";
     datas.setUrl ? datas.setUrl("") : "";
   };
-
+  // alert(datas.url);
+  // alert("/articles/" + datas.articleLinked?.id);
   return (
     <div className={styles.container_dialog}>
       <div className={styles.dialog}>
@@ -68,12 +71,15 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
                 />
                 {(datas.datasType == "Title" || datas.datasType == "SubCategory") && (
                   <>
+                    <h3>Article :</h3>
+                    {datas.setArticleLinked && <SelectorArticle setArticle = {datas.setArticleLinked} articlee={datas.articleLinked ? datas.articleLinked : {} as article} setUrl={datas.setUrl} url={datas.url} />}
                     <h3>URL : </h3>
                     <input
+                      disabled={datas.articleLinked ? true : false}
                       type="text"
-                      placeholder="Champ non obligatoire"
-                      value={datas.url}
-                      onChange={(e) =>datas.setUrl ? datas.setUrl(e.target.value) : ""}
+                      placeholder={ datas.articleLinked ? datas.url : "https://___________"}
+                      {...datas.url == "/articles/" + datas.articleLinked?.id ? { value: "/articles/" + datas.articleLinked?.id } : { value: datas.url }}
+                      onChange={(e) => datas.setUrl ? datas.setUrl(e.currentTarget.value) : ""}
                     />
                   </>
                 )
