@@ -8,12 +8,14 @@ export default function PageMakerUpdater() {
 
   const searchParams = useSearchParams();
   let mode;
-  mode = searchParams.get("CreateOrUpdate") || "ezezzz";
+  let idPage;
+  mode = searchParams.get("CreateOrUpdate") || "";
+  idPage = searchParams.get("idPage") || "";
 
   return (
     <div>
-      <h1>{mode === "create" ? "Création de page" : "Modification de page"}</h1>
-      <TextEditor kind={mode} />
+      <h1>{mode === "create" ? "Création de page" : `Modification de ${idPage}`}</h1>
+      <TextEditor kind={mode} idPage={idPage} />
     </div>
   );
 }

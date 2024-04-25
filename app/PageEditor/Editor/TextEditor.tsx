@@ -42,8 +42,9 @@ import { TextMenu } from "./TextMenu/TextMenu";
 import { newPage } from "@/app/lib/utils/types";
 
 import { useForm } from "react-hook-form";
+import generateTitleId from "@/app/lib/utils/generateId";
 
-export default function Editor({ kind } : {kind : string}) {
+export default function Editor({ kind, idPage } : {kind : string, idPage : string}) {
   const {
     register,
     handleSubmit,
@@ -110,12 +111,33 @@ export default function Editor({ kind } : {kind : string}) {
   });
 
   const [isEditable, setIsEditable] = React.useState(true);
+  const [title, setTitle] = React.useState("");
 
   useEffect(() => {
     if (editor) {
       editor.setEditable(isEditable);
     }
   }, [isEditable, editor]);
+
+  useEffect(() => {
+    const fetchData = async() => {
+      if (editor && kind === "update" && idPage) {
+        try {
+          const response = await fetch(`/api/articles/${idPage}`);
+          if (!response.ok) {
+            throw new Error("Erreur lors de la récupération des données");
+          }
+          const jsonData = await response.json();
+          editor.commands.setContent(jsonData.result.content);
+          setTitle(jsonData.result.title);
+        } catch (error) {
+          console.error("Erreur:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [editor]);
 
   async function handleSubmitForm(title : string) {
     let newPage = {
@@ -140,11 +162,37 @@ export default function Editor({ kind } : {kind : string}) {
     }
   }
 
+  async function handleUpdateForm() {
+    let newPage = {
+      title: watch("title"),
+      content: editor?.getHTML(),
+    } as newPage;
+    try {
+      await fetch(
+        `/api/articles/${idPage}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newPage),
+        }
+      );
+      const newPageUrl = generateTitleId(watch("title"));
+      console.log(newPage);
+      window.location.href = `/articles/${newPageUrl}`; //redirige vers la page nouvellement créée
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du formulaire :", error);
+    }
+  }
+
+  async function handleDeleteForm() {}
+
   return (
     <div>
-      <form onSubmit={handleSubmit((data) => handleSubmitForm(data.title))} className="w-full">
+      <form onSubmit={handleSubmit((data) => kind == "create" ? handleSubmitForm(data.title) : handleUpdateForm())} className="w-full">
 
-        <input {...register("title", { required : true, minLength : 3, maxLength: 50 })} type="text" placeholder="Titre de la page" className="w-full p-2 text-4xl font-bold text-center mt-4" />
+        <input {...register("title", { required : true, minLength : 3, maxLength: 50 })} type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Titre de la page" className="w-full p-2 text-4xl font-bold text-center mt-4" />
         <EditorContent editor={editor} />
         {editor &&
         <>
@@ -170,7 +218,7 @@ export default function Editor({ kind } : {kind : string}) {
 
           { kind === "create" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Publier</button>}
 
-          { kind === "update" && <button type="submit" onClick={() => handleUpdateForm ()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button> }
+          { kind === "update" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button> }
           <button type="button" onClick={() => window.location.href = "/" } className="bg-stone-300 hover:bg-stone-500	 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
 
         </>

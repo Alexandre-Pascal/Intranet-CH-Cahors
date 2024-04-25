@@ -1,5 +1,5 @@
-import { Button } from "@/app/components/ui/button";
 import prisma from "@/app/lib/utils/prisma";
+import Buttons from "./buttons";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   //en fonction de params.slug, on va chercher dans la base de données grace a axios les données correspondante qui on comme id le params.slug
@@ -25,8 +25,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <div>
           <h1>{data.title}</h1>
           <div dangerouslySetInnerHTML={{ __html: data.content }} />
-          <Button onClick={() => console.log("edit")}>Edit</Button>
-          <Button onClick={() => console.log("delete")}>Delete</Button>
+
+          <Buttons slug={params.slug} />
+
         </div>
       )}
 
