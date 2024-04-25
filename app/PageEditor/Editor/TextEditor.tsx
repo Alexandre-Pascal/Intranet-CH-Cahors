@@ -186,7 +186,26 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     }
   }
 
-  async function handleDeleteForm() {}
+  async function handleDeleteArticle() {
+    try {
+      await fetch(
+        `/api/articles/${idPage}`,
+        {
+          method: "DELETE",
+        }
+      );
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Erreur lors de la suppression de l'article :", error);
+    }
+  }
+
+  //popup confirm delete
+  const handleDelete = () => {
+    if (confirm("Voulez-vous vraiment supprimer cet article ?")) {
+      handleDeleteArticle();
+    }
+  };
 
   return (
     <div>
@@ -219,11 +238,13 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
           { kind === "create" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Publier</button>}
 
           { kind === "update" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button> }
+          <button type="button" onClick={() => handleDelete()} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">Supprimer</button>
           <button type="button" onClick={() => window.location.href = "/" } className="bg-stone-300 hover:bg-stone-500	 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
-
         </>
         }
       </form>
     </div>
   );
+
 }
+
