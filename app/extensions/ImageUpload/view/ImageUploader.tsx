@@ -11,7 +11,7 @@ export const ImageUploader = ({ onUpload }: { onUpload: (url: string) => void })
   const { draggedInside, onDrop, onDragEnter, onDragLeave } = useDropZone({ uploader: uploadFile });
 
   const onFileChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => (e.target.files ? uploadFile(e.target.files[0]) : null),
+    (e: ChangeEvent<HTMLInputElement>) => (e.target.files ? uploadFile() : undefined),
     [uploadFile],
   );
 
@@ -42,7 +42,7 @@ export const ImageUploader = ({ onUpload }: { onUpload: (url: string) => void })
           {draggedInside ? "Déposez votre image ici" : "Glissez et déposez ou"}
         </div>
         <div>
-          <Button disabled={draggedInside} onClick={handleUploadClick} variant="primary" buttonSize="small">
+          <Button type="button" disabled={draggedInside} onClick={handleUploadClick} variant="primary" buttonSize="small">
             <Icon name="Upload" />
             Chargez une image
           </Button>
