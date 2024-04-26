@@ -19,11 +19,9 @@ import {
   Italic,
   List,
   ListOrdered,
-  MessageSquarePlus,
   Table,
   Text,
 } from "lucide-react";
-import { title } from "process";
 
   interface CommandItemProps {
     title: string;
@@ -69,8 +67,8 @@ const Command = Extension.create({
 const getSuggestionItems = ({ query }: { query: string }) => {
   return [
     {
-      title: "Heading 1",
-      description: "Big section heading.",
+      title: "Titre 1",
+      description: "Grand titre.",
       icon: <Heading1 size={18} />,
       command: ({ editor, range }: Command) => {
         editor
@@ -82,8 +80,8 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       },
     },
     {
-      title: "Heading 2",
-      description: "Medium section heading.",
+      title: "Titre 2",
+      description: "Moins grand titre.",
       icon: <Heading2 size={18} />,
       command: ({ editor, range }: Command) => {
         editor
@@ -96,7 +94,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
     },
     {
       title: "Heading 3",
-      description: "Small section heading.",
+      description: "Petit titre.",
       icon: <Heading3 size={18} />,
       command: ({ editor, range }: Command) => {
         editor
@@ -109,7 +107,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
     },
     {
       title: "Text",
-      description: "Just start typing with plain text.",
+      description: "Commencez à écrire du texte.",
       icon: <Text size={18} />,
       command: ({ editor, range }: Command) => {
         editor
@@ -121,16 +119,16 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       },
     },
     {
-      title: "Bold",
-      description: "Make text bold.",
+      title: "Gras",
+      description: "Mettre le texte en gras.",
       icon: <Bold size={18} />,
       command: ({ editor, range }: Command) => {
         editor.chain().focus().deleteRange(range).setMark("bold").run();
       },
     },
     {
-      title: "Italic",
-      description: "Make text italic.",
+      title: "Italique",
+      description: "Mettre le texte en italique.",
       icon: <Italic size={18} />,
       command: ({ editor, range }: Command) => {
         editor.chain().focus().deleteRange(range).setMark("italic").run();
@@ -153,16 +151,16 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       },
     },
     {
-      title: "Bullet List",
-      description: "Create a simple bullet list.",
+      title: "Liste à puce",
+      description: "Créez une liste à puces.",
       icon: <List size={18} />,
       command: ({ editor, range }: Command) => {
         editor.chain().focus().deleteRange(range).toggleBulletList().run();
       },
     },
     {
-      title: "Numbered List",
-      description: "Create a list with numbering.",
+      title: "Liste numérotée",
+      description: "Créez une liste numérotée.",
       icon: <ListOrdered size={18} />,
       command: ({ editor, range }: Command) => {
         editor.chain().focus().deleteRange(range).toggleOrderedList().run();
@@ -341,48 +339,6 @@ const SlashCommand = Command.configure({
     items: getSuggestionItems,
     render: renderItems,
   },
-  // addOptions() {
-  //   return {
-  //     commands: {
-  //       addColumnBefore: ({ editor }: { editor: Editor }) => {
-  //         const { selection } = editor.state;
-  //         if (selection && selection.$from.parent.type.name === "table_cell") {
-  //           editor.chain().focus().addColumnBefore().run();
-  //         }
-  //       },
-  //       addColumnAfter: ({ editor }: { editor: Editor }) => {
-  //         const { selection } = editor.state;
-  //         if (selection && selection.$from.parent.type.name === "table_cell") {
-  //           editor.chain().focus().addColumnAfter().run();
-  //         }
-  //       },
-  //       addRowBefore: ({ editor }: { editor: Editor }) => {
-  //         const { selection } = editor.state;
-  //         if (selection && selection.$from.parent.type.name === "table_row") {
-  //           editor.chain().focus().addRowBefore().run();
-  //         }
-  //       },
-  //       addRowAfter: ({ editor }: { editor: Editor }) => {
-  //         const { selection } = editor.state;
-  //         if (selection && selection.$from.parent.type.name === "table_row") {
-  //           editor.chain().focus().addRowAfter().run();
-  //         }
-  //       },
-  //       deleteColumn: ({ editor }: { editor: Editor }) => {
-  //         const { selection } = editor.state;
-  //         if (selection && selection.$from.parent.type.name === "table_cell") {
-  //           editor.chain().focus().deleteColumn().run();
-  //         }
-  //       },
-  //       deleteRow: ({ editor }: { editor: Editor }) => {
-  //         const { selection } = editor.state;
-  //         if (selection && selection.$from.parent.type.name === "table_row") {
-  //           editor.chain().focus().deleteRow().run();
-  //         }
-  //       },
-  //     },
-  //   };
-  // },
 });
 
 export default SlashCommand;

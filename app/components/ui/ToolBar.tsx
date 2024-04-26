@@ -66,6 +66,7 @@ const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
 
     const content = (
       <Button
+        type="button"
         activeClassname={activeClassname}
         className={buttonClass}
         variant={variant}
