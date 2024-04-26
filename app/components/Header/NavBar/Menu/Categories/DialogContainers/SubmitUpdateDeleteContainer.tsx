@@ -4,7 +4,6 @@ import { article, dataObject } from "@/app/lib/utils/types";
 import { submitItem, deleteItem, updateItem } from "../itemFunctions";
 import { ADD, UPDATE, DELETE } from "@/app/lib/utils/constantes";
 import SelectorArticle from "./SelectorArticle";
-import generateTitleId from "@/app/lib/utils/generateId";
 
 export default function SubmitUpdateDeleteContainer(datas : dataObject) {
 
@@ -45,8 +44,7 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
     datas.setOrder ? datas.setOrder(0) : "";
     datas.setUrl ? datas.setUrl("") : "";
   };
-  // alert(datas.url);
-  // alert("/articles/" + datas.articleLinked?.id);
+
   return (
     <div className={styles.container_dialog}>
       <div className={styles.dialog}>

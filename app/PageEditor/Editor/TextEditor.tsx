@@ -186,6 +186,13 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     }
   }
 
+  //popup confirm delete
+  const handleDelete = () => {
+    if (confirm("Voulez-vous vraiment supprimer cet article ?")) {
+      handleDeleteArticle();
+    }
+  };
+
   async function handleDeleteArticle() {
     try {
       await fetch(
@@ -200,17 +207,9 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     }
   }
 
-  //popup confirm delete
-  const handleDelete = () => {
-    if (confirm("Voulez-vous vraiment supprimer cet article ?")) {
-      handleDeleteArticle();
-    }
-  };
-
   return (
     <div>
       <form onSubmit={handleSubmit((data) => kind == "create" ? handleSubmitForm(data.title) : handleUpdateForm())} className="w-full">
-
         <input {...register("title", { required : true, minLength : 3, maxLength: 50 })} type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Titre de la page" className="w-full p-2 text-4xl font-bold text-center mt-4" />
         <EditorContent editor={editor} />
         {editor &&
@@ -234,12 +233,12 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
           </BubbleMenu>
 
           {errors.title && <p className="text-red-500 text-lg font-bold">Le titre  doit contenir au moins 3 caractères et maximum 50 !</p>}
-
-          { kind === "create" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Publier</button>}
-
-          { kind === "update" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button> }
-          <button type="button" onClick={() => handleDelete()} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">Supprimer</button>
-          <button type="button" onClick={() => window.location.href = "/" } className="bg-stone-300 hover:bg-stone-500	 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
+          <div className={styles.container_buttons}>
+            <button type="button" onClick={() => window.location.href = "/" } className="bg-stone-300 hover:bg-stone-500	 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
+            { kind === "update" && <button type="button" onClick={() => handleDelete()} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">Supprimer</button> }
+            { kind === "create" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Publier</button>}
+            { kind === "update" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button> }
+          </div>
         </>
         }
       </form>

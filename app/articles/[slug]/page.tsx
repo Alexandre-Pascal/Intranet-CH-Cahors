@@ -25,9 +25,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <div>
           <h1>{data.title}</h1>
           <div dangerouslySetInnerHTML={{ __html: data.content }} />
-
           <Buttons slug={params.slug} />
-
         </div>
       )}
 

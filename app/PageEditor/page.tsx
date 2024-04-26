@@ -14,7 +14,7 @@ export default function PageMakerUpdater() {
 
   return (
     <div>
-      <h1>{mode === "create" ? "Création de page" : `Modification de ${idPage}`}</h1>
+      <h1 style={{ marginInlineStart: "3vw" }}>{mode === "create" ? "Création de page" : `Modification de ${idPage}`}</h1>
       <TextEditor kind={mode} idPage={idPage} />
     </div>
   );
