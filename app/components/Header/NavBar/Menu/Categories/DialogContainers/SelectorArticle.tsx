@@ -1,9 +1,8 @@
 "use client";
 import { article } from "@/app/lib/utils/types";
 import React, { useEffect, useState } from "react";
-import { set } from "react-hook-form";
 
-export default function SelectorArticle({ setArticle, articlee, setUrl, url } : {setArticle : React.Dispatch<React.SetStateAction<article | null>>, articlee : article, setUrl? : React.Dispatch<React.SetStateAction<string>>, url? : string}){
+export default function SelectorArticle({ setArticle, setUrl, url } : {setArticle : React.Dispatch<React.SetStateAction<article | null>>, setUrl? : React.Dispatch<React.SetStateAction<string>>, url? : string}){
   const [articles, setArticles] = useState<article[]>([]);
   useEffect(() => {
     const fetchArticles = async() => {
@@ -11,7 +10,6 @@ export default function SelectorArticle({ setArticle, articlee, setUrl, url } : 
         const response = await fetch("/api/articles");
         const data = await response.json();
         setArticles(data.result);
-
       }
       catch (error) {
         console.error("Erreur:", error);
@@ -21,12 +19,10 @@ export default function SelectorArticle({ setArticle, articlee, setUrl, url } : 
   }, []);
 
   if (articles.length > 0) {
-    // alert(articles);
+    //J'aurais voulu le mettre dans le onChange mais ça ne marche pas bien car il ne se met pas à jour avant la première sélection
     const article = articles.find((article) => url === "/articles/" + article.id);
     setArticle(article ? article : null);
   }
-
-  //   alert(articles.length);
 
   return (
     <select
@@ -34,14 +30,7 @@ export default function SelectorArticle({ setArticle, articlee, setUrl, url } : 
       id="article"
       onChange={(event) => {
         const articleId = event.target.value;
-        // alert(JSON.stringify(articleId));
-        const article = articles.find((article) => article.id === articleId);
-        // alert(article);
-        setArticle(article ? articlee : null);
-        alert(articleId);
-        // setUrl ? (articleId == "internet" ? setUrl(url ? url : "") : setUrl("/articles/" + articleId)) : " ";
         setUrl ? (articleId === "internet" ? setUrl(url || "") : (articleId === "" ? setUrl("") : setUrl("/articles/" + articleId))) : " ";
-
       }}
     >
       <option value={url?.startsWith("http://") ? "internet" : ""}>Lien Externe</option>

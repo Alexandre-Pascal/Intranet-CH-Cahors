@@ -72,13 +72,13 @@ export default function SubmitUpdateDeleteContainer(datas : dataObject) {
                 {(datas.datasType == "Title" || datas.datasType == "SubCategory") && (
                   <>
                     <h3>Article :</h3>
-                    {datas.setArticleLinked && <SelectorArticle setArticle = {datas.setArticleLinked} articlee={datas.articleLinked ? datas.articleLinked : {} as article} setUrl={datas.setUrl} url={datas.url} />}
+                    {datas.setArticleLinked && <SelectorArticle setArticle = {datas.setArticleLinked} setUrl={datas.setUrl} url={datas.url} />}
                     <h3>URL : </h3>
                     <input
                       disabled={datas.articleLinked ? true : false}
                       type="text"
                       placeholder={ datas.articleLinked ? datas.url : "https://___________"}
-                      {...datas.url == "/articles/" + datas.articleLinked?.id ? { value: "/articles/" + datas.articleLinked?.id } : { value: datas.url }}
+                      value={datas.url}
                       onChange={(e) => datas.setUrl ? datas.setUrl(e.currentTarget.value) : ""}
                     />
                   </>
