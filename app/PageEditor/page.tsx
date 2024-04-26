@@ -3,6 +3,7 @@
 import React from "react";
 import TextEditor from "./Editor/TextEditor";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 export default function PageMakerUpdater() {
 
@@ -11,10 +12,12 @@ export default function PageMakerUpdater() {
   const idPage = searchParams.get("idPage") || "";
 
   return (
-    <div>
-      <h1 className="ml-10">{mode === "create" ? "Création de page" : `Modification de ${idPage}`}</h1>
-      <TextEditor kind={mode} idPage={idPage} />
-    </div>
+    <Suspense>
+      <div>
+        <h1 className="ml-10">{mode === "create" ? "Création de page" : `Modification de ${idPage}`}</h1>
+        <TextEditor kind={mode} idPage={idPage} />
+      </div>
+    </Suspense>
   );
 }
 
