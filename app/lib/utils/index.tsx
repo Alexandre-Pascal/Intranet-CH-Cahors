@@ -11,4 +11,3 @@ export function randomElement(array: Array<any>) {
 
 export * from "./isCustomNodeSelected";
 export * from "./isTextSelected";
-export * from "./getRenderContainer";

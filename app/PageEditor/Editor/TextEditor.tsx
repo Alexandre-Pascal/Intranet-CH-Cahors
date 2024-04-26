@@ -234,7 +234,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
 
           {errors.title && <p className={["text-red-500 text-lg font-bold ml-10"].join(" ")}>Le titre  doit contenir au moins 3 caractères et maximum 50 !</p>}
           <div className={styles.container_buttons}>
-            <button type="button" onClick={() => window.location.href = "/" } className="bg-stone-300 hover:bg-stone-500	 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
+            <button type="button" onClick={() => window.location.href = "/" } className="bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
             { kind === "update" && <button type="button" onClick={() => handleDelete()} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">Supprimer</button> }
             { kind === "create" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Publier</button>}
             { kind === "update" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button> }
