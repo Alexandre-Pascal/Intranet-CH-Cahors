@@ -211,7 +211,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     <div>
       <form onSubmit={handleSubmit((data) => kind == "create" ? handleSubmitForm(data.title) : handleUpdateForm())} className="w-full">
         <input {...register("title", { required : true, minLength : 3, maxLength: 50 })} type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Titre de la page" className="w-full p-2 text-4xl font-bold text-center mt-4" />
-        <EditorContent editor={editor} />
+        <EditorContent editor={editor}/>
         {editor &&
         <>
           <ImageBlockMenu editor={editor}/>
@@ -232,7 +232,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             </div>
           </BubbleMenu>
 
-          {errors.title && <p className="text-red-500 text-lg font-bold">Le titre  doit contenir au moins 3 caractères et maximum 50 !</p>}
+          {errors.title && <p className={["text-red-500 text-lg font-bold ml-10"].join(" ")}>Le titre  doit contenir au moins 3 caractères et maximum 50 !</p>}
           <div className={styles.container_buttons}>
             <button type="button" onClick={() => window.location.href = "/" } className="bg-stone-300 hover:bg-stone-500	 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
             { kind === "update" && <button type="button" onClick={() => handleDelete()} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">Supprimer</button> }
