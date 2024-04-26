@@ -78,6 +78,9 @@ export type dataObject = {
   setArticleLinked? : React.Dispatch<React.SetStateAction<article | null>>
 };
 
+// export type dataObjectAddCategory = {
+// };
+
 export type dataObjectAddSubCategory = {
   selectedCategory : DataList | null,
 };

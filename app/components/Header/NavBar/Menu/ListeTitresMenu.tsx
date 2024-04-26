@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import {
   DataList, kindOfDatas, kindOfDialog, dataObjectAddSubCategory, dataObjectAddTitle, dataObjectUpdateCategory,
   dataObjectUpdateSubCategory, dataObjectUpdateTitle, dataObjectDeleteCategory, dataObjectDeleteSubCategory,
-  dataObjectDeleteTitle, dataObjectAddCategory,
+  dataObjectDeleteTitle,
   article,
 } from "@/app/lib/utils/types";
 
@@ -48,7 +48,6 @@ export default function ListeTitres(datas: DataList[]) {
   const itemAction = (
     dialogType: kindOfDialog,
     itemType: kindOfDatas,
-    dataObjectAddCategory? : dataObjectAddCategory,
     dataObjectAddSubCategory?: dataObjectAddSubCategory,
     dataObjectAddTitle? : dataObjectAddTitle,
     dataObjectUpdateCategory? : dataObjectUpdateCategory,
@@ -163,7 +162,6 @@ export default function ListeTitres(datas: DataList[]) {
                     CATEGORY,
                     undefined,
                     undefined,
-                    undefined,
                      {
                        selectedCategory: category ,
                        name: category.category_name,
@@ -180,7 +178,6 @@ export default function ListeTitres(datas: DataList[]) {
                   () => itemAction(
                     DELETE,
                     CATEGORY,
-                    undefined,
                     undefined,
                     undefined,
                     undefined,
@@ -232,7 +229,6 @@ export default function ListeTitres(datas: DataList[]) {
                   ADD,
                   TITLE,
                   undefined,
-                  undefined,
                   {
                     selectedCategory: selectedCategory,
                     selectedSubCategoryId: subCategory.sub_category_id,
@@ -246,7 +242,6 @@ export default function ListeTitres(datas: DataList[]) {
                       () => itemAction(
                         UPDATE,
                         SUBCATEGORY,
-                        undefined,
                         undefined,
                         undefined,
                         undefined,
@@ -268,7 +263,6 @@ export default function ListeTitres(datas: DataList[]) {
                         () => itemAction(
                           DELETE,
                           SUBCATEGORY,
-                          undefined,
                           undefined,
                           undefined,
                           undefined,
@@ -302,7 +296,6 @@ export default function ListeTitres(datas: DataList[]) {
                           undefined,
                           undefined,
                           undefined,
-                          undefined,
                           {
                             selectedSubCategoryId:subCategory.sub_category_id,
                             selectedTitleId: title.title_id,
@@ -318,7 +311,6 @@ export default function ListeTitres(datas: DataList[]) {
                         <Image className={styles.icon_action_list} onClick={() => itemAction(
                           DELETE,
                           TITLE,
-                          undefined,
                           undefined,
                           undefined,
                           undefined,
@@ -343,7 +335,6 @@ export default function ListeTitres(datas: DataList[]) {
           <a onClick={() => itemAction(
             ADD,
             SUBCATEGORY,
-            undefined,
             {
               selectedCategory: selectedCategory,
             },
