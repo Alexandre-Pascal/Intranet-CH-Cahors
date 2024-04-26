@@ -12,13 +12,13 @@ function MakerUpdater() {
 
   return (
     <div>
-        <h1 className="ml-10">{mode === "create" ? "Création de page" : `Modification de ${idPage}`}</h1>
-        <TextEditor kind={mode} idPage={idPage} />
-      </div>
-  )
+      <h1 className="ml-10">{mode === "create" ? "Création de page" : `Modification de ${idPage}`}</h1>
+      <TextEditor kind={mode} idPage={idPage} />
+    </div>
+  );
 }
 
-export function PageMakerUpdater() {
+export default function PageMakerUpdater() {
   return (
     <Suspense>
       <MakerUpdater/>
