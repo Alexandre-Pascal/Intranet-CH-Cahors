@@ -7,10 +7,8 @@ import { useSearchParams } from "next/navigation";
 export default function PageMakerUpdater() {
 
   const searchParams = useSearchParams();
-  let mode;
-  let idPage;
-  mode = searchParams.get("CreateOrUpdate") || "";
-  idPage = searchParams.get("idPage") || "";
+  const mode = searchParams.get("CreateOrUpdate") || "";
+  const idPage = searchParams.get("idPage") || "";
 
   return (
     <div>

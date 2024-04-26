@@ -7,17 +7,17 @@ import SelectorArticle from "./SelectorArticle";
 
 export default function SubmitUpdateDeleteContainer(datas : dataObject) {
 
-  var dialogButton = "";
+  let dialogButton = "";
 
   switch (datas.dialogType) {
   case ADD:
-    var dialogButton = "Ajouter";
+    dialogButton = "Ajouter";
     break;
   case UPDATE:
-    var dialogButton = "Modifier";
+    dialogButton = "Modifier";
     break;
   case DELETE:
-    var dialogButton = "Confirmer";
+    dialogButton = "Confirmer";
     break;
   }
 

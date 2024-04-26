@@ -1,5 +1,5 @@
 import { Editor } from "@tiptap/react";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { ShouldShowProps } from "../../../../lib/utils/types";
 import { isCustomNodeSelected, isTextSelected } from "@/app/lib/utils";
 

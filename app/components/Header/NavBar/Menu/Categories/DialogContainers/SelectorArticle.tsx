@@ -2,7 +2,13 @@
 import { article } from "@/app/lib/utils/types";
 import React, { useEffect, useState } from "react";
 
-export default function SelectorArticle({ setArticle, setUrl, url } : {setArticle : React.Dispatch<React.SetStateAction<article | null>>, setUrl? : React.Dispatch<React.SetStateAction<string>>, url? : string}){
+export default function SelectorArticle({ setArticle, setUrl, url } :
+  {
+    setArticle : React.Dispatch<React.SetStateAction<article | null>>,
+    setUrl? : React.Dispatch<React.SetStateAction<string>>,
+    url? : string
+  })
+{
   const [articles, setArticles] = useState<article[]>([]);
   useEffect(() => {
     const fetchArticles = async() => {

@@ -39,7 +39,7 @@ import ImageBlockMenu from "@/app/extensions/ImageBlock/components/ImageBlockMen
 import Image from "@tiptap/extension-image";
 import { TextMenu } from "./TextMenu/TextMenu";
 
-import { newArticle, article } from "@/app/lib/utils/types";
+import { newArticle } from "@/app/lib/utils/types";
 
 import { useForm } from "react-hook-form";
 import generateTitleId from "@/app/lib/utils/generateId";
@@ -110,14 +110,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     },
   });
 
-  const [isEditable, setIsEditable] = React.useState(true);
   const [title, setTitle] = React.useState("");
-
-  useEffect(() => {
-    if (editor) {
-      editor.setEditable(isEditable);
-    }
-  }, [isEditable, editor]);
 
   useEffect(() => {
     const fetchData = async() => {
@@ -137,10 +130,10 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     };
 
     fetchData();
-  }, [editor]);
+  }, [editor, kind, idPage]);
 
   async function handleSubmitForm(title : string) {
-    let newArticle = {
+    const newArticle = {
       title: title,
       content: editor?.getHTML(),
     } as newArticle;
@@ -163,7 +156,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
   }
 
   async function handleUpdateForm() {
-    let newArticle = {
+    const newArticle = {
       title: watch("title"),
       content: editor?.getHTML(),
     } as newArticle;
@@ -210,7 +203,25 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
   return (
     <div>
       <form onSubmit={handleSubmit((data) => kind == "create" ? handleSubmitForm(data.title) : handleUpdateForm())} className="w-full">
-        <input {...register("title", { required : true, minLength : 3, maxLength: 50 })} type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Titre de la page" className="w-full p-2 text-4xl font-bold text-center mt-4" />
+        <input
+          {...register(
+            "title",
+            {
+              required : true,
+              minLength : 3,
+              maxLength: 50,
+            }
+          )
+          }
+          type="text"
+          value={title}
+          onChange={
+            (e) => setTitle(e.target.value)
+          }
+          placeholder="Titre de la page"
+          className="w-full p-2 text-4xl font-bold text-center mt-4"
+        />
+
         <EditorContent editor={editor}/>
         {editor &&
         <>
@@ -221,29 +232,132 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             tippyOptions={{ duration: 100 }}
           >
             <div className={styles.columnsIcons}>
-              <NextImage className={styles.icons} height={32} width={32} src={ajoutLigneHaut} title="Insérer une ligne au dessus" alt="Insérer une ligne au dessus" onClick={() => editor.chain().focus().addRowBefore().run()} />
-              <NextImage className={styles.icons} height={32} width={32} src={ajoutLigneBas} title="Insérer une ligne en dessous" alt="Insérer une ligne en dessous" onClick={() => editor.chain().focus().addRowAfter().run()} />
-              <NextImage className={styles.icons} height={32} width={32} src={ajoutColGauche} title="Insérer une colonne à gauche" alt="Insérer une colonne à gauche" onClick={() => editor.chain().focus().addColumnBefore().run()} />
-              <NextImage className={styles.icons} height={32} width={32} src={ajoutColDroit} title="Insérer une colonne à droite" alt="Insérer une colonne à droite" onClick={() => editor.chain().focus().addColumnAfter().run()} />
-              <NextImage className={styles.icons} height={32} width={32} src={supprLigne} title="Supprimer une ligne" alt="Supprimer une ligne" onClick={() => editor.chain().focus().deleteRow().run()} />
-              <NextImage className={styles.icons} height={32} width={32} src={supprCol} title="Supprimer une colonne" alt="Supprimer une colonne" onClick={() => editor.chain().focus().deleteColumn().run()} />
-              <NextImage className={styles.icons} height={32} width={32} src={supprTable} title="Supprimer le tableau" alt="Supprimer le tableau" onClick={() => editor.chain().focus().deleteTable().run()} />
-              <NextImage className={styles.icons} height={32} width={32} src={insererTable} title="Insérer un tableau" alt="Insérer un tableau" onClick={() => editor.chain().focus().insertTable().run()} />
+              <NextImage
+                className={styles.icons}
+                height={32}
+                width={32}
+                src={ajoutLigneHaut}
+                title="Insérer une ligne au dessus"
+                alt="Insérer une ligne au dessus"
+                onClick={
+                  () => editor.chain().focus().addRowBefore().run()
+                }
+              />
+              <NextImage
+                className={styles.icons}
+                height={32}
+                width={32}
+                src={ajoutLigneBas}
+                title="Insérer une ligne en dessous"
+                alt="Insérer une ligne en dessous"
+                onClick={
+                  () => editor.chain().focus().addRowAfter().run()
+                }
+              />
+              <NextImage
+                className={styles.icons}
+                height={32}
+                width={32}
+                src={ajoutColGauche}
+                title="Insérer une colonne à gauche"
+                alt="Insérer une colonne à gauche"
+                onClick={
+                  () => editor.chain().focus().addColumnBefore().run()
+                }
+              />
+              <NextImage
+                className={styles.icons}
+                height={32}
+                width={32}
+                src={ajoutColDroit}
+                title="Insérer une colonne à droite"
+                alt="Insérer une colonne à droite"
+                onClick={
+                  () => editor.chain().focus().addColumnAfter().run()
+                }
+              />
+              <NextImage
+                className={styles.icons}
+                height={32}
+                width={32}
+                src={supprLigne}
+                title="Supprimer une ligne"
+                alt="Supprimer une ligne"
+                onClick={
+                  () => editor.chain().focus().deleteRow().run()
+                }
+              />
+              <NextImage
+                className={styles.icons}
+                height={32}
+                width={32}
+                src={supprCol}
+                title="Supprimer une colonne"
+                alt="Supprimer une colonne" onClick={() => editor.chain().focus().deleteColumn().run()
+                }
+              />
+              <NextImage
+                className={styles.icons}
+                height={32}
+                width={32}
+                src={supprTable}
+                title="Supprimer le tableau" alt="Supprimer le tableau" onClick={() => editor.chain().focus().deleteTable().run()
+                }
+              />
+              <NextImage
+                className={styles.icons}
+                height={32}
+                width={32}
+                src={insererTable}
+                title="Insérer un tableau" alt="Insérer un tableau" onClick={() => editor.chain().focus().insertTable().run()
+                }
+              />
             </div>
           </BubbleMenu>
 
-          {errors.title && <p className={["text-red-500 text-lg font-bold ml-10"].join(" ")}>Le titre  doit contenir au moins 3 caractères et maximum 50 !</p>}
+          {
+            errors.title &&
+          <p className={["text-red-500 text-lg font-bold ml-10"].join(" ")}>
+            Le titre  doit contenir au moins 3 caractères et maximum 50 !
+          </p>
+          }
           <div className={styles.container_buttons}>
-            <button type="button" onClick={() => window.location.href = "/" } className="bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4">Annuler</button>
-            { kind === "update" && <button type="button" onClick={() => handleDelete()} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4">Supprimer</button> }
-            { kind === "create" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Publier</button>}
-            { kind === "update" && <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Mettre à jour</button> }
+            <button type="button"
+              onClick={() => window.location.href = "/" }
+              className="bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4"
+            >
+                Annuler
+            </button>
+            {
+              kind === "update" &&
+            <button type="button"
+              onClick={() => handleDelete()}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+            >
+                Supprimer
+            </button>
+            }
+            {
+              kind === "create" &&
+            <button type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            >
+                Publier
+            </button>
+            }
+            {
+              kind === "update" &&
+            <button type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            >
+                Mettre à jour
+            </button>
+            }
           </div>
         </>
         }
       </form>
     </div>
   );
-
 }
 

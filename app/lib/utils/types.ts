@@ -78,9 +78,6 @@ export type dataObject = {
   setArticleLinked? : React.Dispatch<React.SetStateAction<article | null>>
 };
 
-export type dataObjectAddCategory = {
-};
-
 export type dataObjectAddSubCategory = {
   selectedCategory : DataList | null,
 };
@@ -136,4 +133,8 @@ export interface ShouldShowProps {
   oldState?: EditorState
   from?: number
   to?: number
+}
+
+export type EditLinkPopoverProps = {
+  onSetLink: (link: string, openInNewTab?: boolean) => void
 }

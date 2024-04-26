@@ -4,7 +4,6 @@ import React, {
   useCallback,
   ReactNode,
   useRef,
-  useLayoutEffect,
 } from "react";
 import { Editor, Range, Extension } from "@tiptap/core";
 import Suggestion from "@tiptap/suggestion";
@@ -298,7 +297,7 @@ const renderItems = () => {
         editor: props.editor,
       });
 
-      // @ts-ignore
+      // @ts-expect-error : je sais pas
       popup = tippy("body", {
         getReferenceClientRect: props.clientRect,
         appendTo: () => document.body,
@@ -324,7 +323,7 @@ const renderItems = () => {
         return true;
       }
 
-      // @ts-ignore
+      // @ts-expect-error: Explanation goes here
       return component?.ref?.onKeyDown(props);
     },
     onExit: () => {

@@ -1,4 +1,4 @@
-import { DropdownButton, DropdownCategoryTitle } from "@/app/components/ui/Dropdown";
+import { DropdownButton } from "@/app/components/ui/Dropdown";
 import { Icon } from "@/app/lib/utils/Icon";
 import { Surface } from "@/app/components/ui/Surface";
 import { Toolbar } from "@/app/components/ui/ToolBar";
