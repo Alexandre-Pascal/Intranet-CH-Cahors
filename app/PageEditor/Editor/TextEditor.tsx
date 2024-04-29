@@ -43,6 +43,7 @@ import { newArticle } from "@/app/lib/utils/types";
 
 import { useForm } from "react-hook-form";
 import generateTitleId from "@/app/lib/utils/generateId";
+import FilesManager from "./FilesManager/FilesManager";
 
 export default function Editor({ kind, idPage } : {kind : string, idPage : string}) {
   const {
@@ -362,6 +363,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             </button>
             }
           </div>
+          <FilesManager/>
         </>
         }
       </form>
