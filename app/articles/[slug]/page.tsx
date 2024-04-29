@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   return (
     <>
       { data && data.content && (
-        <div>
+        <div className="ProseMirror">
           <h1>{data.title}</h1>
           <div dangerouslySetInnerHTML={{ __html: data.content }} />
           <Buttons slug={params.slug} />

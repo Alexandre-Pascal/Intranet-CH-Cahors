@@ -19,39 +19,6 @@
     text-transform: uppercase;
   }
 
-.table{
-  position: relative;
-  left: 8.65vw;
-  background-color: white;
-}
-
-.rows {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .rows div {
-    display: flex;
-    padding-top: 5px;
-    padding-bottom:5px;
-    cursor: pointer;
-  }
-  
-.columns {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #ccc;
-   
-}
-
-.columns div {
-    display: flex;
-    padding-top: 5px;
-    padding-bottom:5px;
-    justify-content: space-around;
-    cursor: pointer;
-  }
-
 .deleteTable{
   border: 1px solid #ccc;
   display: flex;
@@ -104,4 +71,10 @@
 .container_buttons button {
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.link {
+  text-decoration: revert;
+  color: revert;
+  cursor: revert;
 }

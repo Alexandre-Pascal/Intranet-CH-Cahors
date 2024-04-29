@@ -201,7 +201,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
   }
 
   return (
-    <div>
+    <div className="editor">
       <form onSubmit={handleSubmit((data) => kind == "create" ? handleSubmitForm(data.title) : handleUpdateForm())} className="w-full">
         <input
           {...register(
@@ -317,9 +317,17 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
 
           {
             errors.title &&
-          <p className={["text-red-500 text-lg font-bold ml-10"].join(" ")}>
-            Le titre  doit contenir au moins 3 caractères et maximum 50 !
-          </p>
+            <>
+              {
+                kind === "update" &&
+            <p className={["text-black-500 text-lg ml-10"].join(" ")}>
+            Si vous n'avez pas modifié le titre, veuillez cliquer à nouveau sur le bouton "Mettre à jour", sinon :
+            </p>
+              }
+              <p className={["text-red-500 text-lg font-bold ml-10"].join(" ")}>
+            Le titre doit contenir au moins 3 caractères et maximum 50 !
+              </p>
+            </>
           }
           <div className={styles.container_buttons}>
             <button type="button"
