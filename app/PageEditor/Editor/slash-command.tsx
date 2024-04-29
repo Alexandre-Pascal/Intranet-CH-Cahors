@@ -20,6 +20,7 @@ import {
   ListOrdered,
   Table,
   Text,
+  File,
 } from "lucide-react";
 
   interface CommandItemProps {
@@ -139,6 +140,14 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       icon: <Table size={18} />,
       command: ({ editor, range }: Command) => {
         editor.chain().focus().deleteRange(range).insertTable({ rows: 3, cols: 3, withHeaderRow: false }).run();
+      },
+    },
+    {
+      title: "Fichier",
+      description: "Insérez un fichier.",
+      icon: <File size={18} />,
+      command: ({ editor, range }: Command) => {
+        editor.chain().focus().deleteRange(range).setFileUpload().run();
       },
     },
     {
