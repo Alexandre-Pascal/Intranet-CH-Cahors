@@ -34,7 +34,7 @@ export default function Buttons({ slug } : { slug : string }){
           onClick={() => window.location.href = "/" }
           className="bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4"
         >
-                Annuler
+                Accueil
         </button>
 
         <button type="button"

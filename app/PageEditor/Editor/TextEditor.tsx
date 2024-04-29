@@ -321,7 +321,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
               {
                 kind === "update" &&
             <p className={["text-black-500 text-lg ml-10"].join(" ")}>
-            Si vous n'avez pas modifié le titre, veuillez cliquer à nouveau sur le bouton "Mettre à jour", sinon :
+            Si vous n'avez pas modifié le titre, veuillez cliquer à nouveau sur le bouton "Modifier", sinon :
             </p>
               }
               <p className={["text-red-500 text-lg font-bold ml-10"].join(" ")}>
@@ -358,7 +358,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             <button type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
             >
-                Mettre à jour
+                Modifier
             </button>
             }
           </div>

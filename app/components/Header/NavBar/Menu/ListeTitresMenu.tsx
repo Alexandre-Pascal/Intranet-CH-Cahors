@@ -383,7 +383,8 @@ export default function ListeTitres(datas: DataList[]) {
               setSelectedCategory={setSelectedCategory}
               router={router}
               dataList={dataList}
-
+              articleLinked={articleLinked}
+              setArticleLinked={setArticleLinked}
             />
           ) : (
             <SubmitUpdateDeleteContainer
@@ -401,6 +402,8 @@ export default function ListeTitres(datas: DataList[]) {
               setSelectedCategory={setSelectedCategory}
               selectedSubCategoryId={selectedSubCategoryId}
               router={router}
+              articleLinked={articleLinked}
+              setArticleLinked={setArticleLinked}
             />
           )
         ) : isActive.dialogType === UPDATE ? (
