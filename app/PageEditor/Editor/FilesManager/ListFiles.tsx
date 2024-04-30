@@ -39,7 +39,7 @@ const ListFiles: React.FC<ListFilesProps> = ({ idPage, files, setIsUpToDate }) =
 
   return (
     <div className={styles.container_downloader}>
-      <h2>Liste des fichiers :</h2>
+      <h3>Liste des fichiers :</h3>
       <ul>
         {files && files.map((file) => (
           <li key={file}>

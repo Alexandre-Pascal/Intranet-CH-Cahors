@@ -42,7 +42,7 @@ export default function UploadComponent({ idPage, setIsUpToDate }: UploadCompone
 
   return (
     <div className={styles.container_uploader}>
-      <h2>Déposer un ficher</h2>
+      <h3>Déposer un ficher</h3>
       <input type="file" onChange={handleFileChange} />
       <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleUpload}>
         Déposer

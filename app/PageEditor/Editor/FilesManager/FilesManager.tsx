@@ -15,7 +15,7 @@ export default function FilesManager({ idPage, setIsOpenFileManager }: FilesMana
   return (
     <div className={styles.container_download_upload}>
       <a className={styles.set_file_manager_close} onClick={() => setIsOpenFileManager(false)}><Icon name="ArrowLeftFromLine" /></a>
-      <h1 className="text-center">Gestion des fichiers</h1>
+      <h2 className="text-center">Gestion des fichiers</h2>
       <UploadComponent idPage={idPage} setIsUpToDate={setIsUpToDate} />
       <DownloadComponent idPage={idPage} isUpToDate={isUpToDate} setIsUpToDate={setIsUpToDate}/>
     </div>
