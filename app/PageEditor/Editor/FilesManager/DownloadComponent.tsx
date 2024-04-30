@@ -31,9 +31,9 @@ const DownloadComponent = (downloadComponentProps: DownloadComponentProps) => {
       fetchFiles();
       setIsUpToDate(true);
     }
-  }); // Ajoutez ici d'autres dépendances si nécessaire
+  }, [isUpToDate]); // Ajoutez ici d'autres dépendances si nécessaire
 
-  return <ListFiles id={id} files={files} />;
+  return <ListFiles id={id} files={files} setIsUpToDate={setIsUpToDate} />;
 };
 
 export default DownloadComponent;

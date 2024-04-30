@@ -21,3 +21,17 @@ export async function GET(request, { params }, res) {
   //je le télécharge
   return NextResponse.json(filePath);
 }
+
+export async function DELETE(request, { params }) {
+  const articleId = params.articleId;
+  const filename = params.name;
+  const filePath = path.resolve(`./public/uploadedFiles/${articleId}/${filename }`);
+  console.log(filePath);
+  //je vérifie si le fichier existe
+  if (!fs.existsSync(filePath)) {
+    return NextResponse.json({ message: "Aucun fichier trouvé" });
+  }
+  //je le supprime
+  fs.unlinkSync(filePath);
+  return NextResponse.json({ message: "Fichier supprimé" });
+}

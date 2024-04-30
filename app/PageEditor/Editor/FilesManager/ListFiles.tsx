@@ -1,34 +1,16 @@
 import React, { useState } from "react";
 import styles from "./styles.module.css";
+import { useRouter } from "next/navigation";
 import { Icon } from "@/app/lib/utils/Icon";
+
 interface ListFilesProps {
   id: any;
   files: string[];
+  setIsUpToDate: (isUpToDate: boolean) => void;
 }
 
-const ListFiles: React.FC<ListFilesProps> = ({ id, files }) => {
-  const handleDownload = (filename: string) => {
-    fetch(`/api/articles/${id}/files/${filename}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erreur lors du téléchargement du fichier");
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        const url = window.URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", filename);
-        document.body.appendChild(link);
-        link.click();
-        link.parentNode?.removeChild(link);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
+const ListFiles: React.FC<ListFilesProps> = ({ id, files, setIsUpToDate }) => {
+  const router = useRouter();
   const handleDelete = (filename: string) => {
     fetch(`/api/articles/${id}/files/${filename}`, {
       method: "DELETE",
@@ -45,19 +27,14 @@ const ListFiles: React.FC<ListFilesProps> = ({ id, files }) => {
       .catch((error) => {
         console.error(error);
       });
+    setIsUpToDate(false);
+    router.refresh();
   };
 
-  const handleDownloadV2 = (filename: string) => {
-    const path = fetch(`/api/articles/${id}/files/${filename}`);
-    console.log("rdezezeezeez");
-    console.log(JSON.stringify(path));
-    console.log("rdezezeezeez");
-    const link = document.createElement("a");
-    link.href = path.toString();
-    link.setAttribute("download", filename);
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode?.removeChild(link);
+  const confirmDelete = (filename: string) => {
+    if (confirm(`Voulez-vous vraiment supprimer le fichier ${filename} ?`)) {
+      handleDelete(filename);
+    }
   };
 
   return (
@@ -68,7 +45,7 @@ const ListFiles: React.FC<ListFilesProps> = ({ id, files }) => {
           <li key={file}>
             <button type="button">{file}</button>
             <a href={`/uploadedFiles/${id}/${file}`} download={file} ><Icon className={styles.svg} name="Download" /></a>
-            <a onClick={() => handleDelete(file)}><Icon className={styles.svg} name="Trash" /></a>
+            <a onClick={() => confirmDelete(file)}><Icon className={styles.svg} name="Trash" /></a>
           </li>
         ))}
       </ul>
