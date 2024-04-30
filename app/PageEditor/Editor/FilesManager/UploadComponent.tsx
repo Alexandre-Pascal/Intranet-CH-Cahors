@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; "next/navigation";
 
-export default function UploadComponent() {
+export default function UploadComponent(idPage : any) {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const router = useRouter();
@@ -26,10 +26,10 @@ export default function UploadComponent() {
         method: "POST",
         body: formData,
       };
-      const response = await fetch("/api/articles/upload-file", requestOptions);
+      const id = idPage["idPage"]["idPage"];
+      const response = await fetch(`/api/articles/upload-file/${id}`, requestOptions);
       const result = await response.json();
       router.refresh();
-      console.log(result);
     } catch (error) {
       console.error("Error uploading file:", error);
     }

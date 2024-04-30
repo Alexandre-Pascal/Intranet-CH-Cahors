@@ -363,7 +363,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             </button>
             }
           </div>
-          <FilesManager/>
+          <FilesManager idPage={idPage}/>
         </>
         }
       </form>
