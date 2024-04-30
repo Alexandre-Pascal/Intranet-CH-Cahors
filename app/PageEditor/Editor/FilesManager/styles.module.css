@@ -1,5 +1,51 @@
 .container_download_upload{
     position: absolute;
-    top: 100;
+    top: 50vh;
     left: 0;
+    border: 1px solid #000;
+    background-color: #fff;
+    padding: 10px;   
+}
+
+.container_uploader{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.container_uploader input[type="file"]{
+    color: #222245;
+    padding: 8px 12px;
+    background-color: #fff;
+    border: 2px solid #222245;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.container_downloader{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.container_downloader li {
+    display: flex;
+flex-direction: row;
+}
+
+.container_downloader .svg{
+    margin-right: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.container_downloader a{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

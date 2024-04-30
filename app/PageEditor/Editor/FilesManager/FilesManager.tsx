@@ -9,8 +9,8 @@ export default function FilesManager(idPage: any) {
   return (
     <div className={styles.container_download_upload}>
       <h1 className="ml-10">Files Manager</h1>
-      <DownloadComponent idPage={idPage} isUpToDate={isUpToDate} setIsUpToDate={setIsUpToDate}/>
       <UploadComponent idPage={idPage} setIsUpToDate={setIsUpToDate} />
+      <DownloadComponent idPage={idPage} isUpToDate={isUpToDate} setIsUpToDate={setIsUpToDate}/>
     </div>
   );
 }

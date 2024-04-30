@@ -1,11 +1,31 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
+import path from "path";
 import { pipeline } from "stream";
 import { promisify } from "util";
 
-const pump = promisify(pipeline);
+export async function GET(request, { params }) {
+  const articleId = params.articleId;
+  const dir = path.resolve(`./public/uploadedFiles/${articleId}`);
+
+  // Vérifier si le dossier existe
+  if (!fs.existsSync(dir)) {
+    return NextResponse.json({ message: "Aucun fichier trouvé" });
+  }
+
+  // Lister les fichiers dans le dossier
+  const files = fs.readdirSync(dir);
+
+  if (files.length === 0) {
+    return NextResponse.json({ message: "Aucun fichier trouvé" });
+  }
+
+  return NextResponse.json({ files });
+}
 
 export async function POST(req, { params }, res) {
+  const pump = promisify(pipeline);
+
   try {
     const id = params.articleId;
     if (!id) {
@@ -28,14 +48,11 @@ export async function POST(req, { params }, res) {
     if (!fs.existsSync(`./public/uploadedFiles/${id}`)) {
       fs.mkdirSync(`./public/uploadedFiles/${id}`, { recursive: true });
     }
+    // return NextResponse.json({ status: "success", data: "ArticleId is here" });
 
     await pump(file.stream(), fs.createWriteStream(filePath));
     return NextResponse.json({ status: "success", data: file.size });
   } catch (e) {
     return NextResponse.json({ status: "fail", data: e });
   }
-}
-
-export async function GET() {
-  return NextResponse.json({ message: "GET /api/articles/upload-file" });
 }

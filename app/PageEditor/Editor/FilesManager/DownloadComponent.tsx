@@ -18,7 +18,7 @@ const DownloadComponent = (downloadComponentProps: DownloadComponentProps) => {
     // Définition de la fonction pour récupérer les fichiers
       const fetchFiles = async() => {
         try {
-          const response = await fetch(`/api/articles/download-file/${id}`);
+          const response = await fetch(`/api/articles/${id}/files`);
           if (!response.ok) {
             throw new Error("Erreur lors de la récupération des fichiers");
           }
@@ -33,7 +33,7 @@ const DownloadComponent = (downloadComponentProps: DownloadComponentProps) => {
     }
   }); // Ajoutez ici d'autres dépendances si nécessaire
 
-  return <ListFiles files={files} />;
+  return <ListFiles id={id} files={files} />;
 };
 
 export default DownloadComponent;

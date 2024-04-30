@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; "next/navigation";
-
+import styles from "./styles.module.css";
 interface UploadComponentProps {
   idPage: any;
   setIsUpToDate: (isUpToDate: boolean) => void;
@@ -33,7 +33,7 @@ export default function UploadComponent(uploadComponentProps: UploadComponentPro
         body: formData,
       };
       const id = idPage["idPage"];
-      const response = await fetch(`/api/articles/upload-file/${id}`, requestOptions);
+      const response = await fetch(`/api/articles/${id}/files`, requestOptions);
       setIsUpToDate(false);
       const result = await response.json();
       router.refresh();
@@ -43,10 +43,12 @@ export default function UploadComponent(uploadComponentProps: UploadComponentPro
   };
 
   return (
-    <div>
-      <h2>Upload file</h2>
+    <div className={styles.container_uploader}>
+      <h2>Déposer un ficher</h2>
       <input type="file" onChange={handleFileChange} />
-      <button type="button" onClick={handleUpload}>Upload</button>
+      <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleUpload}>
+        Déposer
+      </button>
     </div>
   );
 }
