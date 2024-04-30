@@ -4,15 +4,15 @@ import { useRouter } from "next/navigation";
 import { Icon } from "@/app/lib/utils/Icon";
 
 interface ListFilesProps {
-  id: any;
+  idPage: string;
   files: string[];
   setIsUpToDate: (isUpToDate: boolean) => void;
 }
 
-const ListFiles: React.FC<ListFilesProps> = ({ id, files, setIsUpToDate }) => {
+const ListFiles: React.FC<ListFilesProps> = ({ idPage, files, setIsUpToDate }) => {
   const router = useRouter();
   const handleDelete = (filename: string) => {
-    fetch(`/api/articles/${id}/files/${filename}`, {
+    fetch(`/api/articles/${idPage}/files/${filename}`, {
       method: "DELETE",
     })
       .then((response) => {
@@ -43,8 +43,8 @@ const ListFiles: React.FC<ListFilesProps> = ({ id, files, setIsUpToDate }) => {
       <ul>
         {files && files.map((file) => (
           <li key={file}>
-            <button type="button">{file}</button>
-            <a href={`/uploadedFiles/${id}/${file}`} download={file} ><Icon className={styles.svg} name="Download" /></a>
+            <p>{file}</p>
+            <a href={`/uploadedFiles/${idPage}/${file}`} download={file} ><Icon className={styles.svg} name="Download" /></a>
             <a onClick={() => confirmDelete(file)}><Icon className={styles.svg} name="Trash" /></a>
           </li>
         ))}

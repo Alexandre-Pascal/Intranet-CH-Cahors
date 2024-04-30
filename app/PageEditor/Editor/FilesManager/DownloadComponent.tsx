@@ -4,21 +4,19 @@ import React, { useEffect, useState } from "react";
 import ListFiles from "./ListFiles";
 
 interface DownloadComponentProps {
-  idPage: any;
+  idPage: string;
   isUpToDate: boolean;
   setIsUpToDate: (isUpToDate: boolean) => void;
 }
 
-const DownloadComponent = (downloadComponentProps: DownloadComponentProps) => {
-  const { idPage, isUpToDate, setIsUpToDate } = downloadComponentProps;
+const DownloadComponent = ({ idPage, isUpToDate, setIsUpToDate }: DownloadComponentProps) => {
   const [files, setFiles] = useState<string[]>([]);
-  const id = (idPage["idPage"]);
   useEffect(() => {
     if (!isUpToDate) {
     // Définition de la fonction pour récupérer les fichiers
       const fetchFiles = async() => {
         try {
-          const response = await fetch(`/api/articles/${id}/files`);
+          const response = await fetch(`/api/articles/${idPage}/files`);
           if (!response.ok) {
             throw new Error("Erreur lors de la récupération des fichiers");
           }
@@ -33,7 +31,7 @@ const DownloadComponent = (downloadComponentProps: DownloadComponentProps) => {
     }
   }, [isUpToDate]); // Ajoutez ici d'autres dépendances si nécessaire
 
-  return <ListFiles id={id} files={files} setIsUpToDate={setIsUpToDate} />;
+  return <ListFiles idPage={idPage} files={files} setIsUpToDate={setIsUpToDate} />;
 };
 
 export default DownloadComponent;

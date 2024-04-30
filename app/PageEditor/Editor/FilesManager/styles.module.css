@@ -1,6 +1,6 @@
 .container_download_upload{
     position: absolute;
-    top: 50vh;
+    top: 31.5vh;
     left: 0;
     border: 1px solid #000;
     background-color: #fff;
@@ -48,4 +48,15 @@ flex-direction: row;
 .container_downloader a{
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.set_file_manager_close {
+  position: absolute;
+  top: 22px;
+  left: 8px;
+  border: 1px solid #9b9b9b;
+  border-radius: 4px;
+  padding: 2px;
+  cursor: pointer;
+  background-color: #d6d6d6;
 }

@@ -4,12 +4,11 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation"; "next/navigation";
 import styles from "./styles.module.css";
 interface UploadComponentProps {
-  idPage: any;
+  idPage: string;
   setIsUpToDate: (isUpToDate: boolean) => void;
 }
 
-export default function UploadComponent(uploadComponentProps: UploadComponentProps) {
-  const { idPage, setIsUpToDate } = uploadComponentProps;
+export default function UploadComponent({ idPage, setIsUpToDate }: UploadComponentProps) {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const router = useRouter();
@@ -32,10 +31,9 @@ export default function UploadComponent(uploadComponentProps: UploadComponentPro
         method: "POST",
         body: formData,
       };
-      const id = idPage["idPage"];
-      const response = await fetch(`/api/articles/${id}/files`, requestOptions);
+      const response = await fetch(`/api/articles/${idPage}/files`, requestOptions);
       setIsUpToDate(false);
-      const result = await response.json();
+      await response.json();
       router.refresh();
     } catch (error) {
       console.error("Error uploading file:", error);

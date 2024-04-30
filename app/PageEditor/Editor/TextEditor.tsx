@@ -112,6 +112,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
   });
 
   const [title, setTitle] = React.useState("");
+  const [isOpenFileManager, setIsOpenFileManager] = React.useState(false);
 
   useEffect(() => {
     const fetchData = async() => {
@@ -363,7 +364,16 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             </button>
             }
           </div>
-          <FilesManager idPage={idPage}/>
+          {isOpenFileManager && idPage ? (
+            <FilesManager idPage={idPage} setIsOpenFileManager={setIsOpenFileManager}/>) :
+            <button type="button"
+              onClick={() => setIsOpenFileManager(true)}
+              className={`bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4 ${styles.button_open_file_manager}`}
+            >
+              Gérer les fichiers
+            </button>
+
+          }
         </>
         }
       </form>

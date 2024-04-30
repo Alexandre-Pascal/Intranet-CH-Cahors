@@ -78,3 +78,11 @@
   color: revert;
   cursor: revert;
 }
+
+.button_open_file_manager {
+  position: absolute;
+  top: 31.5vh;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
