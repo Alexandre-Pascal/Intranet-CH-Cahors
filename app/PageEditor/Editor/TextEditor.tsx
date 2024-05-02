@@ -45,6 +45,9 @@ import { useForm } from "react-hook-form";
 import generateTitleId from "@/app/lib/utils/generateId";
 import FilesManager from "./FilesManager/FilesManager";
 
+import { useContext } from "react";
+import { AppContext } from "@/app/lib/utils/AppContext";
+
 export default function Editor({ kind, idPage } : {kind : string, idPage : string}) {
   const {
     register,
@@ -112,7 +115,17 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
   });
 
   const [title, setTitle] = React.useState("");
-  const [isOpenFileManager, setIsOpenFileManager] = React.useState(false);
+
+  const { currentIdPage, setCurrentIdPage } = useContext(AppContext);
+
+  if(Number(currentIdPage) == 0) {
+    if (kind == "update" && idPage){
+      setCurrentIdPage(idPage);
+    }
+    else{
+      setCurrentIdPage(generateTitleId());
+    }
+  }
 
   useEffect(() => {
     const fetchData = async() => {
@@ -141,7 +154,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     } as newArticle;
     try {
       await fetch(
-        "/api/articles/add-article",
+        `/api/articles/${currentIdPage}`,
         {
           method: "POST",
           headers: {
@@ -364,7 +377,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             </button>
             }
           </div>
-          { idPage && <FilesManager idPage={idPage}/>
+          { (idPage || Number(currentIdPage) !== 0) && <FilesManager idPage={idPage !== "" ? idPage : Number(currentIdPage)}/>
           }
         </>
         }

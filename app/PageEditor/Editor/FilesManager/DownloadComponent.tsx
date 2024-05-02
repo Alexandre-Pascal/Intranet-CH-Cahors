@@ -4,13 +4,14 @@ import React, { useEffect, useState } from "react";
 import ListFiles from "./ListFiles";
 
 interface DownloadComponentProps {
-  idPage: string;
+  idPage: number | string | undefined;
   isUpToDate: boolean;
   setIsUpToDate: (isUpToDate: boolean) => void;
 }
 
 const DownloadComponent = ({ idPage, isUpToDate, setIsUpToDate }: DownloadComponentProps) => {
   const [files, setFiles] = useState<string[]>([]);
+
   useEffect(() => {
     if (!isUpToDate) {
     // Définition de la fonction pour récupérer les fichiers

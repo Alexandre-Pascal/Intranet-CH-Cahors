@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation"; "next/navigation";
 import styles from "./styles.module.css";
 interface UploadComponentProps {
-  idPage: string;
+  idPage: number | string | undefined;
   setIsUpToDate: (isUpToDate: boolean) => void;
 }
 

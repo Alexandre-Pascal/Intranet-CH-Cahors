@@ -6,7 +6,17 @@ import { promisify } from "util";
 
 export async function GET(request, { params }) {
   const articleId = params.articleId;
-  const dir = path.resolve(`./public/uploadedFiles/${articleId}`);
+
+  let dir;
+
+  // Vérifier si l'articleId est un nombre
+  if (parseInt(articleId)) {
+    dir = path.resolve(`./temp/${articleId}`);
+  }
+  else
+  {
+    dir = path.resolve(`./public/uploadedFiles/${articleId}/files`);
+  }
 
   // Vérifier si le dossier existe
   if (!fs.existsSync(dir)) {
@@ -27,13 +37,13 @@ export async function POST(req, { params }, res) {
   const pump = promisify(pipeline);
 
   try {
-    const id = params.articleId;
-    if (!id) {
+    const articleId = params.articleId;
+    if (!articleId) {
       return NextResponse.json({ status: "fail", data: "Missing articleId" });
     }
     else
     {
-      console.log(id);
+      console.log(articleId);
     }
 
     const formData = await req.formData();
@@ -42,13 +52,24 @@ export async function POST(req, { params }, res) {
       return NextResponse.json({ status: "fail", data: "No file uploaded" });
     }
 
-    const filePath = `./public/uploadedFiles/${id}/${file.name}`;
+    let filePath;
 
-    // Vérifier si le répertoire existe, sinon le créer
-    if (!fs.existsSync(`./public/uploadedFiles/${id}`)) {
-      fs.mkdirSync(`./public/uploadedFiles/${id}`, { recursive: true });
+    // const filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
+    if (parseInt(articleId)) {
+      filePath = `./temp/${articleId}/${file.name}`;
+
+      if (!fs.existsSync(`./temp/${articleId}`)) {
+        fs.mkdirSync(`./temp/${articleId}`, { recursive: true });
+      }
     }
-    // return NextResponse.json({ status: "success", data: "ArticleId is here" });
+    else
+    {
+      filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
+
+      if (!fs.existsSync(`./public/uploadedFiles/${articleId}`)) {
+        fs.mkdirSync(`./public/uploadedFiles/${articleId}`, { recursive: true });
+      }
+    }
 
     await pump(file.stream(), fs.createWriteStream(filePath));
     return NextResponse.json({ status: "success", data: file.size });

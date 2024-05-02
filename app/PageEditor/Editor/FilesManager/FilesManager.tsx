@@ -6,13 +6,14 @@ import styles from "./styles.module.css";
 import { Icon } from "@/app/lib/utils/Icon";
 
 interface FilesManagerProps {
-  idPage: string;
+  idPage: number | string | undefined;
   onlyView?: boolean;
 }
 
 export default function FilesManager({ idPage, onlyView }: FilesManagerProps) {
   const [ isUpToDate, setIsUpToDate ] = useState(false);
   const [ isOpenFileManager, setIsOpenFileManager ] = useState(false);
+
   return (
     <>
       { !isOpenFileManager && (

@@ -9,7 +9,7 @@ import { DataList } from "@/app/lib/utils/types";
 
 import fetchDatas from "./lib/utils/fetchData";
 import { Toaster } from "./components/ui/toaster";
-
+import { AppProvider } from "./lib/utils/AppContext";
 // import Footer from "./components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -30,8 +30,10 @@ export default async function RootLayout({
     <html lang="fr">
       <body className={inter.className}>
         <Header {...datas}/>
-        {children}
-        <Toaster />
+        <AppProvider>
+          {children}
+          <Toaster />
+        </AppProvider>
         {/* <Footer /> */}
       </body>
     </html>

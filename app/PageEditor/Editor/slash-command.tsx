@@ -143,14 +143,6 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       },
     },
     {
-      title: "Fichier",
-      description: "Insérez un fichier.",
-      icon: <File size={18} />,
-      command: ({ editor, range }: Command) => {
-        editor.chain().focus().deleteRange(range).setFileUpload().run();
-      },
-    },
-    {
       title: "Image",
       description: "Insérez une image.",
       icon: <Image size={18} />,
