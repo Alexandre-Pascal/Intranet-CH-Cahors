@@ -1,5 +1,6 @@
 import prisma from "@/app/lib/utils/prisma";
 import Buttons from "./buttons";
+import FilesManager from "@/app/PageEditor/Editor/FilesManager/FilesManager";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   //en fonction de params.slug, on va chercher dans la base de données grace a axios les données correspondante qui on comme id le params.slug
@@ -23,6 +24,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     <>
       { data && data.content && (
         <div className="ProseMirror">
+          <FilesManager idPage={params.slug} onlyView={true} />
           <h1>{data.title}</h1>
           <div dangerouslySetInnerHTML={{ __html: data.content }} />
           <Buttons slug={params.slug} />
