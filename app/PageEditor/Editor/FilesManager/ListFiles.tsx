@@ -7,12 +7,13 @@ interface ListFilesProps {
   idPage: number | string | undefined;
   files: string[];
   setIsUpToDate: (isUpToDate: boolean) => void;
+  onlyView : boolean;
 }
 
-const ListFiles: React.FC<ListFilesProps> = ({ idPage, files, setIsUpToDate }) => {
+const ListFiles: React.FC<ListFilesProps> = ({ idPage, files, setIsUpToDate, onlyView }) => {
   const router = useRouter();
   console.log("articleIdddddd", typeof idPage);
-
+  console.log("onlyView", onlyView);
   const handleDelete = (filename: string) => {
     fetch(`/api/articles/${idPage}/files/${filename}`, {
       method: "DELETE",
@@ -47,7 +48,7 @@ const ListFiles: React.FC<ListFilesProps> = ({ idPage, files, setIsUpToDate }) =
           <li key={file}>
             <p>{file}</p>
             <a href={`/uploadedFiles/${idPage}/files/${file}`} download={file} ><Icon className={styles.svg} name="Download" /></a>
-            <a onClick={() => confirmDelete(file)}><Icon className={styles.svg} name="Trash" /></a>
+            {!onlyView && <a onClick={() => confirmDelete(file)}><Icon className={styles.svg} name="Trash" /></a>}
           </li>
         ))}
       </ul>

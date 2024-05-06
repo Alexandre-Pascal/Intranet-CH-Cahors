@@ -3,13 +3,13 @@ import fs from "fs";
 import path from "path";
 import { pipeline } from "stream";
 import { promisify } from "util";
-
 export async function GET(request, { params }) {
   const articleId = params.articleId;
 
   let dir;
 
   // Vérifier si l'articleId est un nombre
+  console.log("id", articleId);
   if (parseInt(articleId)) {
     dir = path.resolve(`./temp/${articleId}`);
   }
@@ -58,31 +58,45 @@ export async function POST(req: NextRequest, context: {params: {articleId: strin
 
     // const filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
 
-    if (parseInt(articleId)) {
-      filePath = `./temp/${articleId}/${file.name}`;
+    console.log(typeOfFile);
+    switch (typeOfFile) {
+    case "image":
+      // if (parseInt(articleId)) {
+      // filePath = `./temp/${articleId}/images/${file.name}`;
+      // filePath = `/Users/Administrateur/Documents/temp/${articleId}/images/${file.name}`;
+      console.log(process.env.TEMPDIR);
+      filePath = `${process.env.TEMPDIR}/${articleId}/images/${file.name}`;
 
-      if (!fs.existsSync(`./temp/${articleId}`)) {
-        fs.mkdirSync(`./temp/${articleId}`, { recursive: true });
+      if (!fs.existsSync(`${process.env.TEMPDIR}/${articleId}/images`)) {
+        fs.mkdirSync(`${process.env.TEMPDIR}/${articleId}/images`, { recursive: true });
       }
-    }
-    else
-    {
-      switch (typeOfFile) {
-      case "image":
-        filePath = `./public/uploadedFiles/${articleId}/images/${file.name}`;
-        break;
-      case "file":
-        filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
-        break;
-      default:
-        filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
-        break;
-      }
-      if (!fs.existsSync(`./public/uploadedFiles/${articleId}`)) {
-        fs.mkdirSync(`./public/uploadedFiles/${articleId}`, { recursive: true });
-      }
-    }
+      // }
+      // else // à modifier car il ne faut pas ajouter au bon dossier tant que pas validé
+      // filePath = `./public/uploadedFiles/${articleId}/images/${file.name}`;
+      // {
+      //   if (!fs.existsSync(`./public/uploadedFiles/${articleId}`)) {
+      //     fs.mkdirSync(`./public/uploadedFiles/${articleId}`, { recursive: true });
+      //   }
+      // }
 
+      break;
+    case "file":
+      // if (parseInt(articleId)) {
+      filePath = `${process.env.TEMPDIR}/${articleId}/files/${file.name}`;
+      console.log(filePath);
+      if (!fs.existsSync(`${process.env.TEMPDIR}/${articleId}/files`)) {
+        fs.mkdirSync(`${process.env.TEMPDIR}/${articleId}/files`, { recursive: true });
+      }
+      // }
+      // else // à modifier car il ne faut pas ajouter au bon dossier tant que pas validé
+      // {
+      //   filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
+      //   if (!fs.existsSync(`./public/uploadedFiles/${articleId}`)) {
+      //     fs.mkdirSync(`./public/uploadedFiles/${articleId}`, { recursive: true });
+      //   }
+      // }
+      break;
+    }
     await pump(file.stream(), fs.createWriteStream(filePath));
     return NextResponse.json({ status: "success", data: file.size });
   } catch (e) {

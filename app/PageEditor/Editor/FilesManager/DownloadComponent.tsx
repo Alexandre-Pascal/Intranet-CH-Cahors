@@ -7,9 +7,10 @@ interface DownloadComponentProps {
   idPage: number | string | undefined;
   isUpToDate: boolean;
   setIsUpToDate: (isUpToDate: boolean) => void;
+  onlyView: boolean;
 }
 
-const DownloadComponent = ({ idPage, isUpToDate, setIsUpToDate }: DownloadComponentProps) => {
+const DownloadComponent = ({ idPage, isUpToDate, setIsUpToDate, onlyView }: DownloadComponentProps) => {
   const [files, setFiles] = useState<string[]>([]);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const DownloadComponent = ({ idPage, isUpToDate, setIsUpToDate }: DownloadCompon
     }
   }, [isUpToDate]); // Ajoutez ici d'autres dépendances si nécessaire
 
-  return <ListFiles idPage={idPage} files={files} setIsUpToDate={setIsUpToDate} />;
+  return <ListFiles idPage={idPage} files={files} setIsUpToDate={setIsUpToDate} onlyView={onlyView}/>;
 };
 
 export default DownloadComponent;

@@ -7,7 +7,7 @@ import { Icon } from "@/app/lib/utils/Icon";
 
 interface FilesManagerProps {
   idPage: number | string | undefined;
-  onlyView?: boolean;
+  onlyView: boolean;
 }
 
 export default function FilesManager({ idPage, onlyView }: FilesManagerProps) {
@@ -32,7 +32,7 @@ export default function FilesManager({ idPage, onlyView }: FilesManagerProps) {
             <UploadComponent idPage={idPage} setIsUpToDate={setIsUpToDate} />
           </>
         }
-        <DownloadComponent idPage={idPage} isUpToDate={isUpToDate} setIsUpToDate={setIsUpToDate}/>
+        <DownloadComponent idPage={idPage} isUpToDate={isUpToDate} setIsUpToDate={setIsUpToDate} onlyView={onlyView}/>
       </div>
 
     </>

@@ -23,7 +23,7 @@ export async function DELETE(request, { params }) {
   const articleId = params.articleId;
   const filename = params.name;
   const filePath = path.resolve(`./public/uploadedFiles/${articleId}/files/${filename }`);
-  console.log(filePath);
+  console.log("filepath to delete", filePath);
   //je vérifie si le fichier existe
   if (!fs.existsSync(filePath)) {
     return NextResponse.json({ message: "Aucun fichier trouvé" });
