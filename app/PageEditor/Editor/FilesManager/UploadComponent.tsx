@@ -31,7 +31,7 @@ export default function UploadComponent({ idPage, setIsUpToDate }: UploadCompone
         method: "POST",
         body: formData,
       };
-      const response = await fetch(`/api/articles/${idPage}/files`, requestOptions);
+      const response = await fetch(`/api/articles/${idPage}/files?type=file`, requestOptions);
       setIsUpToDate(false);
       await response.json();
       router.refresh();

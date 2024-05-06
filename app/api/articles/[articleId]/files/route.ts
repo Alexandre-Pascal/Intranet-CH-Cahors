@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { pipeline } from "stream";
@@ -33,11 +33,13 @@ export async function GET(request, { params }) {
   return NextResponse.json({ files });
 }
 
-export async function POST(req, { params }, res) {
+export async function POST(req: NextRequest, context: {params: {articleId: string}}) {
   const pump = promisify(pipeline);
+  const { searchParams } = new URL(req.nextUrl);
+  const typeOfFile = searchParams.get("type");
 
   try {
-    const articleId = params.articleId;
+    const articleId = context.params.articleId;
     if (!articleId) {
       return NextResponse.json({ status: "fail", data: "Missing articleId" });
     }
@@ -55,6 +57,7 @@ export async function POST(req, { params }, res) {
     let filePath;
 
     // const filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
+
     if (parseInt(articleId)) {
       filePath = `./temp/${articleId}/${file.name}`;
 
@@ -64,8 +67,17 @@ export async function POST(req, { params }, res) {
     }
     else
     {
-      filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
-
+      switch (typeOfFile) {
+      case "image":
+        filePath = `./public/uploadedFiles/${articleId}/images/${file.name}`;
+        break;
+      case "file":
+        filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
+        break;
+      default:
+        filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
+        break;
+      }
       if (!fs.existsSync(`./public/uploadedFiles/${articleId}`)) {
         fs.mkdirSync(`./public/uploadedFiles/${articleId}`, { recursive: true });
       }

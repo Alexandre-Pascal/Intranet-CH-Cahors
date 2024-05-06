@@ -2,6 +2,7 @@
 import { useContext } from "react";
 import { AppContext } from "./utils/AppContext";
 import UploadComponent from "../PageEditor/Editor/FilesManager/UploadComponent";
+
 interface UploadComponentProps {
  idPage: number | string | undefined;
  file: File;
@@ -23,7 +24,7 @@ export class API {
         body: formData,
       };
       console.log(idPage);
-      const response = await fetch(`/api/articles/${idPage}/images`, requestOptions);
+      const response = await fetch(`/api/articles/${idPage}/files?type=image`, requestOptions);
       await response.json();
       console.log("response", response);
     } catch (error) {
