@@ -373,11 +373,11 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             <button type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
             >
-                Modifier
+                Mettre à jour
             </button>
             }
           </div>
-          { (idPage || Number(currentIdPage) !== 0) && <FilesManager idPage={idPage !== "" ? idPage : Number(currentIdPage)}/>
+          { (idPage || Number(currentIdPage) !== 0) && <FilesManager idPage={idPage !== "" ? idPage : Number(currentIdPage)} onlyView={false}/>
           }
         </>
         }

@@ -1,5 +1,9 @@
 // next.config.mjs
 const nextConfig = {
+  images : {
+    domains: ['via.placeholder.com', 'localhost', 'res.cloudinary.com', 'cdn.pixabay.com', 'images.unsplash'],
+  },
+
     webpack: (config) => {
       config.resolve = {
         ...config.resolve,

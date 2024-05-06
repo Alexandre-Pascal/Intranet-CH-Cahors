@@ -7,7 +7,7 @@ export const ImageUpload = ({ getPos, editor }: { getPos: () => number; editor: 
   const onUpload = useCallback(
     (url: string) => {
       if (url) {
-        editor.chain().setImageBlock({ src: url }).deleteRange({ from: getPos(), to: getPos() }).focus().run();
+        editor.chain().setImageBlock({ src: url, width: "100%" }).deleteRange({ from: getPos(), to: getPos() }).focus().run();
       }
     },
     [getPos, editor],

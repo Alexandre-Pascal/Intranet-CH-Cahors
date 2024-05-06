@@ -47,7 +47,7 @@ export default function Buttons({ slug } : { slug : string }){
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
           onClick={() => handleEditArticle()}
         >
-                Mettre à jour
+                Modifier
         </button>
       </div>
     </div>
