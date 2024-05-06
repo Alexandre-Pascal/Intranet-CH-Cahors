@@ -1,15 +1,19 @@
 import { DragEvent, useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { API } from "@/app/lib/api";
+import { useContext } from "react";
+import { AppContext } from "@/app/lib/utils/AppContext";
 
 export const useUploader = ({ onUpload }: { onUpload: (url: string) => void }) => {
   const [loading, setLoading] = useState(false);
+  const { currentIdPage, setCurrentIdPage } = useContext(AppContext);
 
-  const uploadFile = useCallback(async() => {
+  const uploadFile = useCallback(async(file: File) => {
     setLoading(true);
     try {
-      const url = await API.uploadImage();
-
+      // console.log("file", file);
+      const url = await API.uploadImage({ idPage: currentIdPage, file: file });
+      console.log("url", url);
       onUpload(url);
     } catch (errPayload: any) {
       const error = errPayload?.response?.data?.error || "Something went wrong";
