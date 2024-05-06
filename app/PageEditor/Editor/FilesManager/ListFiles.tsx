@@ -14,6 +14,7 @@ const ListFiles: React.FC<ListFilesProps> = ({ idPage, files, setIsUpToDate, onl
   const router = useRouter();
   console.log("articleIdddddd", typeof idPage);
   console.log("onlyView", onlyView);
+
   const handleDelete = (filename: string) => {
     fetch(`/api/articles/${idPage}/files/${filename}`, {
       method: "DELETE",
@@ -47,7 +48,7 @@ const ListFiles: React.FC<ListFilesProps> = ({ idPage, files, setIsUpToDate, onl
         {files && files.map((file) => (
           <li key={file}>
             <p>{file}</p>
-            <a href={`/uploadedFiles/${idPage}/files/${file}`} download={file} ><Icon className={styles.svg} name="Download" /></a>
+            <a href={`${process.env.CLIENT_PUBLIC_UPLOADED_FILES_DIR}/${idPage}/files/${file}`} download={file} ><Icon className={styles.svg} name="Download" /></a>
             {!onlyView && <a onClick={() => confirmDelete(file)}><Icon className={styles.svg} name="Trash" /></a>}
           </li>
         ))}

@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { pipeline } from "stream";
 import { promisify } from "util";
+import updateUploadedFilesPublic from "@/app/lib/utils/updateUploadedFilesPublic";
 export async function GET(request, { params }) {
   const articleId = params.articleId;
 
@@ -11,11 +12,13 @@ export async function GET(request, { params }) {
   // Vérifier si l'articleId est un nombre
   console.log("id", articleId);
   if (parseInt(articleId)) {
-    dir = path.resolve(`./temp/${articleId}`);
+    console.log("id Parsé", articleId);
+    dir = path.resolve(`./public/${process.env.CLIENT_TEMP_FILES_DIR}/${articleId}/files`);
+    console.log("dir", dir);
   }
   else
   {
-    dir = path.resolve(`./public/uploadedFiles/${articleId}/files`);
+    dir = path.resolve(`./${process.env.CLIENT_SAVED_FILES_DIR}/${articleId}/files`);
   }
 
   // Vérifier si le dossier existe
@@ -56,48 +59,28 @@ export async function POST(req: NextRequest, context: {params: {articleId: strin
 
     let filePath;
 
-    // const filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
-
-    console.log(typeOfFile);
     switch (typeOfFile) {
     case "image":
-      // if (parseInt(articleId)) {
-      // filePath = `./temp/${articleId}/images/${file.name}`;
-      // filePath = `/Users/Administrateur/Documents/temp/${articleId}/images/${file.name}`;
-      console.log(process.env.TEMPDIR);
-      filePath = `${process.env.TEMPDIR}/${articleId}/images/${file.name}`;
-
-      if (!fs.existsSync(`${process.env.TEMPDIR}/${articleId}/images`)) {
-        fs.mkdirSync(`${process.env.TEMPDIR}/${articleId}/images`, { recursive: true });
+      filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images/${file.name}`;
+      if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images`)) {
+        fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images`, { recursive: true });
       }
-      // }
-      // else // à modifier car il ne faut pas ajouter au bon dossier tant que pas validé
-      // filePath = `./public/uploadedFiles/${articleId}/images/${file.name}`;
-      // {
-      //   if (!fs.existsSync(`./public/uploadedFiles/${articleId}`)) {
-      //     fs.mkdirSync(`./public/uploadedFiles/${articleId}`, { recursive: true });
-      //   }
-      // }
-
       break;
+
     case "file":
-      // if (parseInt(articleId)) {
-      filePath = `${process.env.TEMPDIR}/${articleId}/files/${file.name}`;
+      filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files/${file.name}`;
       console.log(filePath);
-      if (!fs.existsSync(`${process.env.TEMPDIR}/${articleId}/files`)) {
-        fs.mkdirSync(`${process.env.TEMPDIR}/${articleId}/files`, { recursive: true });
+      if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files`)) {
+        fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files`, { recursive: true });
       }
-      // }
-      // else // à modifier car il ne faut pas ajouter au bon dossier tant que pas validé
-      // {
-      //   filePath = `./public/uploadedFiles/${articleId}/files/${file.name}`;
-      //   if (!fs.existsSync(`./public/uploadedFiles/${articleId}`)) {
-      //     fs.mkdirSync(`./public/uploadedFiles/${articleId}`, { recursive: true });
-      //   }
-      // }
       break;
+
     }
+
     await pump(file.stream(), fs.createWriteStream(filePath));
+
+    updateUploadedFilesPublic();
+
     return NextResponse.json({ status: "success", data: file.size });
   } catch (e) {
     return NextResponse.json({ status: "fail", data: e });
