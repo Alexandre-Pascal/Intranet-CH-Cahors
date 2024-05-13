@@ -60,22 +60,41 @@ export async function POST(req: NextRequest, context: {params: {articleId: strin
 
     let filePath;
 
-    switch (typeOfFile) {
-    case "image":
-      filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images/${file.name}`;
-      if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images`)) {
-        fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images`, { recursive: true });
-      }
-      break;
+    if (parseInt(articleId)) {
+      switch (typeOfFile) {
+      case "image":
+        filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images/${file.name}`;
+        if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images`)) {
+          fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images`, { recursive: true });
+        }
+        break;
 
-    case "file":
-      filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files/${file.name}`;
-      console.log("fichier",filePath);
-      if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files`)) {
-        fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files`, { recursive: true });
+      case "file":
+        filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files/${file.name}`;
+        console.log("fichier",filePath);
+        if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files`)) {
+          fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files`, { recursive: true });
+        }
+        break;
       }
-      break;
+    }
+    else {
+      switch (typeOfFile) {
+      case "image":
+        filePath = `${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/images/${file.name
+        }`;
+        if (!fs.existsSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/images`)) {
+          fs.mkdirSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/images`, { recursive: true });
+        }
+        break;
 
+      case "file":
+        filePath = `${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/files/${file.name}`;
+        if (!fs.existsSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/files`)) {
+          fs.mkdirSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/files`, { recursive: true });
+        }
+        break;
+      }
     }
 
     await pump(file.stream(), fs.createWriteStream(filePath));
