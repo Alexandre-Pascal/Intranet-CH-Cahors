@@ -449,7 +449,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
               {
                 kind === "update" &&
             <p className={["text-black-500 text-lg ml-10"].join(" ")}>
-            Si vous n'avez pas modifié le titre, veuillez cliquer à nouveau sur le bouton "Modifier", sinon :
+            Si vous n'avez pas modifié le titre, veuillez cliquer à nouveau sur le bouton "Mettre à jour", sinon :
             </p>
               }
               <p className={["text-red-500 text-lg font-bold ml-10"].join(" ")}>

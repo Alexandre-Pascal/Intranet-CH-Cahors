@@ -28,28 +28,26 @@ export default function Buttons({ slug } : { slug : string }){
   }
 
   return (
-    <div>
-      <div className={styles.container_buttons}>
-        <button type="button"
-          onClick={() => window.location.href = "/" }
-          className="bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4"
-        >
+    <div className={`${styles.container_buttons} ${styles.clear}`}>
+      <button type="button"
+        onClick={() => window.location.href = "/" }
+        className="bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4"
+      >
                 Accueil
-        </button>
+      </button>
 
-        <button type="button"
-          onClick={() => handleDelete()}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
-        >
+      <button type="button"
+        onClick={() => handleDelete()}
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+      >
                 Supprimer
-        </button>
-        <button type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-          onClick={() => handleEditArticle()}
-        >
+      </button>
+      <button type="submit"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+        onClick={() => handleEditArticle()}
+      >
                 Modifier
-        </button>
-      </div>
+      </button>
     </div>
   );
 }
