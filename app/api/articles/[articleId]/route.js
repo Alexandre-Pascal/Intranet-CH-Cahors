@@ -37,8 +37,9 @@ export async function PUT(request, { params }) {
 export async function POST(request, { params }) {
   const id = parseInt(params.articleId);
   const res = await request.json();
-  const result = await prisma.datas_articles.create({ data : res });
   const title = generateTitleId(res.title);
+  res.content = res.content.replace(/\/tempFiles\/\d+\//g, `/savedFiles/${title}/`);
+  const result = await prisma.datas_articles.create({ data : res });
 
   //On renomme le dossier temporaire avec le titre de l'article
   fs.renameSync(`${process.env.SERVER_TEMP_FILES_DIR}/${id}`, `${process.env.SERVER_TEMP_FILES_DIR}/${title}`, { recursive: true });

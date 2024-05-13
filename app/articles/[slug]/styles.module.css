@@ -11,6 +11,14 @@
     margin-right: 10px;
   }
 
+  .clear {
+    clear: both;
+  }
+  
   .clear * {
     clear: both;
+  }
+
+  .clear img {
+    margin: auto;
   }

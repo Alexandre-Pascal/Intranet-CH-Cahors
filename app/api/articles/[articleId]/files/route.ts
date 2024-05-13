@@ -70,7 +70,7 @@ export async function POST(req: NextRequest, context: {params: {articleId: strin
 
     case "file":
       filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files/${file.name}`;
-      console.log(filePath);
+      console.log("fichier",filePath);
       if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files`)) {
         fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files`, { recursive: true });
       }
