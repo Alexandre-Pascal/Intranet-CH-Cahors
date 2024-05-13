@@ -13,12 +13,13 @@ export async function GET(request, { params }) {
   console.log("id", articleId);
   if (parseInt(articleId)) {
     console.log("id Parsé", articleId);
-    dir = path.resolve(`./public/${process.env.CLIENT_TEMP_FILES_DIR}/${articleId}/files`);
-    console.log("dir", dir);
+    dir = path.resolve(`${process.env.CLIENT_PUBLIC_TEMP_FILES_DIR}/${articleId}/files`);
+    console.log("dirrr", dir);
   }
   else
   {
-    dir = path.resolve(`./${process.env.CLIENT_SAVED_FILES_DIR}/${articleId}/files`);
+    dir = path.resolve(`${process.env.CLIENT_PUBLIC_SAVED_FILES_DIR}/${articleId}/files`);
+    console.log("dirrr", dir);
   }
 
   // Vérifier si le dossier existe

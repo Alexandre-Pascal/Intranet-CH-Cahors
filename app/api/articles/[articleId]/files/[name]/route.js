@@ -40,7 +40,13 @@ import path from "path";
 export async function GET(request, { params }) {
   const articleId = params.articleId;
   const filename = params.name;
-  const filePath = `/uploadedFiles/tempFiles/${articleId}/images/${filename}`;
+  let filePath;
+  if (parseInt(articleId)){
+    filePath = `/uploadedFiles/tempFiles/${articleId}/images/${filename}`;
+  }
+  else{
+    filePath = `/uploadedFiles/savedFiles/${articleId}/images/${filename}`;
+  }
   console.log("filepath get", filePath);
   //je vérifie si le fichier existe
   // if (!fs.existsSync(filePath)) {

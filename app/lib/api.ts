@@ -41,7 +41,6 @@ export class API {
 
   public static getUrlUploadedImage = async(idPage: number | string | undefined, fileName: string) => {
     await new Promise(r => setTimeout(r, 500));
-
     try {
       const response = await fetch(`/api/articles/${idPage}/files/${fileName}`);
       const data = await response.json();

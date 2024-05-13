@@ -60,7 +60,14 @@ export const ImageBlock = Image.extend({
   parseHTML() {
     return [
       {
-        tag: "img[src*=\"tiptap.dev\"]:not([src^=\"data:\"]), img[src*=\"windows.net\"]:not([src^=\"data:\"])",
+        // Modifiez la balise pour capturer les images et les transformer en imageBlock
+        tag: "img",
+        getAttrs: node => ({
+          src: node.getAttribute("src"),
+          width: node.getAttribute("data-width") || "100%", // Vous pouvez ajuster ceci selon vos besoins
+          align: node.getAttribute("data-align") || "center", // Vous pouvez définir une valeur par défaut ici
+          alt: node.getAttribute("alt"),
+        }),
       },
     ];
   },

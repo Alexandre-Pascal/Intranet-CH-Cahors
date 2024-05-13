@@ -8,7 +8,7 @@ import Table from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
 import TableCell from "@tiptap/extension-table-cell";
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import styles from "./styles.module.css";
 import NextImage from "next/image";
 
@@ -47,8 +47,14 @@ import FilesManager from "./FilesManager/FilesManager";
 
 import { useContext } from "react";
 import { AppContext } from "@/app/lib/utils/AppContext";
+import { getegid } from "process";
 
 export default function Editor({ kind, idPage } : {kind : string, idPage : string}) {
+  const [title, setTitle] = React.useState("");
+  const [content, setContent] = React.useState("");
+
+  const { currentIdPage, setCurrentIdPage } = useContext(AppContext);
+
   const {
     register,
     handleSubmit,
@@ -114,10 +120,6 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     },
   });
 
-  const [title, setTitle] = React.useState("");
-
-  const { currentIdPage, setCurrentIdPage } = useContext(AppContext);
-
   if(Number(currentIdPage) == 0) {
     if (kind == "update" && idPage){
       setCurrentIdPage(idPage);
@@ -126,6 +128,23 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
       setCurrentIdPage(generateTitleId());
     }
   }
+
+  function replaceTempFiles(html : any) {
+    return html.replace(/\/tempFiles\/\d+\//, `/savedFiles/${idPage}`);
+  }
+
+  // Fonction pour remplacer les balises <p> vides par un retour à la ligne
+  function replaceEmptyParagraphs(html: any) {
+    return html.replace(/<p><\/p>/g, "<br>");
+  }
+
+  // Fonction principale pour traiter le code HTML
+  useEffect(() => {
+    let processedHTML = replaceTempFiles(content);
+    processedHTML = replaceEmptyParagraphs(processedHTML);
+    editor?.commands.setContent(processedHTML);
+  }
+  , [content]);
 
   useEffect(() => {
     const fetchData = async() => {
@@ -136,7 +155,8 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             throw new Error("Erreur lors de la récupération des données");
           }
           const jsonData = await response.json();
-          editor.commands.setContent(jsonData.result.content);
+
+          setContent(jsonData.result.content);
           setTitle(jsonData.result.title);
         } catch (error) {
           console.error("Erreur:", error);
@@ -145,9 +165,102 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     };
 
     fetchData();
-  }, [editor, kind, idPage]);
+  }
+  , [editor, kind, idPage]);
+
+  // useEffect(() => {
+  //   const fetchData = async() => {
+  //     if (editor && kind === "update" && idPage) {
+  //       try {
+  //         const response = await fetch(`/api/articles/${idPage}`);
+  //         if (!response.ok) {
+  //           throw new Error("Erreur lors de la récupération des données");
+  //         }
+  //         const jsonData = await response.json();
+
+  //         // Récupérer le contenu HTML du JSON
+  //         const htmlContent = jsonData.result.content;
+
+  //         // Analyser la chaîne HTML pour extraire les balises p et les images
+  //         const parser = new DOMParser();
+  //         const doc = parser.parseFromString(htmlContent, "text/html");
+  //         const paragraphs = doc.querySelectorAll("p");
+
+  //         // Parcourir chaque balise p dans l'ordre
+  //         paragraphs.forEach(p => {
+  //           // Récupérer le texte à l'intérieur du paragraphe
+  //           const text = p.textContent.trim();
+
+  //           // Vérifier si le paragraphe est vide
+  //           if (text === "") {
+  //             // Insérer un retour à la ligne dans l'éditeur Tiptap
+  //             editor.chain().focus().insertContent({ type: "hardBreak" }).run();
+  //           } else {
+  //             // Créer un nœud de paragraphe Tiptap pour chaque balise p non vide
+  //             const paragraphNode = {
+  //               type: "paragraph",
+  //               content: [{ type: "text", text }],
+  //             };
+
+  //             // Insérer le nœud de paragraphe dans l'éditeur Tiptap
+  //             editor.chain().focus().insertContent(paragraphNode).run();
+  //           }
+  //         });
+
+  //         // Trouver les images et insérer les nœuds image block correspondants
+  //         const images = doc.querySelectorAll("img");
+  //         images.forEach(img => {
+  //           const src = img.getAttribute("src");
+  //           const alt = img.getAttribute("alt");
+  //           const width = img.getAttribute("data-width");
+  //           const align = img.getAttribute("data-align");
+
+  //           // Créer un nœud image block Tiptap
+  //           const imageNode = {
+  //             type: "imageBlock",
+  //             attrs: {
+  //               src: src.replace(/.*(?=\/uploadedFiles)/, "").replace(/\/%22$/, ""),
+  //               alt,
+  //               width,
+  //               align,
+  //             },
+  //           };
+
+  //           // Trouver l'index de l'image dans le contenu HTML pour l'afficher au bon encdroit
+  //           const index = Array.from(img.parentNode.children).indexOf(img);
+  //           //insérer l'élément image dans l'éditeur Tiptap au nivau de l'index correspondant
+  //           // editor.chain().focus().insertContentAt(index, imageNode).run();
+  //           //editor.chain().focus().insertContent(imageNode).run(); n'est pas bon car, l'index vaut 5 et l'image est inséréré après le 5ème caracète, alors que je veux qu'elle soit insérée après le 5 ème élément
+  //           //donc pour faire ça
+  //           editor.chain().focus().insertContent(imageNode).run();
+
+  //         });
+
+  //         // Définir le titre de la page
+  //         setTitle(jsonData.result.title);
+  //       } catch (error) {
+  //         console.error("Erreur:", error);
+  //       }
+  //       document.querySelectorAll("img").forEach((image) => {
+  //         if (image.src.includes("tempFiles")) {
+  //           console.log(image.src);
+  //           image.src = image.src.replace(/tempFiles\/\d+/, `savedFiles/${idPage}`);
+  //           console.log(image.src);
+  //         }
+  //       });
+
+  //       alert("Le contenu de l'article a été chargé avec succès !");
+  //       console.log("contenu final : ", editor.getHTML());
+  //       alert ("contenu final : " + editor.getHTML());
+
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [editor, kind, idPage]);
 
   async function handleSubmitForm(title : string) {
+
     const newArticle = {
       title: title,
       content: editor?.getHTML(),

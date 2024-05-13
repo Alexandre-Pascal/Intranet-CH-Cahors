@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/app/lib/utils/prisma";
 import fs from "fs";
 import generateTitleId from "@/app/lib/utils/generateId";
+import updateUploadedFilesPublic from "@/app/lib/utils/updateUploadedFilesPublic";
 
 export async function GET(request, { params }) {
   const result = await prisma.datas_articles.findUnique({
@@ -40,25 +41,16 @@ export async function POST(request, { params }) {
   const title = generateTitleId(res.title);
 
   //On renomme le dossier temporaire avec le titre de l'article
-  fs.renameSync(`${process.env.TEMPDIR}/${id}`, `${process.env.TEMPDIR}/${title}`, { recursive: true });
+  fs.renameSync(`${process.env.SERVER_TEMP_FILES_DIR}/${id}`, `${process.env.SERVER_TEMP_FILES_DIR}/${title}`, { recursive: true });
 
-  //On crée le dossier files dans le dossier de l'article
-  fs.mkdirSync(`./public/uploadedFiles/${title}/files`, { recursive: true });
-  fs.mkdirSync(`./public/uploadedFiles/${title}/images`, { recursive: true });
+  //On déplace le dossier temporaire dans le dossier de sauvegarde
+  fs.cpSync(`${process.env.SERVER_TEMP_FILES_DIR}/${title}`, `${process.env.SERVER_SAVED_FILES_DIR}/${title}`, { recursive: true });
 
-  //On déplace les fichiers du dossier temporaire vers le dossier de l'article
-  fs.readdirSync(`${process.env.TEMPDIR}/${title}/files`).forEach(file => {
-    fs.renameSync(`${process.env.TEMPDIR}/${title}/files/${file}`, `./public/uploadedFiles/${title}/files/${file}`);
-  });
+  //on vide le dossier temporaire
+  fs.rmdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${title}`, { recursive: true });
 
-  //On déplace les images du dossier temporaire vers le dossier de l'article
-  fs.readdirSync(`${process.env.TEMPDIR}/${title}/images/`).forEach(file => {
-    fs.renameSync(`${process.env.TEMPDIR}/${title}/images/${file}`, `./public/uploadedFiles/${title}/images/${file}`);
-  }
-  );
-
-  //On supprime le dossier temporaire
-  fs.rmdirSync(`${process.env.TEMPDIR}/${title}`, { recursive: true });
+  //On met à jour les fichiers publics
+  updateUploadedFilesPublic();
 
   return NextResponse.json({ result });
 }
