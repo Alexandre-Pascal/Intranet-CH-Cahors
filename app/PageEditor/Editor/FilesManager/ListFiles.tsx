@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { useRouter } from "next/navigation";
 import { Icon } from "@/app/lib/utils/Icon";
@@ -48,7 +48,7 @@ const ListFiles: React.FC<ListFilesProps> = ({ idPage, files, setIsUpToDate, onl
         {files && files.map((file) => (
           <li key={file}>
             <p>{file}</p>
-            <a href={`${process.env.CLIENT_PUBLIC_UPLOADED_FILES_DIR}/${idPage}/files/${file}`} download={file} ><Icon className={styles.svg} name="Download" /></a>
+            <a href={`/uploadedFiles/tempFiles/${idPage}/files/${file}`} download={file} ><Icon className={styles.svg} name="Download" /></a>
             {!onlyView && <a onClick={() => confirmDelete(file)}><Icon className={styles.svg} name="Trash" /></a>}
           </li>
         ))}

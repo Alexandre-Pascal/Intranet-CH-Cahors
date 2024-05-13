@@ -14,6 +14,5 @@ export default async function updateUploadedFilesPublic() {
     fs.cpSync(`${process.env.SERVER_UPLOADED_FILES_DIR}`, `${process.env.CLIENT_PUBLIC_UPLOADED_FILES_DIR}`, { recursive: true });
 
     console.log("Les fichiers ont été copiés dans /public/uploadedFiles");
-
   }
 }

@@ -3,6 +3,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import updateUploadedFilesPublic from "@/app/lib/utils/updateUploadedFilesPublic";
 
 // export async function GET(request, { params }, res) {
 //   const articleId = params.articleId;
@@ -59,7 +60,16 @@ export async function GET(request, { params }) {
 export async function DELETE(request, { params }) {
   const articleId = params.articleId;
   const filename = params.name;
-  const filePath = path.resolve(`./public/uploadedFiles/${articleId}/files/${filename }`);
+
+  let filePath;
+
+  if (parseInt(articleId)){
+    filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files/${filename}`;
+  }
+  else{
+    filePath = `${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/files/${filename}`;
+  }
+
   console.log("filepath to delete", filePath);
   //je vérifie si le fichier existe
   if (!fs.existsSync(filePath)) {
@@ -67,5 +77,8 @@ export async function DELETE(request, { params }) {
   }
   //je le supprime
   fs.unlinkSync(filePath);
+
+  updateUploadedFilesPublic();
+
   return NextResponse.json({ message: "Fichier supprimé" });
 }
