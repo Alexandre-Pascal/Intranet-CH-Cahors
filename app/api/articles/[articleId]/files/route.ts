@@ -69,6 +69,13 @@ export async function POST(req: NextRequest, context: {params: {articleId: strin
         }
         break;
 
+      case "video":
+        filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/videos/${file.name}`;
+        if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/videos`)) {
+          fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/videos`, { recursive: true });
+        }
+        break;
+
       case "file":
         filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files/${file.name}`;
         console.log("fichier",filePath);
@@ -85,6 +92,12 @@ export async function POST(req: NextRequest, context: {params: {articleId: strin
         }`;
         if (!fs.existsSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/images`)) {
           fs.mkdirSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/images`, { recursive: true });
+        }
+        break;
+      case "video":
+        filePath = `${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/videos/${file.name}`;
+        if (!fs.existsSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/videos`)) {
+          fs.mkdirSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/videos`, { recursive: true });
         }
         break;
 

@@ -45,6 +45,8 @@ import {
 } from ".";
 // import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
 import { ImageUpload } from "./ImageUpload";
+import { VideoUpload } from "./VideoUpload";
+
 // import { TableOfContentsNode } from "./TableOfContentsNode";
 // import { lowlight } from "lowlight";
 
@@ -98,6 +100,10 @@ export const ExtensionKit = ({ provider, userId, userName = "Maxi" }: ExtensionK
     clientId: provider?.document?.clientID,
   }),
   ImageBlock,
+  VideoUpload.configure({
+    clientId: provider?.document?.clientID,
+  }),
+
   //   FileHandler.configure({
   //     allowedMimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"],
   //     onDrop: (currentEditor : any, files : any, pos : any) => {

@@ -8,7 +8,7 @@ import Table from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
 import TableCell from "@tiptap/extension-table-cell";
-import React, { use, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./styles.module.css";
 import NextImage from "next/image";
 
@@ -25,7 +25,7 @@ import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
 import FontFamily from "@tiptap/extension-font-family";
 import TextStyle from "@tiptap/extension-text-style";
-import { BulletList, FontSize, ImageBlock, Link, Underline, ImageUpload } from "@/app/extensions";
+import { BulletList, FontSize, ImageBlock, Link, Underline, ImageUpload, VideoUpload } from "@/app/extensions";
 import Highlight from "@tiptap/extension-highlight";
 import Color from "@tiptap/extension-color";
 import Subscript from "@tiptap/extension-subscript";
@@ -47,11 +47,12 @@ import FilesManager from "./FilesManager/FilesManager";
 
 import { useContext } from "react";
 import { AppContext } from "@/app/lib/utils/AppContext";
-import { getegid } from "process";
+// import { Button, Modal, Input, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
+import { Video } from "@/app/extensions/VideoUpload/video";
 
 export default function Editor({ kind, idPage } : {kind : string, idPage : string}) {
-  const [title, setTitle] = React.useState("");
-  const [content, setContent] = React.useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   const { currentIdPage, setCurrentIdPage } = useContext(AppContext);
 
@@ -114,6 +115,8 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
       ImageBlock,
       Image,
       ImageUpload,
+      Video,
+      VideoUpload,
     ],
     onUpdate({ editor }) {
       console.log(editor.getHTML());
@@ -128,6 +131,15 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
       setCurrentIdPage(generateTitleId());
     }
   }
+
+  // const [isVideoInputModalOpen, setIsVideoInputModalOpen] = useState(false);
+
+  // const [videoUrl, setVideoUrl] = useState("/video.mp4");
+  // const addVideo = () => editor?.commands.setVideo(videoUrl) && closeModal();
+
+  // const openModal = () => setIsVideoInputModalOpen(true);
+
+  // const closeModal = () => setIsVideoInputModalOpen(false);
 
   function replaceTempFiles(html : any) {
     return html.replace(/\/tempFiles\/\d+\//, `/savedFiles/${idPage}`);
@@ -490,8 +502,47 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             </button>
             }
           </div>
-          { (idPage || Number(currentIdPage) !== 0) && <FilesManager idPage={idPage !== "" ? idPage : Number(currentIdPage)} onlyView={false}/>
+          {
+            (idPage || Number(currentIdPage) !== 0) && <FilesManager idPage={idPage !== "" ? idPage : Number(currentIdPage)} onlyView={false}/>
           }
+          {/* <video controls src="/video.mp4"/>
+          <div>
+            <Button onClick={openModal}> Add Video </Button>
+            <Modal
+              closeButton
+              aria-labelledby="modal-title"
+              isOpen={isVideoInputModalOpen}
+              onClose={closeModal}
+            >
+              <ModalHeader>
+                <h2 id="modal-title" className="text-2xl">
+                  Add Video Url
+                </h2>
+              </ModalHeader>
+              <ModalBody>
+                <Input
+                  placeholder="Enter video url"
+                  value={videoUrl}
+                  onChange={(e) => setVideoUrl(e.target.value)
+                  }
+
+                  fullWidth
+                  color="primary"
+                  size="lg"
+
+                  autoFocus
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" onClick={closeModal}>
+        Fermer
+                </Button>
+                <Button color="warning" onClick={addVideo}>
+        Ajouter une vidéo
+                </Button>
+              </ModalFooter>
+            </Modal>
+          </div> */}
         </>
         }
       </form>

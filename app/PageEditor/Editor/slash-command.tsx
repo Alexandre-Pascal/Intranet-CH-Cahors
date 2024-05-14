@@ -20,7 +20,7 @@ import {
   ListOrdered,
   Table,
   Text,
-  File,
+  Video,
 } from "lucide-react";
 
   interface CommandItemProps {
@@ -148,6 +148,14 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       icon: <Image size={18} />,
       command: ({ editor, range }: Command) => {
         editor.chain().focus().deleteRange(range).setImageUpload().run();
+      },
+    },
+    {
+      title: "Vidéo",
+      description: "Insérez une vidéo.",
+      icon: <Video size={18} />,
+      command: ({ editor, range }: Command) => {
+        editor.chain().focus().deleteRange(range).setVideoUpload().run();
       },
     },
     {
