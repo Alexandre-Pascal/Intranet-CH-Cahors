@@ -29,30 +29,34 @@
 }
 
 .menu h1 {
-    font-size: x-large;
+    font-size: xx-large;
     font-weight: bold;
     padding: 1vh 2vw 1vh 2vw;
-    /* height: 10.83vh; */
     align-content: center;
     width: 30vw;
     line-height: normal;
     cursor: pointer;
 }
 
-.menu h1:hover {
+.notSelectedCategory:hover {
     color: var(--vert); 
     background-color: white; 
 }
 
-.selectedCategory
-{
+.selectedCategory{
     color: var(--vert);
     background-color: white; 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .notSelectedCategory
 {
     color: var(--bleu-fonce);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .list_sub_categories_and_titles{

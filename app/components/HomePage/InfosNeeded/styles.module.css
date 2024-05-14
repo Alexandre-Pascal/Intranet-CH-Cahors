@@ -16,10 +16,16 @@
     font-size: large;
 }
 
-.bar h1 {
+.bar p {
     font-style: italic;
-    font-size: large;
+    font-size: x-large;
+    font-weight: 300;
 }
+
+.bar h2 {
+    font-weight: normal;
+}
+
 
 
 .spaced{

@@ -139,15 +139,12 @@ export default function ListeTitres(datas: DataList[]) {
       <a className={styles.button_page_maker} href={"/PageEditor/?CreateOrUpdate=create"}>Créer une nouvelle page</a>
       <div className={styles.list_main_categories}>
         {dataList && (Object.values(dataList)).map((category, index) => (
-          <div className={styles.action_list}>
+          <div className={styles.action_list && selectedCategory === null && index === 0 ? styles.selectedCategory :
+            (selectedCategory !== undefined && selectedCategory?.category_id === category.category_id ?
+              styles.selectedCategory : styles.notSelectedCategory)}>
             <h1
               key={index}
               style={{ height: `${titleHeight}vh` }}
-              className={
-                selectedCategory === null && index === 0 ? styles.selectedCategory :
-                  (selectedCategory !== undefined && selectedCategory?.category_id === category.category_id ?
-                    styles.selectedCategory : styles.notSelectedCategory)
-              }
               onClick={() => {
                 setSelectedCategory(category);
               }}

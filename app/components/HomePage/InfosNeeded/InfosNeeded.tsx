@@ -7,7 +7,7 @@ import styles from "./styles.module.css";
 export default function InfosNeeded() {
   return (
     <div className={styles.bar}>
-      <h1 className={styles.spaced}>Vous souahitez des informations </h1>
+      <p className={styles.spaced}>Vous souahitez des informations </p>
       <Image className={styles.spaced} src={fleche} width={24} height={24} alt="Fleche"/>
       <a href={"/"}><h2 className={styles.spaced}>ADMINISTRATIF</h2></a>
       <p className={styles.spaced}>|</p>
