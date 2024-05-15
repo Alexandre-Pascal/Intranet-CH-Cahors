@@ -12,6 +12,7 @@ import connexion from "../../../assets/icons/utilisateur.png";
 import styles from "./styles.module.css";
 import Menu from "./Menu/Menu";
 import SearchBar from "./SearchBar/SearchBar";
+import LogIn from "./LogIn/LogIn";
 
 export default function NavBar({ isMenuOpen, setIsMenuOpen }:
   {
@@ -47,10 +48,11 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }:
             <p>Déclarer un évènement indésirable</p>
           </div>
         </Link>
-        <Link className={styles.logIn} href="/">
+        <LogIn/>
+        <Link className={styles.logIn} href="/SignUp">
           <div>
             <Image src={connexion} width={32} height={32} alt="Se Connecter"/>
-            <p>Se Connecter</p>
+            <p>S'inscrire</p>
           </div>
         </Link>
         <SearchBar/>

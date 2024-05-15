@@ -38,3 +38,9 @@ model datas_articles {
   id      String  @id @default(dbgenerated("lower(regexp_replace(replace(replace(translate((title)::text, 'áéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛäëïöüÄËÏÖÜ'::text, 'aeiouAEIOUaeiouAEIOUaeiouAEIOUaeiouAEIOU'::text), ''''::text, '-'::text), ' '::text, '-'::text), '[^a-zA-Z0-9_-]'::text, ''::text, 'g'::text))")) @db.VarChar(255)
   content String?
 }
+
+model users {
+  name     String @db.VarChar(255)
+  email    String @id @db.VarChar(255)
+  password String @db.VarChar(255)
+}
