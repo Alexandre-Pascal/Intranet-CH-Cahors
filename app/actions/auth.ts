@@ -1,6 +1,6 @@
 "use server";
 import { SignupFormSchema, FormState } from "@/app/lib/definitions";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import prisma from "../lib/utils/prisma";
 
 export async function signup(formData : FormData) {

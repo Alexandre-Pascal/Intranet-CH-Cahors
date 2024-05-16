@@ -6,8 +6,10 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { Icon } from "@/app/lib/utils/Icon";
 // import { login } from "@/app/actions/auth";
+import { getSession, login, logout } from "@/app/lib/session";
 
 import styles from "../styles.module.css";
+import { redirect } from "next/navigation";
 
 interface LogInFormProps {
   setIsMenuOpen:(isMenuOpen : boolean) => void;
@@ -15,12 +17,10 @@ interface LogInFormProps {
 
 export function LogInForm({ setIsMenuOpen }: LogInFormProps) {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
   });
   const [errors, setErrors] = useState<{
-    name?: string[];
     email?: string[];
     password?: string[];
   }>({});
@@ -35,43 +35,38 @@ export function LogInForm({ setIsMenuOpen }: LogInFormProps) {
 
   const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const datas = new FormData();
-    datas.append("name", formData.name);
+    const datas : FormData = new FormData();
     datas.append("email", formData.email);
     datas.append("password", formData.password);
-    // const result = await login(datas);
-    const result = null;
+    const result = await login(datas);
+    // vérifier si les données existent dans la bd
+
+    // let session;
     if (result?.errors) {
       setErrors(result.errors);
-      alert("Please fix the errors in the form");
-    } else if (result?.message) {
-      alert(result.message);
     }
     else {
-      alert("Success");
+      window.location.href = "/";
     }
   };
 
   return (
     <div className={styles.login_container}>
-      <form className={styles.login_form} onSubmit={handleSubmit}>
+      <form
+        className={styles.login_form}
+        onSubmit={handleSubmit}>
         <p className={styles.cross} onClick={() => setIsMenuOpen(false)}><Icon name="X" className={styles.icon} /></p>
         <h2>Connectez-vous</h2>
-        <div>
+        <div className={styles.email_container}>
           <input id="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
-          {errors?.email && <p>{errors.email}</p>}
+          {errors?.email && <p id={styles.email_error}>{errors.email}</p>}
         </div>
 
-        <div>
+        <div className={styles.password_container}>
           <input id="password" name="password" type="password" value={formData.password} onChange={handleChange} placeholder="Mot de passe"/>
           {errors?.password && (
             <div>
-              <p>Password must:</p>
-              <ul>
-                {errors.password.map((error) => (
-                  <li key={error}>- {error}</li>
-                ))}
-              </ul>
+              <p id={styles.password_error}>{errors.password}</p>
             </div>
           )}
         </div>
