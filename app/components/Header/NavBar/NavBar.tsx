@@ -13,13 +13,21 @@ import styles from "./styles.module.css";
 import Menu from "./Menu/Menu";
 import SearchBar from "./SearchBar/SearchBar";
 import LogIn from "./LogIn/LogIn";
+interface NavBarProps {
+  session: any,
+  isMenuOpen: boolean,
+  setIsMenuOpen: any
+}
 
-export default function NavBar({ isMenuOpen, setIsMenuOpen }:
-  {
-    isMenuOpen: boolean,
-    setIsMenuOpen: any
-  }
-) {
+export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarProps)
+{
+
+  // if (session) {
+  //   alert("Vous êtes connecté");
+  //   alert(Object.values(session));
+  // }
+  const isConnected = session ? true : false;
+
   return (
     <div>
       <nav className={styles.navBar}>
@@ -48,13 +56,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }:
             <p>Déclarer un évènement indésirable</p>
           </div>
         </Link>
-        <LogIn/>
-        <Link className={styles.logIn} href="/SignUp">
-          <div>
-            <Image src={connexion} width={32} height={32} alt="Se Connecter"/>
-            <p>S'inscrire</p>
-          </div>
-        </Link>
+        <LogIn connected={isConnected}/>
         <SearchBar/>
       </nav>
     </div>

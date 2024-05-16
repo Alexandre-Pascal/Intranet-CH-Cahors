@@ -10,6 +10,7 @@ import { DataList } from "@/app/lib/utils/types";
 import fetchDatas from "./lib/utils/fetchData";
 import { Toaster } from "./components/ui/toaster";
 import { AppProvider } from "./lib/utils/AppContext";
+import { getSession } from "./lib/session";
 // import Footer from "./components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,12 +25,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getSession();
   const datas : DataList[] = await fetchDatas();
-
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <Header {...datas}/>
+        <Header session={session} dataList={datas} />
         <AppProvider>
           {children}
           <Toaster />

@@ -56,7 +56,7 @@ export function LogInForm({ setIsMenuOpen }: LogInFormProps) {
         className={styles.login_form}
         onSubmit={handleSubmit}>
         <p className={styles.cross} onClick={() => setIsMenuOpen(false)}><Icon name="X" className={styles.icon} /></p>
-        <h2>Connectez-vous</h2>
+        <h2>Connectez-vous !</h2>
         <div className={styles.email_container}>
           <input id="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
           {errors?.email && <p id={styles.email_error}>{errors.email}</p>}
