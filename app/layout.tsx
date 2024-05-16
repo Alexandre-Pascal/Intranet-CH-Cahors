@@ -5,7 +5,7 @@ import "./globals.css";
 
 import Header from "./components/Header/Header";
 import React from "react";
-import { DataList } from "@/app/lib/utils/types";
+import { DataList, SessionObject } from "@/app/lib/utils/types";
 
 import fetchDatas from "./lib/utils/fetchData";
 import { Toaster } from "./components/ui/toaster";
@@ -26,11 +26,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getSession();
+  const datasSession : SessionObject = {
+    email : session?.user.email,
+    name : session?.user.nom,
+  };
   const datas : DataList[] = await fetchDatas();
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <Header session={session} dataList={datas} />
+        <Header session={datasSession} dataList={datas} />
         <AppProvider>
           {children}
           <Toaster />

@@ -36,7 +36,7 @@ export async function signup(formData : FormData) {
   // 2. Prepare data for insertion into database
   const { name, email, password } = validatedFields.data;
   // e.g. Hash the user's password before storing it
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 100);
 
   // 3. Insert the user into the database or call an Auth Library's API
   //utilisation de prisma

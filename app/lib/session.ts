@@ -25,9 +25,6 @@ export async function decrypt(input: string): Promise<any> {
 }
 
 export async function login(formData: FormData) {
-  // Verify credentials && get the user
-
-  // vérifier si les données existent dans la bd
 
   const utilisateur = await prisma.users.findFirst({
     where: {
@@ -35,7 +32,7 @@ export async function login(formData: FormData) {
     },
   });
 
-  console.log(utilisateur);
+  console.log("user", utilisateur);
 
   if (!utilisateur) {
     return {
@@ -56,18 +53,14 @@ export async function login(formData: FormData) {
       },
     };
   }
-  else {
-    console.log("vous êtes connecté");
-  }
 
-  const user = { email: email };
+  const user = { email: email, nom: utilisateur.name };
   // Create the session
   const expires = new Date(Date.now() + 10 * 1000);
   const session = await encrypt({ user, expires });
 
   // Save the session in a cookie
   cookies().set("session", session, { expires, httpOnly: true });
-  console.log("vous êtes connecté");
 }
 // }
 
@@ -78,7 +71,6 @@ export async function logout() {
 
 export async function getSession() {
   const session = cookies().get("session")?.value;
-  console.log(session);
   if (!session) return null;
   return await decrypt(session);
 }

@@ -141,3 +141,8 @@ export interface ShouldShowProps {
 export type EditLinkPopoverProps = {
   onSetLink: (link: string, openInNewTab?: boolean) => void
 }
+
+export type SessionObject = {
+  email: string,
+  name: string
+}
