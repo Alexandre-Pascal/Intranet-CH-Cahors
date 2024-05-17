@@ -1,13 +1,13 @@
 "use client";
 
-import { DataList } from "@/app/lib/utils/types";
+import { DataList, SessionObject } from "@/app/lib/utils/types";
 import LogosList from "./LogosList/LogosList";
 import ListeTitres from "./NavBar/Menu/ListeTitresMenu";
 import NavBar from "./NavBar/NavBar";
 import React, { useState } from "react";
 
 interface HeaderProps {
-  session : any;
+  session : SessionObject;
   dataList : DataList[];
 }
 export default function Header({ dataList, session }: HeaderProps) {

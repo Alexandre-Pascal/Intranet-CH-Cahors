@@ -8,13 +8,15 @@ import tableauDeBord from "../../../assets/icons/tableau-de-bord.png";
 import demandeIntervention from "../../../assets/icons/cle.png";
 import attention from "../../../assets/icons/attention.png";
 import connexion from "../../../assets/icons/utilisateur.png";
+import parametres from "../../../assets/icons/parametres.png";
 
 import styles from "./styles.module.css";
 import Menu from "./Menu/Menu";
 import SearchBar from "./SearchBar/SearchBar";
 import LogIn from "./LogIn/LogIn";
+import { SessionObject } from "@/app/lib/utils/types";
 interface NavBarProps {
-  session: any,
+  session: SessionObject,
   isMenuOpen: boolean,
   setIsMenuOpen: any
 }
@@ -22,11 +24,11 @@ interface NavBarProps {
 export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarProps)
 {
 
-  // if (session) {
+  // if (session.email) {
   //   alert("Vous êtes connecté");
   //   alert(Object.values(session));
   // }
-  const isConnected = session ? true : false;
+  const isConnected = session.email ? true : false;
 
   return (
     <div>
@@ -39,7 +41,7 @@ export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarPro
           </div>
         </Link>
         <Link className={styles.fastPath} href="/">
-          <div >
+          <div>
             <Image src={demandeIntervention} width={32} height={32} alt="Demande d'intervention"/>
             <p>Demande d&apos;intervention</p>
           </div>
@@ -58,6 +60,12 @@ export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarPro
         </Link>
         <LogIn connected={isConnected}/>
         <SearchBar/>
+        <Link className={styles.admin} href="/Administration">
+          <div>
+            <Image src={parametres} width={32} height={32} alt="Connexion"/>
+            <p>Administration</p>
+          </div>
+        </Link>
       </nav>
     </div>
   );

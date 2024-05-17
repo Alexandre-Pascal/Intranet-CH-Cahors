@@ -66,6 +66,14 @@
     cursor: pointer;
   }
 
+  .admin {
+    background-color: grey;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  }
+
   @media screen and (max-width: 1354px) {
     .navBar a {
       height: 6vh;
