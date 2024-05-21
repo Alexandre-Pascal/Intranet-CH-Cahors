@@ -147,3 +147,10 @@ export type SessionObject = {
   name: string
   roles?: string[]
 }
+
+export type RoleObject = {
+  name: string,
+  pages?: string[],
+  read?: boolean[],
+  edit?: boolean[],
+}
