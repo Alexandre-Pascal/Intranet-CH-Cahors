@@ -1,15 +1,12 @@
 "use client";
 
-import generateTitleId from "@/app/lib/utils/generateId";
-import getCategoryIdByName from "@/app/lib/utils/getCategoryIdByName";
 import { RoleObject } from "@/app/lib/utils/types";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
+import styles from "./styles.module.css";
 
 export default function CreateRole() {
 
-  const [categories, setCategories] = useState<string[]>([]);
-  const [categorie, setCategorie] = useState<string>("");
-  const [categrorieId, setCategorieId] = useState<number>(0);
+  const [categories, setCategories] = useState<any[]>([]);
 
   const [subCategories, setSubCategories] = useState<string[]>([]);
 
@@ -18,15 +15,17 @@ export default function CreateRole() {
   const [modified, setModified] = useState<boolean>(false);
 
   useEffect(() => {
-    const categories_temp : string[] = [];
+    const tempArray: any[] = [];
     const fetchCategories = async() => {
       try {
-        const response = await fetch("/api/categories?value=name");
-        const data = await response.json();
-        data.data.forEach((element: { category_name: string; }) => {
-          categories_temp.push(element.category_name);
-        });
-        setCategories(categories_temp);
+        const response = await fetch("/api/categories");
+        const result = await response.json();
+        result.data.forEach((categorie: any) => {
+          tempArray.push(categorie);
+        }
+        );
+        // console.log("tempArray",JSON.stringify(tempArray));
+        setCategories(tempArray);
       }
       catch (error) {
         console.error("Erreur:", error);
@@ -34,45 +33,6 @@ export default function CreateRole() {
     };
     fetchCategories();
   }, []);
-
-  useEffect(() => {
-    if (categorie === "") {
-      return;
-    }
-    const getCategoryId = async() => {
-      try {
-        console.log("categorie",categorie);
-        setRole({ ...role, name: categorie });
-        const id = await getCategoryIdByName(categorie);
-        setCategorieId(Number(id));
-      }
-      catch (error) {
-        console.error("Erreur:", error);
-      }
-    };
-    getCategoryId();
-  }, [categorie]);
-
-  useEffect(() => {
-    const subCategories_temp : string[] = [];
-    const fetchSubCategories = async() => {
-      console.log("categorie iddddd",categrorieId);
-
-      try {
-        const response = await fetch(`/api/categories/${categrorieId}/subcategories`);
-        const data = await response.json();
-        console.log(data.result);
-        data.result.forEach((element: { sub_category_name: string; }) => {
-          subCategories_temp.push(element.sub_category_name);
-        });
-        setSubCategories(subCategories_temp);
-      }
-      catch (error) {
-        console.error("Erreur:", error);
-      }
-    };
-    fetchSubCategories();
-  }, [categrorieId]);
 
   if (categories) {
     // alert(categories);
@@ -83,6 +43,7 @@ export default function CreateRole() {
     if (checkBox) {
       checkBox.forEach((check) => {
         check.addEventListener("change", (event) => {
+          // alert("checkBox");
           setModified(true);
         });
       });
@@ -91,38 +52,91 @@ export default function CreateRole() {
   );
 
   useEffect(() => {
-    if (modified == false) {
-      return;
-    }
-    setModified(true);
+    const checkBoxReadAll = document.getElementsByName("CheckAllRead");
+
+    checkBoxReadAll.forEach((checkBox) => {
+      checkBox.addEventListener("change", (event) => {
+
+        const target = event.target as HTMLInputElement;
+
+        if (target.checked) {
+
+          const checkBoxRead = Array.from(document.querySelectorAll(`input[name="read"][id="${target.id}"]`)) as HTMLInputElement[];
+          checkBoxRead.forEach((check) => {
+            const index = role.pages?.indexOf(check.className) ?? -1;
+            role.read?.splice(index, 1, true);
+            setRole({ ...role });
+
+            //check toutes les checkbox read
+            check.checked = true;
+          });
+        }
+        else{
+
+          const checkBoxRead = Array.from(document.querySelectorAll(`input[name="read"][id="${target.id}"]`)) as HTMLInputElement[];
+          checkBoxRead.forEach((check) => {
+            const index = role.pages?.indexOf(check.className) ?? -1;
+            role.read?.splice(index, 1, false);
+            setRole({ ...role });
+
+            //uncheck toutes les checkbox read
+            check.checked = false;
+          });
+
+        }
+      });
+    });
+
+    const checkBoxEditAll = document.getElementsByName("CheckAllEdit");
+
+    checkBoxEditAll.forEach((checkBox) => {
+      checkBox.addEventListener("change", (event) => {
+        const target = event.target as HTMLInputElement;
+        if (target.checked) {
+          const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${target.id}"]`)) as HTMLInputElement[];
+          checkBoxEdit.forEach((check) => {
+            const index = role.pages?.indexOf(check.className) ?? -1;
+            role.edit?.splice(index, 1, true);
+            setRole({ ...role });
+
+            //check toutes les checkbox edit
+            check.checked = true;
+          });
+        }
+        else{
+          const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${target.id}"]`)) as HTMLInputElement[];
+          checkBoxEdit.forEach((check) => {
+            const index = role.pages?.indexOf(check.className) ?? -1;
+            role.edit?.splice(index, 1, false);
+            setRole({ ...role });
+
+            //uncheck toutes les checkbox edit
+            check.checked = false;
+          });
+        }
+      });
+    });
+
     const checkBoxRead = document.querySelectorAll("input[name=\"read\"]");
-    const checkBoxEdit = document.querySelectorAll("input[name=\"edit\"]");
     checkBoxRead.forEach((checkBox) => {
       checkBox.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
-        //si la page est déjà dans la liste
-        //on la supprime pour la rajouter avec le nouveau niveau de lecture
-        const index = role.pages?.indexOf(target.id) ?? -1;
-
-        role.pages?.splice(index, 1, target.id);
+        const index = role.pages?.indexOf(target.className) ?? -1;
         role.read?.splice(index, 1, target.checked);
         setRole({ ...role });
       });
     });
+
+    const checkBoxEdit = document.querySelectorAll("input[name=\"edit\"]");
     checkBoxEdit.forEach((checkBox) => {
       checkBox.addEventListener("change", (event) => {
         const target = event.target as HTMLInputElement;
-        const index = role.pages?.indexOf(target.id) ?? -1;
-
-        role.pages?.splice(index, 1, target.id);
+        const index = role.pages?.indexOf(target.className) ?? -1;
         role.edit?.splice(index, 1, target.checked);
-
-        // role.pages?.push(target.id);
-        // role.edit?.push(editLevel);
         setRole({ ...role });
       });
     });
-  }, [modified]
+  }
   );
 
   useEffect(() => {
@@ -130,22 +144,24 @@ export default function CreateRole() {
   }, [role]);
 
   const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
-    // event.preventDefault();
-
+    role.name = (document.getElementById("role") as HTMLInputElement).value;
+    console.log("role définitif",role);
   };
 
   useEffect(() => {
-    if (subCategories.length === 0) {
+    if (categories.length === 0) {
       return;
     }
     //je veux charger la liste de mes pages dans role
-    subCategories.forEach((subCategorie) => {
-      role.pages?.push(subCategorie);
-      role.read?.push(false);
-      role.edit?.push(false);
+    categories.forEach((categorie) => {
+      categorie.sub_categories.forEach((subCategorie : any) => {
+        role.pages?.push(subCategorie.sub_category_name);
+        role.read?.push(false);
+        role.edit?.push(false);
+      });
     });
 
-  }, [subCategories]
+  }, [categories]
   );
 
   return (
@@ -153,40 +169,35 @@ export default function CreateRole() {
       <h1>Création de rôle</h1>
       <form onSubmit={handleSubmit}>
         <input type="text" name="role" id="role" placeholder="Nom du rôle" />
-        <select
-          name="categorie"
-          id="categorie"
-          onChange={(event) => {
-            const categorieId = event.target.value;
-            console.log(categorieId);
-            setCategorie(categorieId);
-          }}
-        >
-          <option value="">Choisissez une catégorie</option>
-          {categories.length > 0 && categories.map((categorie, index) => (
-            <option key={index} value={categorie}>{categorie}</option>
+        <div className={styles.list_sous_cat}>
+          {categories?.length > 0 && categories?.map((categorie: any, index: any) => (
+            <div key={index}>
+              <h3>{categorie.category_name}</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Sous-catégories</th>
+                    <th>Lecture</th>
+                    <th>Écriture</th>
+                  </tr>
+                  <tr>
+                    <th>Tout cocher</th>
+                    <th><input type="checkbox" name="CheckAllRead" id={categorie.category_id} /></th>
+                    <th><input type="checkbox" name="CheckAllEdit" id={categorie.category_id} /></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {categorie.sub_categories.length > 0 && categorie.sub_categories.map((subCategorie : any, index : any) => (
+                    <tr key={index}>
+                      <td>{subCategorie.sub_category_name}</td>
+                      <td><input type="checkbox" name="read" id={subCategorie.category_id} className={subCategorie.sub_category_name} /></td>
+                      <td><input type="checkbox" name="edit" id={subCategorie.category_id} className={subCategorie.sub_category_name} /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ))}
-        </select>
-
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Sous-catégories</th>
-                <th>Lecture</th>
-                <th>Écriture</th>
-              </tr>
-            </thead>
-            <tbody>
-              {subCategories.length > 0 && subCategories.map((subCategorie, index) => (
-                <tr key={index}>
-                  <td>{subCategorie}</td>
-                  <td><input type="checkbox" name="read" id={subCategorie} /></td>
-                  <td><input type="checkbox" name="edit" id={subCategorie} /></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
         <button type="submit">Créer</button>
       </form>
