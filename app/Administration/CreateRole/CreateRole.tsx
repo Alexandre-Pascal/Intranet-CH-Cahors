@@ -1,6 +1,6 @@
 "use client";
 
-import { RoleObject } from "@/app/lib/utils/types";
+import { RoleObject, RoleObjectDb } from "@/app/lib/utils/types";
 import { useState, useEffect } from "react";
 import styles from "./styles.module.css";
 
@@ -144,9 +144,42 @@ export default function CreateRole() {
   }, [role]);
 
   const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     role.name = (document.getElementById("role") as HTMLInputElement).value;
-    console.log("role définitif",role);
+    const newList = checkAccess();
+    const datas = new FormData();
+    console.log("role définitif",JSON.stringify(newList));
+    // alert(JSON.stringify(newList));
+    datas.append("role", JSON.stringify(newList));
+    const result = await fetch("/api/roles", {
+      method: "POST",
+      body: JSON.stringify(newList),
+    });
+    const data = await result.json();
+    alert(JSON.stringify(data));
+
+    // alert("Role créé");
+    // alert(JSON.stringify(role));
+    //
+
   };
+
+  function checkAccess() {
+    const listTemp : RoleObjectDb = { name: "", pages: [], access: [] };
+    role.pages?.forEach((page, index) => {
+      listTemp.name = role.name;
+      listTemp.pages?.push(page);
+      let access = 0;
+      if (role.edit?.[index] === true) {
+        access += 1;
+      }
+      if(role.read?.[index] === true) {
+        access += 1;
+      }
+      listTemp.access?.push(access);
+    });
+    return listTemp;
+  }
 
   useEffect(() => {
     if (categories.length === 0) {
@@ -167,8 +200,8 @@ export default function CreateRole() {
   return (
     <div>
       <h1>Création de rôle</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="role" id="role" placeholder="Nom du rôle" />
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <input className="w-full p-2 text-4xl font-bold text-center mt-4" type="text" name="role" id="role" placeholder="Nom du rôle" />
         <div className={styles.list_sous_cat}>
           {categories?.length > 0 && categories?.map((categorie: any, index: any) => (
             <div key={index}>
@@ -199,7 +232,7 @@ export default function CreateRole() {
             </div>
           ))}
         </div>
-        <button type="submit">Créer</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" type="submit">Créer</button>
       </form>
     </div>
   );

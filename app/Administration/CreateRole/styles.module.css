@@ -19,4 +19,20 @@
 
 .list_sous_cat td {
     text-align: center;
+    padding: 5px 5px;
+}
+
+.list_sous_cat th {
+    padding: 5px 5px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}  
+.form button {
+    margin-top: 20px;
+    width: 200px;
+    align-self: center;
+    margin-bottom: 4vh;
 }

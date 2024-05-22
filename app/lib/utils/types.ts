@@ -154,3 +154,9 @@ export type RoleObject = {
   read?: boolean[],
   edit?: boolean[],
 }
+
+export type RoleObjectDb = {
+  name: string,
+  pages?: string[],
+  access?: number[],
+}
