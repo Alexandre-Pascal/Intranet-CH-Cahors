@@ -9,3 +9,8 @@ export async function POST(request) {
   });
   return NextResponse.json({ result });
 }
+
+export async function GET() {
+  const roles = await prisma.roles.findMany();
+  return NextResponse.json({ roles });
+}

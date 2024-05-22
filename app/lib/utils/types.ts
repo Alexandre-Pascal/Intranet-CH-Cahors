@@ -144,8 +144,8 @@ export type EditLinkPopoverProps = {
 
 export type SessionObject = {
   email: string,
-  name: string
-  roles?: string[]
+  name: string,
+  role?: string
 }
 
 export type RoleObject = {
