@@ -12,6 +12,7 @@ export type Title = {
 
 export type SubCategory = {
   sub_category_id: number;
+  category_id: number;
   sub_category_name: string;
   titles: Title[];
   sub_category_url: string;
