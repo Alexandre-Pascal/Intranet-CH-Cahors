@@ -54,6 +54,7 @@
     "@typescript-eslint/parser": "^7.7.1",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
+    "bcrypt-ts": "^5.0.2",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

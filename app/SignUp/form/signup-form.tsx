@@ -34,22 +34,24 @@ export function SignupForm() {
     datas.append("name", formData.name);
     datas.append("email", formData.email);
     datas.append("password", formData.password);
+    console.log("datas", datas);
     const result = await signup(datas);
 
     if (result?.errors) {
       setErrors(result.errors);
-      alert("Please fix the errors in the form");
+      alert("Remplissez correctement les champs");
     } else if (result?.message) {
       alert(result.message);
     }
     else {
-      alert("Success");
+      alert("Inscription réussie");
     }
   };
 
   return (
     <div className={styles.signup_container}>
       <form className={styles.signup_form} onSubmit={handleSubmit}>
+
         <h2>Inscrivez-vous</h2>
         <div>
           <input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Prénom" />
@@ -74,8 +76,7 @@ export function SignupForm() {
             </div>
           )}
         </div>
-
-        <SignupButton pending={pending} />
+        <button type="submit">S'enregizzstrer</button>
       </form>
     </div>
   );

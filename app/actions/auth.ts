@@ -1,10 +1,12 @@
 "use server";
 import { SignupFormSchema, FormState } from "@/app/lib/definitions";
-import bcrypt from "bcryptjs";
+import { hashSync } from "bcrypt-ts";
 import prisma from "../lib/utils/prisma";
 
 export async function signup(formData : FormData) {
   // Validate form fields
+
+  console.log("Debut de la fonction signup");
 
   const checkUserNotExists = await prisma.users.findUnique({
     where: {
@@ -33,17 +35,22 @@ export async function signup(formData : FormData) {
     };
   }
 
+  console.log("validatedFields");
+
+  // console.log(validatedFields.data.email);
   // 2. Prepare data for insertion into database
-  const { name, email, password } = validatedFields.data;
+  // const { name, email, password } = validatedFields.data;
   // e.g. Hash the user's password before storing it
-  const hashedPassword = await bcrypt.hash(password, 100);
+  const hashedPassword = hashSync(validatedFields.data.password, 10);
 
   // 3. Insert the user into the database or call an Auth Library's API
   //utilisation de prisma
+  console.log("name", validatedFields.data.name);
+  console.log("email", validatedFields.data.email);
   const data = await prisma.users.create({
     data: {
-      name,
-      email,
+      name : validatedFields.data.name,
+      email: validatedFields.data.email,
       password: hashedPassword,
     },
   });
