@@ -30,9 +30,20 @@
     display: flex;
     flex-direction: column;
 }  
-.form button {
+/* .form button {
     margin-top: 20px;
     width: 200px;
     align-self: center;
     margin-bottom: 4vh;
+} */
+
+.container_buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.container_buttons button {
+    margin: 0 30px;
 }

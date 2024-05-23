@@ -4,6 +4,7 @@ import { DataList, RoleObject, RoleObjectDb, SubCategory } from "@/app/lib/utils
 import { useState, useEffect, ChangeEvent } from "react";
 import styles from "./styles.module.css";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function CreateRole() {
 
@@ -16,6 +17,7 @@ export default function CreateRole() {
 
   const searchParams = useSearchParams();
   const kind = searchParams.get("kind");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchRoles = async() => {
@@ -52,10 +54,6 @@ export default function CreateRole() {
     };
     fetchCategories();
   }, []);
-
-  if (categories) {
-    // alert(categories);
-  }
 
   useEffect(() => {
     const checkBoxReadAll = document.getElementsByName("CheckAllRead");
@@ -215,14 +213,27 @@ export default function CreateRole() {
     const newList = checkAccess();
     const datas = new FormData();
     console.log("role définitif",JSON.stringify(newList));
-    // alert(JSON.stringify(newList));
     datas.append("role", JSON.stringify(newList));
     const result = await fetch("/api/roles", {
       method: "POST",
       body: JSON.stringify(newList),
     });
-    const data = await result.json();
-    alert(JSON.stringify(data));
+    await result.json();
+    window.location.href = "/Administration";
+  };
+
+  const handleUpdate = async(event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const newList = checkAccess();
+    const datas = new FormData();
+    console.log("role définitif",JSON.stringify(newList));
+    datas.append("role", JSON.stringify(newList));
+    const result = await fetch(`/api/roles/${role.name}`, {
+      method: "PUT",
+      body: JSON.stringify(newList),
+    });
+    await result.json();
+    window.location.href = "/Administration";
   };
 
   function checkAccess() {
@@ -243,54 +254,76 @@ export default function CreateRole() {
   }
 
   function handleOnChangeSelectedRole(e : ChangeEvent<HTMLSelectElement>) {
-    const role = roles.find((role) => role.name === e.target.value);
-    console.log("role",role);
-    // if (role) {
-    //   role.pages?.forEach((page, index) => {
-    //     const checkBoxRead = Array.from(document.querySelectorAll(`input[name="read"][id="${page}"]`)) as HTMLInputElement[];
-    //     const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${page}"]`)) as HTMLInputElement[];
-    //     checkBoxRead.forEach((check) => {
-    //       check.checked = role.access?.[index] === 1 || role.access?.[index] === 3 ? true : false;
-    //     });
-    //     checkBoxEdit.forEach((check) => {
-    //       check.checked = role.access?.[index] === 2 || role.access?.[index] === 3 ? true : false;
-    //     });
-    //   });
-    // }
-    const newRole : RoleObject = { name: role?.name ?? "", pages: role?.pages ?? [], read: [], edit: [] };
-    const read = role?.access?.map((access) => access === 1 || access === 3 ? true : false);
-    const edit = role?.access?.map((access) => access === 2 || access === 3 ? true : false);
-
-  }
-
-  function isChecked(id: string) {
-
-    // const checkBoxRead = Array.from(document.querySelectorAll(`input[name="read"][id="${id}"]`)) as HTMLInputElement[];
-    // const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${id}"]`)) as HTMLInputElement[];
-
-    // const read = checkBoxRead.filter((check) => check.checked).length;
-    // const edit = checkBoxEdit.filter((check) => check.checked).length;
-
-    // if (read === checkBoxRead.length) {
-    //   return true;
-    // }
-    // if (edit === checkBoxEdit.length) {
-    //   return true;
-    // }
-    // if (read === 0 && edit === 0) {
-    //   return false;
-    // }
-
-    if(role.read?.[role.pages?.indexOf(id) ?? -1] === true) {
-      setIsEditCheckboxChecked(true);
+    const selectedRole = roles.find((role) => role.name === e.target.value);
+    if (selectedRole) {
+      const newRole : RoleObject = convertBdToRoleObject(selectedRole);
+      setRole(newRole);
+      updateCheckboxes(newRole);
     }
-
   }
+
+  function convertBdToRoleObject(roleDb : RoleObjectDb) {
+    const newRole : RoleObject = { name: roleDb.name, pages: [], read: [], edit: [] };
+    roleDb.pages?.forEach((page, index) => {
+      newRole.pages?.push(page);
+      if (roleDb.access?.[index] === 1) {
+        newRole.read?.push(true);
+        newRole.edit?.push(false);
+      }
+      else if (roleDb.access?.[index] === 2) {
+        newRole.read?.push(true);
+        newRole.edit?.push(true);
+      }
+      else{
+        newRole.read?.push(false);
+        newRole.edit?.push(false);
+      }
+    });
+    return newRole;
+  }
+
+  function updateCheckboxes(newRole : RoleObject) {
+    newRole.pages?.forEach((page, index) => {
+      const sub_category_id = categories.find((categorie) => categorie.sub_categories.find((subCategorie : any) => subCategorie.sub_category_name === page))?.sub_categories.find((subCategorie : any) => subCategorie.sub_category_name === page)?.sub_category_id;
+      const checkBoxRead = document.querySelector(`input[name="read"][id="${sub_category_id}"]`) as HTMLInputElement;
+      const checkBoxEdit = document.querySelector(`input[name="edit"][id="${sub_category_id}"]`) as HTMLInputElement;
+      if (newRole.read?.[index] === true) {
+        checkBoxRead.checked = true;
+      } else {
+        checkBoxRead.checked = false;
+      }
+
+      if (newRole.edit?.[index] === true) {
+        checkBoxEdit.checked = true;
+      } else{
+        checkBoxEdit.checked = false;
+      }
+    });
+  }
+
+  const handleDelete = async() => {
+    const result = await fetch(`/api/roles/${role.name}`, {
+      method: "DELETE",
+    });
+    await result.json();
+  };
+
+  const confirmDelete = () => {
+    const confirm = window.confirm("Voulez-vous vraiment supprimer ce rôle ?");
+    if (confirm) {
+      handleDelete();
+      window.location.href = "/Administration";
+    }
+  };
 
   return (
     <div>
-      <h1>Création de rôle</h1>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <h1>
+        {
+          kind === "update" ? "Modifier un rôle" : "Créer un rôle"
+        }
+      </h1>
+      <form className={styles.form} onSubmit={kind === "update" ? (e) => handleUpdate(e) : (e) => handleSubmit(e)}>
         { kind === "update" ? (
           <select onChange={(e) => handleOnChangeSelectedRole(e)}>
             {
@@ -325,7 +358,6 @@ export default function CreateRole() {
                   {categorie.sub_categories.length > 0 && categorie.sub_categories.map((subCategorie : SubCategory, index : any) => (
                     <tr key={index}>
                       <td>{subCategorie.sub_category_name}</td>
-                      {/* <td><input type="checkbox" name="read" id={subCategorie.category_id} className={subCategorie.sub_category_name} /></td> */}
                       <td><input type="checkbox" name="read" id={subCategorie.sub_category_id.toString()} /></td>
                       <td><input type="checkbox" name="edit" id={subCategorie.sub_category_id.toString()} /></td>
                     </tr>
@@ -335,7 +367,34 @@ export default function CreateRole() {
             </div>
           ))}
         </div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4" type="submit">Créer</button>
+        <div className={styles.container_buttons}>
+          {
+            kind === "update" && (
+              <button type="button" className="bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4" onClick={() => window.location.href = "/Administration"}>
+              Annuler
+              </button>
+            )
+          }
+          {
+            kind === "create" && (
+              <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+              Créer
+              </button>
+            )
+          }
+          { role && role.name && (
+            <>
+              <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+              Modifier
+              </button>
+
+              <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={confirmDelete}>
+              Supprimer
+              </button>
+            </>
+          )
+          }
+        </div>
       </form>
     </div>
   );
