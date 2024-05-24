@@ -10,6 +10,7 @@ import { getSession, login, logout } from "@/app/lib/session";
 
 import styles from "../styles.module.css";
 import { redirect } from "next/navigation";
+import { set } from "zod";
 
 interface LogInFormProps {
   setIsMenuOpen:(isMenuOpen : boolean) => void;
@@ -46,6 +47,8 @@ export function LogInForm({ setIsMenuOpen }: LogInFormProps) {
       setErrors(result.errors);
     }
     else {
+      setIsMenuOpen(false);
+      alert("Connexion réussie");
       window.location.href = "/";
     }
   };

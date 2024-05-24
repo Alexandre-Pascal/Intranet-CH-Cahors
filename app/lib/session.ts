@@ -13,7 +13,7 @@ export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("10 sec from now")
+    .setExpirationTime("600 sec from now")
     .sign(key);
 }
 
@@ -32,7 +32,7 @@ export async function login(formData: FormData) {
     },
   });
 
-  console.log("user", utilisateur);
+  // console.log("user", utilisateur);
 
   if (!utilisateur) {
     return {
@@ -45,7 +45,6 @@ export async function login(formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password") ?? "undefined";
   const passwordMatch = await bcrypt.compare(password.toString(), utilisateur.password.toString());
-
   if (!passwordMatch) {
     return {
       errors: {
@@ -54,9 +53,11 @@ export async function login(formData: FormData) {
     };
   }
 
-  const user = { email: email, nom: utilisateur.name };
+  const user = { email: email, nom: utilisateur.name, role: utilisateur.role };
   // Create the session
-  const expires = new Date(Date.now() + 10 * 1000);
+  console.log("create");
+
+  const expires = new Date(Date.now() + 600 * 1000);
   const session = await encrypt({ user, expires });
 
   // Save the session in a cookie
@@ -81,7 +82,8 @@ export async function updateSession(request: NextRequest) {
 
   // Refresh the session so it doesn't expire
   const parsed = await decrypt(session);
-  parsed.expires = new Date(Date.now() + 10 * 1000);
+  console.log("update");
+  parsed.expires = new Date(Date.now() + 600 * 1000);
   const res = NextResponse.next();
   res.cookies.set({
     name: "session",

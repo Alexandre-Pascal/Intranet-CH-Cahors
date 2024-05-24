@@ -45,8 +45,7 @@ import { useForm } from "react-hook-form";
 import generateTitleId from "@/app/lib/utils/generateId";
 import FilesManager from "./FilesManager/FilesManager";
 
-import { useContext } from "react";
-import { AppContext } from "@/app/lib/utils/AppContext";
+import { useAppContext } from "@/app/lib/utils/AppContext";
 // import { Button, Modal, Input, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
 import { Video } from "@/app/extensions/VideoUpload/video";
 
@@ -54,7 +53,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const { currentIdPage, setCurrentIdPage } = useContext(AppContext);
+  const { currentIdPage, setCurrentIdPage } = useAppContext();
 
   const {
     register,

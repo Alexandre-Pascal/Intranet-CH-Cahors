@@ -1,5 +1,4 @@
 // Navbar.js
-"use client";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -15,6 +14,8 @@ import Menu from "./Menu/Menu";
 import SearchBar from "./SearchBar/SearchBar";
 import LogIn from "./LogIn/LogIn";
 import { SessionObject } from "@/app/lib/utils/types";
+import canAccess from "@/app/lib/utils/canAccess";
+import { useEffect, useState } from "react";
 interface NavBarProps {
   session: SessionObject,
   isMenuOpen: boolean,
@@ -28,7 +29,16 @@ export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarPro
   //   alert("Vous êtes connecté");
   //   alert(Object.values(session));
   // }
+
+  const [isAdmin,setIsAdmin] = useState(false);
   const isConnected = session.email ? true : false;
+
+  useEffect(() => {
+    const fetchRole = async() => {
+      setIsAdmin(await canAccess(session));
+    };
+    fetchRole();
+  }, [session]);
 
   return (
     <div>
@@ -60,12 +70,14 @@ export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarPro
         </Link>
         <LogIn connected={isConnected}/>
         <SearchBar/>
-        <Link className={styles.admin} href="/Administration">
-          <div>
-            <Image src={parametres} width={32} height={32} alt="Connexion"/>
-            <p>Administration</p>
-          </div>
-        </Link>
+        { isAdmin && (
+          <Link className={styles.admin} href="/Administration">
+            <div>
+              <Image src={parametres} width={32} height={32} alt="Connexion"/>
+              <p>Administration</p>
+            </div>
+          </Link>
+        )}
       </nav>
     </div>
   );

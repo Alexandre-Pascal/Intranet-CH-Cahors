@@ -4,7 +4,9 @@ import { DataList, RoleObject, RoleObjectDb, SubCategory } from "@/app/lib/utils
 import { useState, useEffect, ChangeEvent } from "react";
 import styles from "./styles.module.css";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useAppContext } from "@/app/lib/utils/AppContext";
+import notAuthorised from "@/app/components/Header/notAuthorised";
+import { Spinner } from "@/app/components/ui/Spinner";
 
 export default function CreateRole() {
 
@@ -13,11 +15,22 @@ export default function CreateRole() {
 
   const [roles, setRoles] = useState<RoleObjectDb[]>([]);
 
-  const [isEditCheckboxChecked, setIsEditCheckboxChecked] = useState(false);
-
   const searchParams = useSearchParams();
   const kind = searchParams.get("kind");
-  const router = useRouter();
+
+  const { session, loading } = useAppContext();
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  useEffect(() => {
+    if (!loading) {
+      if (session?.role == undefined || session.role !== "Administrateur") {
+        notAuthorised();
+        setIsAuthorized(false);
+      } else {
+        setIsAuthorized(true);
+      }
+    }
+  }, [loading, session]);
 
   useEffect(() => {
     const fetchRoles = async() => {
@@ -316,86 +329,100 @@ export default function CreateRole() {
     }
   };
 
-  return (
-    <div>
-      <h1 className="ml-10">
-        {
-          kind === "update" ? "Modifier un rôle" : "Créer un rôle"
-        }
-      </h1>
-      <form className={styles.form} onSubmit={kind === "update" ? (e) => handleUpdate(e) : (e) => handleSubmit(e)}>
-        { kind === "update" ? (
-          <select onChange={(e) => handleOnChangeSelectedRole(e)}>
-            {
-              <option value={""}>Choisissez un role</option>
-            }
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8 rounded-lg min-h-[10rem] bg-opacity-80">
+        <Spinner className="text-neutral-500" size={3} />
+      </div>
+    );
+  }
 
-            { roles && ( roles.map((role, index) => (
-              <option key={index} value={role.name}>{role.name}</option>
-            )))}
-          </select>
-        ) :
-          <input className="w-full p-2 text-4xl font-bold text-center mt-4" type="text" name="role" id="role" placeholder="Nom du rôle" />
-        }
-        <div className={styles.list_sous_cat}>
-          {categories?.length > 0 && categories?.map((categorie: any, index: any) => (
-            <div key={index}>
-              <h3>{categorie.category_name}</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Sous-catégories</th>
-                    <th>Lecture</th>
-                    <th>Écriture</th>
-                  </tr>
-                  <tr>
-                    <th>Tout cocher</th>
-                    <th><input type="checkbox" name="CheckAllRead" id={categorie.category_id} /></th>
-                    <th><input type="checkbox" name="CheckAllEdit" id={categorie.category_id} /></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {categorie.sub_categories.length > 0 && categorie.sub_categories.map((subCategorie : SubCategory, index : any) => (
-                    <tr key={index}>
-                      <td>{subCategorie.sub_category_name}</td>
-                      <td><input type="checkbox" name="read" id={subCategorie.sub_category_id.toString()} /></td>
-                      <td><input type="checkbox" name="edit" id={subCategorie.sub_category_id.toString()} /></td>
+  if (isAuthorized === false) {
+    return null;
+  }
+
+  if (isAuthorized === true) {
+    return (
+      <div>
+        <h1 className="ml-10">
+          {
+            kind === "update" ? "Modifier un rôle" : "Créer un rôle"
+          }
+        </h1>
+        <form className={styles.form} onSubmit={kind === "update" ? (e) => handleUpdate(e) : (e) => handleSubmit(e)}>
+          { kind === "update" ? (
+            <select onChange={(e) => handleOnChangeSelectedRole(e)}>
+              {
+                <option value={""}>Choisissez un role</option>
+              }
+
+              { roles && ( roles.map((role, index) => (
+                <option key={index} value={role.name}>{role.name}</option>
+              )))}
+            </select>
+          ) :
+            <input className="w-full p-2 text-4xl font-bold text-center mt-4" type="text" name="role" id="role" placeholder="Nom du rôle" />
+          }
+          <div className={styles.list_sous_cat}>
+            {categories?.length > 0 && categories?.map((categorie: any, index: any) => (
+              <div key={index}>
+                <h3>{categorie.category_name}</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Sous-catégories</th>
+                      <th>Lecture</th>
+                      <th>Écriture</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ))}
-        </div>
-        <div className={styles.container_buttons}>
-          {
-            kind === "update" && (
-              <button type="button" className="bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4" onClick={() => window.location.href = "/Administration"}>
+                    <tr>
+                      <th>Tout cocher</th>
+                      <th><input type="checkbox" name="CheckAllRead" id={categorie.category_id} /></th>
+                      <th><input type="checkbox" name="CheckAllEdit" id={categorie.category_id} /></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {categorie.sub_categories.length > 0 && categorie.sub_categories.map((subCategorie : SubCategory, index : any) => (
+                      <tr key={index}>
+                        <td>{subCategorie.sub_category_name}</td>
+                        <td><input type="checkbox" name="read" id={subCategorie.sub_category_id.toString()} /></td>
+                        <td><input type="checkbox" name="edit" id={subCategorie.sub_category_id.toString()} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </div>
+          <div className={styles.container_buttons}>
+            {
+              kind === "update" && (
+                <button type="button" className="bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4" onClick={() => window.location.href = "/Administration"}>
               Annuler
-              </button>
-            )
-          }
-          {
-            kind === "create" && (
-              <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                </button>
+              )
+            }
+            {
+              kind === "create" && (
+                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
               Créer
-              </button>
-            )
-          }
-          { role && role.name && (
-            <>
-              <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                </button>
+              )
+            }
+            { role && role.name && (
+              <>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
               Modifier
-              </button>
+                </button>
 
-              <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={confirmDelete}>
+                <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={confirmDelete}>
               Supprimer
-              </button>
-            </>
-          )
-          }
-        </div>
-      </form>
-    </div>
-  );
+                </button>
+              </>
+            )
+            }
+          </div>
+        </form>
+      </div>
+    );
+  }
 }

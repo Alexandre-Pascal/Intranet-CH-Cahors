@@ -18,3 +18,11 @@ export async function DELETE(request, { params }) {
   });
   return NextResponse.json({ result });
 }
+
+export async function GET(request, { params }) {
+  const name = params.name;
+  const result = await prisma.roles.findUnique({
+    where: { name },
+  });
+  return NextResponse.json({ result });
+}

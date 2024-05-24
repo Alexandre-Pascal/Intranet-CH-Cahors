@@ -29,10 +29,10 @@ export default async function RootLayout({
   const datasSession : SessionObject = {
     email : session?.user.email,
     name : session?.user.nom,
-
+    role : session?.user.role,
   };
 
-  console.log("session", session);
+  // console.log("session", session);
   const datas : DataList[] = await fetchDatas();
   return (
     <html lang="fr">

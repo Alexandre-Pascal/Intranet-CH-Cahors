@@ -14,6 +14,11 @@ interface LogInProps {
 export default function LogIn({ connected }: LogInProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const handleLogout = async() => {
+    await logout();
+    alert("Déconnexion réussie"),
+    window.location.href = "/";
+  };
   return (
     <>
       { !connected ? (
@@ -25,7 +30,7 @@ export default function LogIn({ connected }: LogInProps) {
         </a>
       ) :
         (
-          <a className={styles.logIn} onClick={() => logout()}>
+          <a className={styles.logIn} onClick={() => handleLogout()}>
             <div>
               <Image src={deconnexion} width={32} height={32} alt="Se Connecter"/>
               <p>Se déconnecter</p>

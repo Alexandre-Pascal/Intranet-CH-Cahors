@@ -2,11 +2,11 @@ import { DragEvent, useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { API } from "@/app/lib/api";
 import { useContext } from "react";
-import { AppContext } from "@/app/lib/utils/AppContext";
+import { AppContext, useAppContext } from "@/app/lib/utils/AppContext";
 
 export const useUploader = ({ onUpload }: { onUpload: (url: string) => void }) => {
   const [loading, setLoading] = useState(false);
-  const { currentIdPage, setCurrentIdPage } = useContext(AppContext);
+  const { currentIdPage, setCurrentIdPage } = useAppContext();
 
   const uploadFile = useCallback(async(file: File) => {
     setLoading(true);
