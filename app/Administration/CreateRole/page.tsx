@@ -318,7 +318,7 @@ export default function CreateRole() {
 
   return (
     <div>
-      <h1>
+      <h1 className="ml-10">
         {
           kind === "update" ? "Modifier un rôle" : "Créer un rôle"
         }

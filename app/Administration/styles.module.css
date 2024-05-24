@@ -1,0 +1,94 @@
+.container_users {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    margin: 20px 0;
+    padding: 0 20px
+}
+
+.user {
+    flex: 1 1 300px;
+    margin: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;    
+    border-radius: 15px;
+}
+
+.user form {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.user select {
+    padding: 10px;
+    margin: 10px 25%;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.user select:focus {
+    border-color: #0056b3;
+
+}
+
+.user select:hover {
+    border-color: #0056b3;
+}
+
+.user option {
+    background-color: #fff;
+    color: #333;
+    padding: 10px;
+    font-size: 18px;
+}
+
+
+.user:hover {
+    transform: translateY(-5px);
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 16px 32px rgba(0, 0, 0, 0.2);
+}
+
+.container_buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.container_buttons button {
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+
+}
+
+.container_buttons button:hover {
+    transform: scale(1.05);
+}
+
+.bg-red-500 {
+    background-color: #DC3545;
+}
+
+.bg-red-500:hover {
+    background-color: #c82333;
+}
