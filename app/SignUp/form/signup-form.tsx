@@ -7,6 +7,7 @@ import { useFormStatus } from "react-dom";
 import { signup } from "@/app/actions/auth";
 
 import styles from "../styles.module.css";
+import { login } from "@/app/lib/session";
 
 export function SignupForm() {
   const [formData, setFormData] = useState({
@@ -45,6 +46,19 @@ export function SignupForm() {
     }
     else {
       alert("Inscription réussie");
+      const loginDatas = new FormData();
+      loginDatas.append("email", formData.email);
+      loginDatas.append("password", formData.password);
+      const result = await login(datas);
+      // vérifier si les données existent dans la bd
+
+      // let session;
+      if (result?.errors) {
+        setErrors(result.errors);
+      }
+      else {
+        window.location.href = "/";
+      }
     }
   };
 
@@ -76,7 +90,7 @@ export function SignupForm() {
             </div>
           )}
         </div>
-        <button type="submit">S'enregizzstrer</button>
+        <button type="submit">S'enregistrer</button>
       </form>
     </div>
   );
