@@ -2,7 +2,7 @@
 import { useAppContext } from "@/app/lib/utils/AppContext";
 import { use, useEffect, useState } from "react";
 import styles from "./styles.module.css";
-import { canEdit } from "@/app/lib/utils/access";
+import { canEdit, isAdmin } from "@/app/lib/utils/access";
 import { RoleObjectDb, SubCategory, Title } from "@/app/lib/utils/types";
 import getRole from "@/app/lib/utils/getRole";
 
@@ -63,7 +63,7 @@ export default function Buttons({ slug, subCategorie }: ButtonsProps) {
 
   return (
     <>
-      { isEditable && (
+      { isEditable || isAdmin(session) || session?.role == "Editeur" && (
         <div className={`${styles.container_buttons} ${styles.clear}`}>
           <button type="button"
             onClick={() => window.location.href = "/" }
