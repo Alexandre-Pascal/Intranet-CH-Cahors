@@ -75,7 +75,7 @@ export default function ListeTitres(datas: DataList[]) {
     }
     if (dataList.length !== 0 && role) {
       console.log(Object.values(dataList));
-      const listEditables = canEdit(Object.values(dataList), role);
+      const listEditables = canEdit(undefined, Object.values(dataList), role);
       setIsEditable(listEditables as string[]);
     }
   }, [dataList, role]);
@@ -186,7 +186,7 @@ export default function ListeTitres(datas: DataList[]) {
 
   return (
     <div className={styles.menu}>
-      { isEditable.length > 0 && (
+      { isEditable && isEditable.length > 0 && (
         <a className={styles.button_page_maker} href={"/PageEditor/?CreateOrUpdate=create"}>Créer une nouvelle page</a>
       )}
       <div className={styles.list_main_categories}>

@@ -1,25 +1,17 @@
 import prisma from "@/app/lib/utils/prisma";
 import Buttons from "./buttons";
 import FilesManager from "@/app/PageEditor/Editor/FilesManager/FilesManager";
-import SetHtml from "./setHtml"; // Import the setHtml component
 import styles from "./styles.module.css";
+import { SubCategory, Title } from "@/app/lib/utils/types";
 export default async function Page({ params }: { params: { slug: string } }) {
   //en fonction de params.slug, on va chercher dans la base de données grace a axios les données correspondante qui on comme id le params.slug
 
   console.log(params.slug);
 
-  let data:any;
-
-  // const images = document.querySelectorAll("img");
-  // images.forEach((image) => {
-  //   if (image.src.includes("tempFiles")) {
-  //     alert(image.src);
-  //     console.log(editor?.getHTML());
-  //     image.src = image.src.replace("tempFiles", "savedFiles");
-  //     alert(image.src);
-  //     console.log(editor?.getHTML());
-  //   }
-  // });
+  let data : any;
+  let subCategorie : SubCategory = {} as SubCategory;
+  let title : Title = {} as Title;
+  const subCategorieFromTitle : SubCategory = {} as SubCategory;
 
   try {
     data = await prisma.datas_articles.findUnique({
@@ -32,6 +24,34 @@ export default async function Page({ params }: { params: { slug: string } }) {
     console.error("Erreur lors de la récupération de la page:", error);
   }
 
+  try {
+    subCategorie = await prisma.sub_categories.findFirst({
+      where: {
+        // Change the property from sub_category_url to sub_category_id
+        sub_category_url: `/articles/${params.slug}`,
+      },
+    }) as SubCategory;
+
+    if (subCategorie == null) {
+
+      title = await prisma.titles.findFirst({
+        where: {
+          title_url: `/articles/${params.slug}`,
+        },
+      }) as Title;
+      if (title) {
+        subCategorie = await prisma.sub_categories.findFirst({
+          where: {
+            sub_category_id: title.sub_category_id,
+          },
+        }) as SubCategory;
+      }
+    }
+  }
+  catch (error) {
+    console.log("Erreur lors de la récupération:");
+  }
+
   const newData = data.content.replace(/data-width="([^"]*)"/g, "width=\"$1\"").replace(/data-align="([^"]*)"/g, "align=\"$1\"");
   console.log(newData);
   return (
@@ -41,7 +61,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           <FilesManager idPage={params.slug} onlyView={true} />
           <h1 style={{ textAlign: "center", marginBottom: "4vh" }}>{data.title}</h1>
           <div className={styles.clear} dangerouslySetInnerHTML={{ __html: newData }} />
-          <Buttons slug={params.slug} />
+          <Buttons slug={params.slug} subCategorie={subCategorie}/>
         </div>
       )}
 

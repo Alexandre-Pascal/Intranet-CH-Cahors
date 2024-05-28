@@ -5,6 +5,7 @@ import { EditorView } from "@tiptap/pm/view";
 
 export type Title = {
   title_id: number;
+  sub_category_id: number;
   title_name: string;
   title_url: string;
   title_order: number;
