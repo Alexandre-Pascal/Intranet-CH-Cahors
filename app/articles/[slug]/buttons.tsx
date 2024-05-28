@@ -37,7 +37,6 @@ export default function Buttons({ slug, subCategorie }: ButtonsProps) {
   }
   ,[role]);
 
-
   const handleEditArticle = () => {
     window.location.href = `/PageEditor/?CreateOrUpdate=update&idPage=${slug}/`;
   };
