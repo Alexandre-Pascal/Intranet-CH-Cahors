@@ -1,6 +1,7 @@
 
 
 .login_container {
+    z-index: 10;
     position: absolute;
     top: 0%;
     display: flex;

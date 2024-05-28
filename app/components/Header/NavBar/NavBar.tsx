@@ -13,7 +13,7 @@ import Menu from "./Menu/Menu";
 import SearchBar from "./SearchBar/SearchBar";
 import LogIn from "./LogIn/LogIn";
 import { SessionObject } from "@/app/lib/utils/types";
-import { canAccess } from "@/app/lib/utils/access";
+import { isAdmin as admin } from "@/app/lib/utils/access";
 import { useEffect, useState } from "react";
 interface NavBarProps {
   session: SessionObject,
@@ -34,8 +34,8 @@ export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarPro
 
   useEffect(() => {
     if (isConnected){
-      const fetchRole = async() => {
-        setIsAdmin(await canAccess(session));
+      const fetchRole = () =>{
+        setIsAdmin(admin(session));
       };
       fetchRole();
     }

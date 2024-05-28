@@ -17,7 +17,7 @@ import plus from "../../../../assets/icons/plus.png";
 import poubelle from "../../../../assets/icons/poubelle.png";
 import SubmitUpdateDeleteContainer from "./Categories/DialogContainers/SubmitUpdateDeleteContainer";
 import { useAppContext } from "@/app/lib/utils/AppContext";
-import { canAccess, canEdit } from "@/app/lib/utils/access";
+import { isAdmin, canEdit } from "@/app/lib/utils/access";
 import getRole from "@/app/lib/utils/getRole";
 
 export default function ListeTitres(datas: DataList[]) {
@@ -46,7 +46,7 @@ export default function ListeTitres(datas: DataList[]) {
   useEffect(() => {
     if (session){
     // alert(JSON.stringify(session));
-    // const res = canAccess(session);
+    // const res = isAdmin(session);
       const fetchRole = async() => {
         setRole(await getRole(session));
       };
@@ -61,7 +61,6 @@ export default function ListeTitres(datas: DataList[]) {
     if (dataList.length !== 0 && role) {
       console.log(Object.values(dataList));
       const listEditables = canEdit(Object.values(dataList), role);
-      alert(JSON.stringify(listEditables));
       setIsEditable(listEditables as string[]);
     }
   }, [dataList, role]);
@@ -325,14 +324,16 @@ export default function ListeTitres(datas: DataList[]) {
                       ) : (
                         <h3 key={index}>{title.title_name}</h3>
                       )}
-                      <a>
-                        <Image className={styles.icon_action_list} onClick={() => itemAction(
-                          UPDATE,
-                          TITLE,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
+                      { isEditable.includes(subCategory.sub_category_name) ? (
+                        <>
+                          <a>
+                            <Image className={styles.icon_action_list} onClick={() => itemAction(
+                              UPDATE,
+                              TITLE,
+                              undefined,
+                              undefined,
+                              undefined,
+                              undefined,
                           {
                             selectedSubCategoryId:subCategory.sub_category_id,
                             selectedTitleId: title.title_id,
@@ -340,51 +341,57 @@ export default function ListeTitres(datas: DataList[]) {
                             url: title.title_url,
                             order: title.title_order,
                           } as dataObjectUpdateTitle
-                        )
-                        }
-                        src={crayon} alt="crayon" width={20} height={20} />
-                      </a>
-                      <a>
-                        <Image className={styles.icon_action_list} onClick={() => itemAction(
-                          DELETE,
-                          TITLE,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
+                            )
+                            }
+                            src={crayon} alt="crayon" width={20} height={20} />
+                          </a>
+                          <a>
+                            <Image className={styles.icon_action_list} onClick={() => itemAction(
+                              DELETE,
+                              TITLE,
+                              undefined,
+                              undefined,
+                              undefined,
+                              undefined,
+                              undefined,
+                              undefined,
+                              undefined,
                           {
                             selectedSubCategoryId: subCategory.sub_category_id,
                             selectedTitleId: title.title_id,
                           } as dataObjectDeleteTitle
-                        )
-                        }
-                        src={poubelle} alt="poubelle" width={20} height={20} />
-                      </a>
+                            )
+                            }
+                            src={poubelle} alt="poubelle" width={20} height={20} />
+                          </a>
+                        </>
+                      ) : (<></>)
+                      }
                     </div>
                   </li>
                 ))}
               </ul>
             </li>
           ))}
-          <a onClick={() => itemAction(
-            ADD,
-            SUBCATEGORY,
-            {
-              selectedCategory: selectedCategory,
-            },
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            undefined
-          )}>
-            <Image className={styles.icon_action_list} src={plus} alt="plus" width={32} height={32} />
-          </a>
+          { selectedCategory && isEditable.includes(selectedCategory.sub_categories[0].sub_category_name) ? (
+            <a onClick={() => itemAction(
+              ADD,
+              SUBCATEGORY,
+              {
+                selectedCategory: selectedCategory,
+              },
+              undefined,
+              undefined,
+              undefined,
+              undefined,
+              undefined,
+              undefined,
+              undefined
+            )}>
+              <Image className={styles.icon_action_list} src={plus} alt="plus" width={32} height={32} />
+            </a>
+          ) : (<></>)
+          }
         </ul>
       </div>
 
