@@ -4,6 +4,7 @@ import {
   dataObjectUpdateSubCategory, dataObjectUpdateTitle, dataObjectDeleteCategory, dataObjectDeleteSubCategory,
   dataObjectDeleteTitle,
   article,
+  RoleObjectDb,
 } from "@/app/lib/utils/types";
 
 import styles from "./styles.module.css";
@@ -15,6 +16,9 @@ import crayon from "../../../../assets/icons/crayon.png";
 import plus from "../../../../assets/icons/plus.png";
 import poubelle from "../../../../assets/icons/poubelle.png";
 import SubmitUpdateDeleteContainer from "./Categories/DialogContainers/SubmitUpdateDeleteContainer";
+import { useAppContext } from "@/app/lib/utils/AppContext";
+import { canAccess, canEdit } from "@/app/lib/utils/access";
+import getRole from "@/app/lib/utils/getRole";
 
 export default function ListeTitres(datas: DataList[]) {
 
@@ -35,6 +39,38 @@ export default function ListeTitres(datas: DataList[]) {
   const titleHeight = 65 / length; // Calcul de la hauteur totale des titres
 
   const router = useRouter();
+
+  const { session, loading } = useAppContext();
+
+  const [role, setRole] = useState<RoleObjectDb>();
+  useEffect(() => {
+    if (session){
+    // alert(JSON.stringify(session));
+    // const res = canAccess(session);
+      const fetchRole = async() => {
+        setRole(await getRole(session));
+      };
+      fetchRole();
+    }},[session]
+  );
+
+  const [isEditable, setIsEditable] = useState<string[]>([]);
+
+  useEffect(() => {
+    // alert("dans le use effect");
+    if (dataList.length !== 0 && role) {
+      console.log(Object.values(dataList));
+      const listEditables = canEdit(Object.values(dataList), role);
+      alert(JSON.stringify(listEditables));
+      setIsEditable(listEditables as string[]);
+    }
+  }, [dataList, role]);
+
+  useEffect(() => {
+    if (isEditable.length !== 0) {
+      console.log("isEditable", isEditable, selectedCategory, role?.access);
+    }
+  }, [isEditable]);
 
   useEffect(() => {
     setLength(Object.keys(datas).length);
@@ -212,7 +248,6 @@ export default function ListeTitres(datas: DataList[]) {
         <ul>
           {dataList && selectedCategory?.category_id !== null &&
           (selectedCategory ? selectedCategory.sub_categories : dataList[0]?.sub_categories)?.map((subCategory, index) => (
-
             <li key={index} className={styles.sub_categorie}>
               <div className={styles.action_list}>
                 {subCategory.sub_category_url ? (
@@ -222,57 +257,62 @@ export default function ListeTitres(datas: DataList[]) {
                 ) : (
                   <h2>{subCategory.sub_category_name}</h2>
                 )}
-                <a onClick={()=> itemAction(
-                  ADD,
-                  TITLE,
-                  undefined,
-                  {
-                    selectedCategory: selectedCategory,
-                    selectedSubCategoryId: subCategory.sub_category_id,
-                  } as dataObjectAddTitle
-                )}>
-                  <Image className={styles.icon_action_list} src={plus} alt="plus" width={20} height={20} />
-                </a>
-                <a>
-                  <Image className={styles.icon_action_list} onClick=
-                    {
-                      () => itemAction(
-                        UPDATE,
-                        SUBCATEGORY,
-                        undefined,
-                        undefined,
-                        undefined,
+                { isEditable.includes(subCategory.sub_category_name) ? (
+                  <>
+                    <a onClick={()=> itemAction(
+                      ADD,
+                      TITLE,
+                      undefined,
+                      {
+                        selectedCategory: selectedCategory,
+                        selectedSubCategoryId: subCategory.sub_category_id,
+                      } as dataObjectAddTitle
+                    )}>
+                      <Image className={styles.icon_action_list} src={plus} alt="plus" width={20} height={20} />
+                    </a>
+                    <a>
+                      <Image className={styles.icon_action_list} onClick=
+                        {
+                          () => itemAction(
+                            UPDATE,
+                            SUBCATEGORY,
+                            undefined,
+                            undefined,
+                            undefined,
                         {
                           selectedSubCategoryId: subCategory.sub_category_id,
                           name: subCategory.sub_category_name,
                           url: subCategory.sub_category_url,
                           order: subCategory.sub_category_order,
                         } as dataObjectUpdateSubCategory
-                      )
-                    }
-                  src={crayon} alt="crayon" width={20} height={20}
-                  />
-                </a>
-                <a>
-                  <Image className={styles.icon_action_list}
-                    onClick=
-                      {
-                        () => itemAction(
-                          DELETE,
-                          SUBCATEGORY,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
-                          undefined,
+                          )
+                        }
+                      src={crayon} alt="crayon" width={20} height={20}
+                      />
+                    </a>
+                    <a>
+                      <Image className={styles.icon_action_list}
+                        onClick=
+                          {
+                            () => itemAction(
+                              DELETE,
+                              SUBCATEGORY,
+                              undefined,
+                              undefined,
+                              undefined,
+                              undefined,
+                              undefined,
+                              undefined,
                           {
                             selectedSubCategoryId: subCategory.sub_category_id,
                           } as dataObjectDeleteSubCategory
-                        )
-                      }
-                    src={poubelle} alt="poubelle" width={20} height={20} />
-                </a>
+                            )
+                          }
+                        src={poubelle} alt="poubelle" width={20} height={20} />
+                    </a>
+                  </>
+                ) : (<></>)
+                }
               </div>
               <ul>
                 {subCategory.titles.map((title, index) => (

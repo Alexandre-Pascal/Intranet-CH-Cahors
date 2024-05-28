@@ -37,8 +37,8 @@ export default async function RootLayout({
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <Header session={datasSession} dataList={datas} />
         <AppProvider>
+          <Header session={datasSession} dataList={datas} />
           {children}
           <Toaster />
         </AppProvider>

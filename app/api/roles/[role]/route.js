@@ -20,9 +20,10 @@ export async function DELETE(request, { params }) {
 }
 
 export async function GET(request, { params }) {
-  const name = params.name;
   const result = await prisma.roles.findUnique({
-    where: { name },
+    where: {
+      name : params.role,
+    },
   });
   return NextResponse.json({ result });
 }
