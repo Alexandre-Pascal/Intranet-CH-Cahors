@@ -49,6 +49,8 @@ export default function ListeTitres(datas: DataList[]) {
 
   const [subCategories, setSubCategories] = useState<sub_categories[]>([]);
 
+  const [isAdminOrEditor, setIsAdminOrEditor] = useState(false);
+
   useEffect(() => {
     if (session){
     // alert(JSON.stringify(session));
@@ -80,7 +82,7 @@ export default function ListeTitres(datas: DataList[]) {
 
   useEffect(() => {
     if (isEditable.length !== 0) {
-      console.log("isEditable", isEditable, selectedCategory, role?.access);
+      isEditable.length == subCategories.length ? setIsAdminOrEditor(true) : setIsAdminOrEditor(false);
     }
   }, [isEditable]);
 
@@ -199,7 +201,7 @@ export default function ListeTitres(datas: DataList[]) {
             >
               {category.category_name}
             </h1>
-            { selectedCategory && isEditable.length == subCategories.length ? (
+            { isAdminOrEditor && (
               <>
                 <a>
                   <Image className={styles.icon_action_list} onClick=
@@ -239,11 +241,10 @@ export default function ListeTitres(datas: DataList[]) {
                   />
                 </a>
               </>
-            ) : (<></>)
-            }
+            )}
           </div>
         ))}
-        { selectedCategory && isEditable.length == subCategories.length ? (
+        { isAdminOrEditor && (
 
           <a onClick={() => itemAction(ADD, CATEGORY)}>
             <Image
@@ -262,8 +263,7 @@ export default function ListeTitres(datas: DataList[]) {
               height={32}
             />
           </a>
-        ) : (<></>)
-        }
+        )}
       </div>
       <div className={styles.list_sub_categories_and_titles}>
         <ul>
@@ -278,7 +278,7 @@ export default function ListeTitres(datas: DataList[]) {
                 ) : (
                   <h2>{subCategory.sub_category_name}</h2>
                 )}
-                { isEditable.includes(subCategory.sub_category_name) ? (
+                { isEditable.includes(subCategory.sub_category_name) && (
                   <>
                     <a onClick={()=> itemAction(
                       ADD,
@@ -332,8 +332,7 @@ export default function ListeTitres(datas: DataList[]) {
                         src={poubelle} alt="poubelle" width={20} height={20} />
                     </a>
                   </>
-                ) : (<></>)
-                }
+                )}
               </div>
               <ul>
                 {subCategory.titles.map((title, index) => (
@@ -346,7 +345,7 @@ export default function ListeTitres(datas: DataList[]) {
                       ) : (
                         <h3 key={index}>{title.title_name}</h3>
                       )}
-                      { isEditable.includes(subCategory.sub_category_name) ? (
+                      { isEditable.includes(subCategory.sub_category_name) && (
                         <>
                           <a>
                             <Image className={styles.icon_action_list} onClick={() => itemAction(
@@ -387,15 +386,14 @@ export default function ListeTitres(datas: DataList[]) {
                             src={poubelle} alt="poubelle" width={20} height={20} />
                           </a>
                         </>
-                      ) : (<></>)
-                      }
+                      )}
                     </div>
                   </li>
                 ))}
               </ul>
             </li>
           ))}
-          { selectedCategory && isEditable.length == subCategories.length ? (
+          { isAdminOrEditor && (
             <a onClick={() => itemAction(
               ADD,
               SUBCATEGORY,
@@ -412,8 +410,7 @@ export default function ListeTitres(datas: DataList[]) {
             )}>
               <Image className={styles.icon_action_list} src={plus} alt="plus" width={32} height={32} />
             </a>
-          ) : (<></>)
-          }
+          )}
         </ul>
       </div>
 
