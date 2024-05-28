@@ -186,62 +186,71 @@ export default function ListeTitres(datas: DataList[]) {
             >
               {category.category_name}
             </h1>
-            <a>
-              <Image className={styles.icon_action_list} onClick=
-                {
-                  () => itemAction(
-                    UPDATE,
-                    CATEGORY,
-                    undefined,
-                    undefined,
+            { selectedCategory && isEditable.includes(selectedCategory.sub_categories[0].sub_category_name) ? (
+              <>
+                <a>
+                  <Image className={styles.icon_action_list} onClick=
+                    {
+                      () => itemAction(
+                        UPDATE,
+                        CATEGORY,
+                        undefined,
+                        undefined,
                      {
                        selectedCategory: category ,
                        name: category.category_name,
                        order: category.category_order,
                      } as dataObjectUpdateCategory
-                  )
-                }
-              src={crayon} alt="crayon" width={32} height={32}
-              />
-            </a>
-            <a>
-              <Image className={styles.icon_action_list} onClick=
-                {
-                  () => itemAction(
-                    DELETE,
-                    CATEGORY,
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined,
+                      )
+                    }
+                  src={crayon} alt="crayon" width={32} height={32}
+                  />
+                </a>
+                <a>
+                  <Image className={styles.icon_action_list} onClick=
+                    {
+                      () => itemAction(
+                        DELETE,
+                        CATEGORY,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
                     {
                       selectedCategory: category,
                     } as dataObjectDeleteCategory
-                  )
-                }
-              src={poubelle} alt="poubelle" width={32} height={32}
-              />
-            </a>
+                      )
+                    }
+                  src={poubelle} alt="poubelle" width={32} height={32}
+                  />
+                </a>
+              </>
+            ) : (<></>)
+            }
           </div>
         ))}
-        <a onClick={() => itemAction(ADD, CATEGORY)}>
-          <Image
-            className={styles.icon_action_list}
-            style=
-              {
+        { selectedCategory && isEditable.includes(selectedCategory.sub_categories[0].sub_category_name) ? (
+
+          <a onClick={() => itemAction(ADD, CATEGORY)}>
+            <Image
+              className={styles.icon_action_list}
+              style=
                 {
-                  position: "absolute",
-                  bottom: "2vh",
-                  left : "2vw",
+                  {
+                    position: "absolute",
+                    bottom: "2vh",
+                    left : "2vw",
+                  }
                 }
-              }
-            src={plus}
-            alt="plus"
-            width={32}
-            height={32}
-          />
-        </a>
+              src={plus}
+              alt="plus"
+              width={32}
+              height={32}
+            />
+          </a>
+        ) : (<></>)
+        }
       </div>
       <div className={styles.list_sub_categories_and_titles}>
         <ul>
