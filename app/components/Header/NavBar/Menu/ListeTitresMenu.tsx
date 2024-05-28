@@ -19,6 +19,7 @@ import SubmitUpdateDeleteContainer from "./Categories/DialogContainers/SubmitUpd
 import { useAppContext } from "@/app/lib/utils/AppContext";
 import { isAdmin, canEdit } from "@/app/lib/utils/access";
 import getRole from "@/app/lib/utils/getRole";
+import { sub_categories } from "@prisma/client";
 
 export default function ListeTitres(datas: DataList[]) {
 
@@ -43,6 +44,11 @@ export default function ListeTitres(datas: DataList[]) {
   const { session, loading } = useAppContext();
 
   const [role, setRole] = useState<RoleObjectDb>();
+
+  const [isEditable, setIsEditable] = useState<string[]>([]);
+
+  const [subCategories, setSubCategories] = useState<sub_categories[]>([]);
+
   useEffect(() => {
     if (session){
     // alert(JSON.stringify(session));
@@ -54,10 +60,17 @@ export default function ListeTitres(datas: DataList[]) {
     }},[session]
   );
 
-  const [isEditable, setIsEditable] = useState<string[]>([]);
-
   useEffect(() => {
     // alert("dans le use effect");
+    if (dataList.length !== 0){
+      const subCategories : sub_categories[] = [];
+      Object.values(dataList).map((category) => {
+        category.sub_categories.map((subCategory) => {
+          subCategories.push(subCategory);
+        });
+      });
+      setSubCategories(subCategories);
+    }
     if (dataList.length !== 0 && role) {
       console.log(Object.values(dataList));
       const listEditables = canEdit(Object.values(dataList), role);
@@ -186,7 +199,7 @@ export default function ListeTitres(datas: DataList[]) {
             >
               {category.category_name}
             </h1>
-            { selectedCategory && isEditable.includes(selectedCategory.sub_categories[0].sub_category_name) ? (
+            { selectedCategory && isEditable.length == subCategories.length ? (
               <>
                 <a>
                   <Image className={styles.icon_action_list} onClick=
@@ -230,7 +243,7 @@ export default function ListeTitres(datas: DataList[]) {
             }
           </div>
         ))}
-        { selectedCategory && isEditable.includes(selectedCategory.sub_categories[0].sub_category_name) ? (
+        { selectedCategory && isEditable.length == subCategories.length ? (
 
           <a onClick={() => itemAction(ADD, CATEGORY)}>
             <Image
@@ -382,7 +395,7 @@ export default function ListeTitres(datas: DataList[]) {
               </ul>
             </li>
           ))}
-          { selectedCategory && isEditable.includes(selectedCategory.sub_categories[0].sub_category_name) ? (
+          { selectedCategory && isEditable.length == subCategories.length ? (
             <a onClick={() => itemAction(
               ADD,
               SUBCATEGORY,
