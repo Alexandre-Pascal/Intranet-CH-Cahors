@@ -186,7 +186,9 @@ export default function ListeTitres(datas: DataList[]) {
 
   return (
     <div className={styles.menu}>
-      <a className={styles.button_page_maker} href={"/PageEditor/?CreateOrUpdate=create"}>Créer une nouvelle page</a>
+      { isEditable.length > 0 && (
+        <a className={styles.button_page_maker} href={"/PageEditor/?CreateOrUpdate=create"}>Créer une nouvelle page</a>
+      )}
       <div className={styles.list_main_categories}>
         {dataList && (Object.values(dataList)).map((category, index) => (
           <div className={styles.action_list && selectedCategory === null && index === 0 ? styles.selectedCategory :
