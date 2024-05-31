@@ -24,7 +24,7 @@ export const submitItem = async(datas : dataObject) => {
         sub_category_url: datas.url,
         sub_category_order: datas.order,
       } as NewSubCategory;
-      const apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/add-subcategories`;
+      const apiEndpoint = `/api/categories/${datas.selectedCategory?.category_id}/subcategories/add-subcategorie`;
       handleSubmitItem(newItem, apiEndpoint, datas.setName, datas.setOrder, datas.router, datas.setUrl,);
     }
     break;
