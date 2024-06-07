@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/Header/NavBar/Menu/Menu.jsx", "app/page-maker/Editor/App.js", "app/page-maker/Editor/TextEditor.jsx", "app/api/articles/download-file/route.js", "app/PageEditor/Editor/FilesManager/FileUploader"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/components/Header/NavBar/Menu/Menu.jsx", "app/page-maker/Editor/App.js", "app/page-maker/Editor/TextEditor.jsx", "app/api/articles/download-file/route.js", "app/PageEditor/Editor/FilesManager/FileUploader", "jest.config.js", "__test__/signup-form.test.jsx"],
   "exclude": ["node_modules"]
 }

@@ -41,8 +41,6 @@ export function SignupForm() {
     if (result?.errors) {
       setErrors(result.errors);
       alert("Remplissez correctement les champs");
-    } else if (result?.message) {
-      alert(result.message);
     }
     else {
       alert("Inscription réussie");
