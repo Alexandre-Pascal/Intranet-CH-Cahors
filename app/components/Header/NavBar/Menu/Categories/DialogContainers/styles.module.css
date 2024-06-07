@@ -1,13 +1,15 @@
 .container_dialog{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* justify-content: center; */
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
-    z-index: 1;
+    position: fixed; /* Pour le positionnement absolu par rapport à la fenêtre */
+    top: 0; /* Placez-le en haut */
+    left: 0; /* Placez-le tout à gauche */
+    width: 100%; /* Prenez toute la largeur de l'écran */
+    height: 100%; /* Prenez toute la hauteur de l'écran */
+    background-color: rgba(0, 0, 0, 0.5); /* Un fond semi-transparent */
+    display: flex; /* Pour centrer son contenu */
+    justify-content: center; /* Pour centrer horizontalement */
+    align-items: center; /* Pour centrer verticalement */
+    z-index: 9999; /* Pour placer cet élément au-dessus de tout le reste */
+  
 }
 
 .dialog{
@@ -17,7 +19,7 @@
     justify-content: center; */
     background-color: white;
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     padding: 5vh 5vw 5vh 5vw;
     margin-bottom: 20vh;
     border: 2px solid white;

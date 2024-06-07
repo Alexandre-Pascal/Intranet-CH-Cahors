@@ -8,6 +8,18 @@ export function isAdmin(user : SessionObject | null) {
   return false;
 }
 
+export function isEditeur(user : SessionObject | null) {
+  if (!user) return false;
+  if (user.role === "Editeur") return true;
+  return false;
+}
+
+export function isAdminOrEditeur(user : SessionObject | null) {
+  if (!user) return false;
+  if (user.role === "Administrateur" || user.role === "Editeur") return true;
+  return false;
+}
+
 export function canEdit(subCategorie? : SubCategory, categories? : DataList[], role? : RoleObjectDb | null ) {
   if (!role) return false;
 
