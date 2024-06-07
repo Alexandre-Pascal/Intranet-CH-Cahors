@@ -3,7 +3,7 @@
     background-image: /*linear-gradient(to bottom, rgba(198, 227, 248, 0.4), rgba(14, 65, 148,0.6)),*/ url("../../../assets/images/fond3.jpg");
     background-size: cover; /* Pour couvrir tout le conteneur */
     background-position: center; /* Pour centrer l'image */
-    height: 62vh;
+    height: 58vh;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -19,5 +19,5 @@
      /* width:1000px;
      height:600px; */
      width: 45vw;
-     height: 50vh;
+     height: 49vh;
   }

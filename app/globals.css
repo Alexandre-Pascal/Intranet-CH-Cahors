@@ -18,7 +18,7 @@
   }
 
     :root {
-      /* overflow: hidden; Empêche le défilement de la page */
+      /* overflow: hidden; */
       --foreground-rgb: 0, 0, 0;
       --bleu-fonce: #0E4194;
       --bleu-clair: #E6F1F9;

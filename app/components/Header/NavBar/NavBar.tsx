@@ -7,7 +7,7 @@ import tableauDeBord from "../../../assets/icons/tableau-de-bord.png";
 import demandeIntervention from "../../../assets/icons/cle.png";
 import attention from "../../../assets/icons/attention.png";
 import parametres from "../../../assets/icons/parametres.png";
-import crayon from "../../../assets/icons/crayon-blanc.png";
+import crayon from "../../../assets/icons/crayon.png";
 
 import styles from "./styles.module.css";
 import Menu from "./Menu/Menu";
@@ -57,34 +57,34 @@ export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarPro
 
   return (
     <div>
+      <div className={styles.announce}>
+        <p><b>INFO : 🎉 Rejoignez-nous le 6 juin pour l'Apéro de l'hosto de 18h30 à 22h30 ! 🍸 Confirmez votre présence avant le 10 mai pour ne rien manquer ! 🎈</b></p>
+      </div>
       <nav className={styles.navBar}>
+        {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} id={styles.editButton} src={crayon} width={40} height={40} alt="Crayon"/> }
         <Menu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen}/>
         <Link className={styles.fastPath} href="/">
           <div>
             <Image src={tableauDeBord} width={32} height={32} alt="Tableau de bord"/>
             <p>Tableaux des Gardes</p>
-            {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} className={styles.editButton} src={crayon} width={32} height={32} alt="Crayon"/> }
           </div>
         </Link>
         <Link className={styles.fastPath} href="/">
           <div>
             <Image src={demandeIntervention} width={32} height={32} alt="Demande d'intervention"/>
             <p>Demande d&apos;intervention</p>
-            {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} className={styles.editButton} src={crayon} width={32} height={32} alt="Crayon"/> }
           </div>
         </Link>
         <Link className={styles.fastPath} href="/">
           <div>
             <Image src={ennov} width={32} height={32} alt="Ennov"/>
             <p>Gestion Documentaire</p>
-            {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} className={styles.editButton} src={crayon} width={32} height={32} alt="Crayon"/> }
           </div>
         </Link>
         <Link className={styles.fastPath} href="/">
           <div>
             <Image src={attention} width={32} height={32} alt="Déclarer un évènement indésirable"/>
             <p>Déclarer un évènement indésirable</p>
-            {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} className={styles.editButton} src={crayon} width={32} height={32} alt="Crayon"/> }
           </div>
         </Link>
         <LogIn connected={isConnected}/>
@@ -100,36 +100,51 @@ export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarPro
       </nav>
 
       {
-        isPopUpOpen && (
+        isPopUpOpen && (<>
           <div className={styles.popup}>
-            <div className={styles.popupContent}>
-              <h2>Modifier</h2>
-              <form>
-                <label htmlFor="image">Icone à afficher</label><input type="file" id="image" name="image" accept=".png, .jpg, .jpeg"/>
-                <input
-                  type="text"
-                  id="edit"
-                  name="edit"
-                  placeholder="Nom du raccourci"
-                />
-                <div className={styles.container_buttons}>
-                  <Button
-                    type="submit"
-                  >
-            Modifier
-                  </Button>
-                  <Button
-                    onClick={() => setIsPopUpOpen(false)}
-                  >
-          Fermer
-                  </Button>
-                </div>
-              </form>
+            <div className={styles.card} id={styles.card_announce}>
+              <div className={styles.popupContent}>
+                <h2>Modifier le bandeau d'annonce</h2>
+                <form>
+                  <label htmlFor={"image$"}>Bandeau à afficher</label>
+                  <input
+                    type="text"
+                    id={"edit"}
+                    name={"edit"}
+                    placeholder="Contenu à afficher dans le bandeau d'annonce"
+                  />
+                  <div className={styles.container_buttons}>
+                    <Button type="submit">Modifier</Button>
+                    <Button className={styles.button_delete} onClick={() => setIsPopUpOpen(false)}>Supprimer</Button>
+                  </div>
+                </form>
+              </div>
             </div>
+            {[...Array(4)].map((_, index) => (
+              <div className={styles.card} key={index}>
+                <div className={styles.popupContent}>
+                  <h2>Modifier raccourci {index + 1}</h2>
+                  <form>
+                    <label htmlFor={`image${index}`}>Icone à afficher</label>
+                    <input type="file" id={`image${index}`} name={`image${index}`} accept=".png, .jpg, .jpeg"/>
+                    <input
+                      type="text"
+                      id={`edit${index}`}
+                      name={`edit${index}`}
+                      placeholder="Nom du raccourci"
+                    />
+                    <div className={styles.container_buttons}>
+                      <Button type="submit">Modifier</Button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            ))}
           </div>
+          <Button id={styles.close_interface} onClick={() => setIsPopUpOpen(false)}>Fermer</Button>
+        </>
         )
       }
-
     </div>
   );
 }

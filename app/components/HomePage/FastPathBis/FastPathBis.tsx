@@ -32,60 +32,56 @@ export default function FastPathBis() {
   return (
     <>
       <div className={styles.bar}>
+        {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} className={styles.editButton} src={crayon} width={40} height={40} alt="Crayon"/> }
         <div className={styles.spaced} >
           <Image src={hopital} width={20} height={20} alt="Site de l'hôpital"/>
           <a href={"/"}><h3>Site de l&apos;hôpital</h3></a>
-          {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} className={styles.editButton} src={crayon} width={32} height={32} alt="Crayon"/> }
         </div>
         <div className={styles.spaced} >
           <Image src={annuaire} width={20} height={20} alt="Annuaire"/>
           <a href={"/"}><h3>Annuaire</h3></a>
-          {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} className={styles.editButton} src={crayon} width={32} height={32} alt="Crayon"/> }
         </div>
         <div className={styles.spaced} >
           <Image src={messagerie} width={20} height={20} alt="Messagerie"/>
           <a href={"/"}><h3>Messagerie</h3></a>
-          {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} className={styles.editButton} src={crayon} width={32} height={32} alt="Crayon"/> }
         </div>
         <div className={styles.spaced} >
           <Image src={cgos} width={20} height={20} alt="CGOS"/>
           <a href={"/"}><h3>CGOS</h3></a>
-          {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} className={styles.editButton} src={crayon} width={32} height={32} alt="Crayon"/> }
         </div>
         <div className={styles.spaced} >
           <Image src={reglement} width={20} height={20} alt="Règlement Intérieur"/>
           <a href={"/"}><h3>Règlement Intérieur</h3></a>
-          {isAdminOrEditeur && <Image onClick={()=> setIsPopUpOpen(true)} className={styles.editButton} src={crayon} width={32} height={32} alt="Crayon"/> }
         </div>
       </div>
       {
         isPopUpOpen && (
-          <div className={styles.popup}>
-            <div className={styles.popupContent}>
-              <h2>Modifier</h2>
-              <form>
-                <label htmlFor="image">Icone à afficher</label><input type="file" id="image" name="image" accept=".png, .jpg, .jpeg"/>
-                <input
-                  type="text"
-                  id="edit"
-                  name="edit"
-                  placeholder="Nom du raccourci"
-                />
-                <div className={styles.container_buttons}>
-                  <Button
-                    type="submit"
-                  >
-            Modifier
-                  </Button>
-                  <Button
-                    onClick={() => setIsPopUpOpen(false)}
-                  >
-          Fermer
-                  </Button>
+          <>
+            <div className={styles.popup}>
+              {[...Array(5)].map((_, index) => (
+                <div className={styles.card} key={index}>
+                  <div className={styles.popupContent}>
+                    <h2>Modifier {index + 1}</h2>
+                    <form>
+                      <label htmlFor={`image${index}`}>Icone à afficher</label>
+                      <input type="file" id={`image${index}`} name={`image${index}`} accept=".png, .jpg, .jpeg"/>
+                      <input
+                        type="text"
+                        id={`edit${index}`}
+                        name={`edit${index}`}
+                        placeholder="Nom du raccourci"
+                      />
+                      <input type="text" id={`link${index}`} name={`link${index}`} placeholder="Lien pour rédiriger le raccourci"/>
+                      <div className={styles.container_buttons}>
+                        <Button type="submit">Modifier</Button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
-              </form>
+              ))}
             </div>
-          </div>
+            <Button id={styles.close_interface} onClick={() => setIsPopUpOpen(false)}>Fermer</Button>
+          </>
         )
       }
     </>
