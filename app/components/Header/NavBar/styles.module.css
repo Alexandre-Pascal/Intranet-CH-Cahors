@@ -80,13 +80,38 @@
 
   #editButton {
     border: 2px solid var(--bleu-fonce);
-    border-radius: 40px;
+    border-radius: 50%;
     margin-right: 20px;
     height: 40px;
     width: 40px;
-    
-  }
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
 
+#editButton::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.15);
+    transition: all 0.5s ease;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+#editButton:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#editButton:hover {
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
   
   .popupContent h2 {
     margin-top: 0; /* Supprime la marge supérieure par défaut */
@@ -108,6 +133,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+    margin-bottom: 20px;
   }
   
 

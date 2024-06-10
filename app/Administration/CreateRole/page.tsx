@@ -371,7 +371,7 @@ export default function CreateRole() {
                   <thead>
                     <tr>
                       <th>Sous-catégories</th>
-                      <th>Lecture</th>
+                      <th>Caché</th>
                       <th>Écriture</th>
                     </tr>
                     <tr>

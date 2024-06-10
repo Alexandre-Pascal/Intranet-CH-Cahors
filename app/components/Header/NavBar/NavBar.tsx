@@ -17,6 +17,8 @@ import { SessionObject } from "@/app/lib/utils/types";
 import { isAdmin as admin, isAdminOrEditeur as adminOrEditeur } from "@/app/lib/utils/access";
 import { useEffect, useState } from "react";
 import { Button } from "../../ui/button";
+import SelectorArticle from "./Menu/Categories/DialogContainers/SelectorArticle";
+import { article } from "@/app/lib/utils/types";
 interface NavBarProps {
   session: SessionObject,
   isMenuOpen: boolean,
@@ -34,6 +36,9 @@ export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarPro
   const [isAdmin,setIsAdmin] = useState(false);
   const [isAdminOrEditeur,setIsAdminOrEditeur] = useState(false);
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+
+  const [articleLinked, setArticleLinked] = useState<React.SetStateAction<article | null>>(null);
+  const [url,setUrl] = useState<string>("");
 
   const isConnected = session.email ? true : false;
 
@@ -123,7 +128,7 @@ export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarPro
             {[...Array(4)].map((_, index) => (
               <div className={styles.card} key={index}>
                 <div className={styles.popupContent}>
-                  <h2>Modifier raccourci {index + 1}</h2>
+                  <h2>Modifier le raccourci n°{index + 1}</h2>
                   <form>
                     <label htmlFor={`image${index}`}>Icone à afficher</label>
                     <input type="file" id={`image${index}`} name={`image${index}`} accept=".png, .jpg, .jpeg"/>
@@ -132,6 +137,15 @@ export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarPro
                       id={`edit${index}`}
                       name={`edit${index}`}
                       placeholder="Nom du raccourci"
+                    />
+                    {setArticleLinked && <SelectorArticle setArticle = {setArticleLinked} setUrl={setUrl} url={url} />}
+                    <h3>URL : </h3>
+                    <input
+                      disabled={articleLinked ? true : false}
+                      type="text"
+                      placeholder={ articleLinked ? url : "https://___________"}
+                      value={url}
+                      onChange={(e) => setUrl ? setUrl(e.currentTarget.value) : ""}
                     />
                     <div className={styles.container_buttons}>
                       <Button type="submit">Modifier</Button>

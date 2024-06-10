@@ -13,10 +13,14 @@ import styles from "./styles.module.css";
 import { Button } from "../../ui/button";
 import { useAppContext } from "@/app/lib/utils/AppContext";
 import { isAdminOrEditeur as adminOrEditeur } from "@/app/lib/utils/access";
+import SelectorArticle from "../../Header/NavBar/Menu/Categories/DialogContainers/SelectorArticle";
+import { article } from "@/app/lib/utils/types";
 
 export default function FastPathBis() {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [isAdminOrEditeur,setIsAdminOrEditeur] = useState(false);
+  const [articleLinked, setArticleLinked] = useState<React.SetStateAction<article | null>>(null);
+  const [url,setUrl] = useState<string>("");
 
   const { session } = useAppContext();
   const isConnected = session?.email ? true : false;
@@ -61,7 +65,7 @@ export default function FastPathBis() {
               {[...Array(5)].map((_, index) => (
                 <div className={styles.card} key={index}>
                   <div className={styles.popupContent}>
-                    <h2>Modifier {index + 1}</h2>
+                    <h2>Modifier le raccourci n°{index + 1}</h2>
                     <form>
                       <label htmlFor={`image${index}`}>Icone à afficher</label>
                       <input type="file" id={`image${index}`} name={`image${index}`} accept=".png, .jpg, .jpeg"/>
@@ -71,7 +75,15 @@ export default function FastPathBis() {
                         name={`edit${index}`}
                         placeholder="Nom du raccourci"
                       />
-                      <input type="text" id={`link${index}`} name={`link${index}`} placeholder="Lien pour rédiriger le raccourci"/>
+                      {setArticleLinked && <SelectorArticle setArticle = {setArticleLinked} setUrl={setUrl} url={url} />}
+                      <h3>URL : </h3>
+                      <input
+                        disabled={articleLinked ? true : false}
+                        type="text"
+                        placeholder={ articleLinked ? url : "https://___________"}
+                        value={url}
+                        onChange={(e) => setUrl ? setUrl(e.currentTarget.value) : ""}
+                      />
                       <div className={styles.container_buttons}>
                         <Button type="submit">Modifier</Button>
                       </div>

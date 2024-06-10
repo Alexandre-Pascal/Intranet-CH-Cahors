@@ -118,6 +118,46 @@
 }
 
 
+.animated_button {
+    position: absolute;
+    top: -7vh;
+    left: 1.5vw;
+    background: linear-gradient(90deg, #00e774, #1e90ff);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    outline: none;
+    overflow: hidden;
+}
+
+.animated_button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.15);
+    transition: all 0.5s ease;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+}
+
+.animated_button:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.animated_button:hover {
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
 
 @media screen and (max-width: 1354px) {
     .icon_text_menu_container {

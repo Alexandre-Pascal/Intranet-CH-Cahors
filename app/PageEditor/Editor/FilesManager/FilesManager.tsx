@@ -19,7 +19,7 @@ export default function FilesManager({ idPage, onlyView }: FilesManagerProps) {
       { !isOpenFileManager && (
         <button type="button"
           onClick={() => setIsOpenFileManager(true)}
-          className={`bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-4 ${styles.button_open_file_manager}`}
+          className={`bg-stone-300 hover:bg-stone-500 text-white font-bold py-2 px-4 rounded mt-14 ${styles.button_open_file_manager}`}
         >
           {onlyView ? "Voir les fichiers" : "Gestion des fichiers"}
         </button>
