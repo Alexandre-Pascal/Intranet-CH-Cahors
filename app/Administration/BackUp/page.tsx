@@ -26,13 +26,7 @@ export default function Page() {
       </div>
       <div>
         <h2>Cliquez sur le bouton ci-dessous pour sélectionner un ficher à restaurer</h2>
-        <button
-          onClick={() => restoreBD()}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-        >
-            Restore
-        </button>
-        <p>Fichier SQL sélectionné pour restaurer la base de données : </p>
+        <input type="file" id="file" name="file" accept=".sql" />
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Valider</button>
       </div>
     </div>
