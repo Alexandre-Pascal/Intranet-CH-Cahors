@@ -1,0 +1,18 @@
+.backup_container li {
+    margin-left: 20px;
+    display: flex ;
+}
+
+.backup_container a{
+    align-content: center;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.backup_container {
+    padding: 5vh 5vw;
+}
+
+.backup_container div {
+    margin-bottom: 30px;  
+}

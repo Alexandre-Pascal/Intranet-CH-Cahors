@@ -49,6 +49,12 @@ export default function Administration() {
           >
             Modifier un rôle
           </button>
+          <button
+            onClick={() => window.location.href = "./Administration/BackUp"}
+            className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mt-4"
+          >
+            Gérer la BD
+          </button>
         </div>
         <Users />
       </div>
