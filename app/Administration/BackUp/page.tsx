@@ -20,6 +20,7 @@ export default function Page() {
         <h2>Téléchargez une backup au préalablement générées</h2>
         <ul>
           <li>Backup du 2024-06-11<a><Icon name="Download" /></a></li>
+          <li>Backup du 2024-06-11<a><Icon name="Download" /></a></li>
           <li>Backup du 2024-06-10<a><Icon name="Download" /></a></li>
           <li>Backup du 2024-06-10<a><Icon name="Download" /></a></li>
         </ul>

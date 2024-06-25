@@ -87,6 +87,13 @@ export default function CreateRole() {
               check.checked = true;
             });
 
+            const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[];
+            checkBoxEdit.forEach((check) => {
+              check.disabled = true;
+            });
+
+            const checkBoxEditAll = document.querySelector(`input[name="CheckAllEdit"][id="${category_id}"]`) as HTMLInputElement;
+            checkBoxEditAll.disabled = true;
           }
 
           else{
@@ -97,6 +104,14 @@ export default function CreateRole() {
             checkBoxRead.forEach((check) => {
               check.checked = false;
             });
+
+            const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[];
+            checkBoxEdit.forEach((check) => {
+              check.disabled = false;
+            });
+
+            const checkBoxEditAll = document.querySelector(`input[name="CheckAllEdit"][id="${category_id}"]`) as HTMLInputElement;
+            checkBoxEditAll.disabled = false;
           }
         });
       });
@@ -122,11 +137,11 @@ export default function CreateRole() {
 
             const checkBoxRead = Array.from(document.querySelectorAll(`input[name="read"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[]; //
             checkBoxRead.forEach((check) => {
-              check.checked = true;
+              // check.checked = true;
               check.disabled = true;
             });
             const checkBoxReadAll = document.querySelector(`input[name="CheckAllRead"][id="${category_id}"]`) as HTMLInputElement; //la case tout cocher lecture
-            checkBoxReadAll.checked = true;
+            // checkBoxReadAll.checked = true;
             checkBoxReadAll.disabled = true;
           }
           else{
@@ -163,11 +178,14 @@ export default function CreateRole() {
         const sub_category = category.sub_categories.find((subCategorie : SubCategory) => subCategorie.sub_category_id.toString() === sub_category_id);
         const sub_category_name = sub_category ? sub_category.sub_category_name : "";
         const index = role.pages?.indexOf(sub_category_name) ?? -1;
+        const checkBoxEdit = document.querySelector(`input[name="edit"][id="${sub_category_id}"]`) as HTMLInputElement;
         if (target.checked) {
           role.read?.splice(index, 1, true);
+          checkBoxEdit.disabled = true;
         }
         else{
           role.read?.splice(index, 1, false);
+          checkBoxEdit.disabled = false;
         }
         setRole({ ...role });
       });
@@ -186,13 +204,13 @@ export default function CreateRole() {
         if (target.checked) {
           role.edit?.splice(index, 1, true);
           role.read?.splice(index, 1, true);
-          checkBoxRead.checked = true;
+          // checkBoxRead.checked = true;
           checkBoxRead.disabled = true;
         }
         else{
           role.edit?.splice(index, 1, false);
           role.read?.splice(index, 1, false);
-          checkBoxRead.checked = false;
+          // checkBoxRead.checked = false;
           checkBoxRead.disabled = false;
         }
 
