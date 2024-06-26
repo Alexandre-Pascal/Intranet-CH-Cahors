@@ -2,14 +2,16 @@
 import { article } from "@/app/lib/utils/types";
 import React, { useEffect, useState } from "react";
 
-export default function SelectorArticle({ setArticle, setUrl, url } :
-  {
-    setArticle : React.Dispatch<React.SetStateAction<article | null>>,
-    setUrl? : React.Dispatch<React.SetStateAction<string>>,
-    url? : string
-  })
-{
+interface SelectorArticleProps {
+  setArticle: React.Dispatch<React.SetStateAction<article | null>>;
+  setUrl?: React.Dispatch<React.SetStateAction<string>>;
+  url?: string;
+}
+
+export default function SelectorArticle( { setArticle, setUrl, url }: SelectorArticleProps) {
+
   const [articles, setArticles] = useState<article[]>([]);
+
   useEffect(() => {
     const fetchArticles = async() => {
       try {
@@ -25,7 +27,6 @@ export default function SelectorArticle({ setArticle, setUrl, url } :
   }, []);
 
   if (articles.length > 0) {
-    //J'aurais voulu le mettre dans le onChange mais ça ne marche pas bien car il ne se met pas à jour avant la première sélection
     const article = articles.find((article) => url === "/articles/" + article.id);
     setArticle(article ? article : null);
   }

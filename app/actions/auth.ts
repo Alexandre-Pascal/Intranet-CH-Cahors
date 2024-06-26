@@ -1,12 +1,12 @@
 "use server";
-import { SignupFormSchema, FormState } from "@/app/lib/definitions";
+import { SignupFormSchema } from "@/app/lib/definitions";
 import { hashSync } from "bcrypt-ts";
 import prisma from "../lib/utils/prisma";
 
 export async function signup(formData : FormData) {
-  // Validate form fields
+  // Valider les champs du formulaire
 
-  console.log("Debut de la fonction signup");
+  // console.log("Début de la fonction signup");
 
   const checkUserNotExists = await prisma.users.findUnique({
     where: {
@@ -17,34 +17,34 @@ export async function signup(formData : FormData) {
   if (checkUserNotExists) {
     return {
       errors: {
-        email: ["Email already exists."],
+        email: ["L'email existe déjà"], // L'email existe déjà.
       },
     };
   }
 
+  // Créé un objet avec les données du formulaire
   const validatedFields = SignupFormSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
   });
 
-  // If any form fields are invalid, return early
+  // Si un des champs du formulaire est invalide, retourner immédiatement
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
 
-  console.log("validatedFields");
-
+  // console.log("validatedFields");
   // console.log(validatedFields.data.email);
-  // 2. Prepare data for insertion into database
-  // const { name, email, password } = validatedFields.data;
-  // e.g. Hash the user's password before storing it
+
+  // 2. Préparer les données pour l'insertion dans la base de données
+  // hacher le mot de passe de l'utilisateur avant de le stocker
   const hashedPassword = hashSync(validatedFields.data.password, 10);
 
-  // 3. Insert the user into the database or call an Auth Library's API
-  //utilisation de prisma
+  // 3. Insérer l'utilisateur dans la base de données
+  // utilisation de prisma
   console.log("name", validatedFields.data.name);
   console.log("email", validatedFields.data.email);
   const data = await prisma.users.create({
@@ -57,9 +57,7 @@ export async function signup(formData : FormData) {
 
   if (!data) {
     return {
-      message: "An error occurred while creating your account.",
+      message: "Une erreur s'est produite lors de la création de votre compte.",
     };
   }
-
-  // Call the provider or db to create a user...
 }

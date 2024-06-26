@@ -3,15 +3,13 @@ import Buttons from "./buttons";
 import FilesManager from "@/app/PageEditor/Editor/FilesManager/FilesManager";
 import styles from "./styles.module.css";
 import { SubCategory, Title } from "@/app/lib/utils/types";
+
 export default async function Page({ params }: { params: { slug: string } }) {
   //en fonction de params.slug, on va chercher dans la base de données grace a axios les données correspondante qui on comme id le params.slug
-
-  console.log(params.slug);
 
   let data : any;
   let subCategorie : SubCategory = {} as SubCategory;
   let title : Title = {} as Title;
-  const subCategorieFromTitle : SubCategory = {} as SubCategory;
 
   try {
     data = await prisma.datas_articles.findUnique({
@@ -27,18 +25,17 @@ export default async function Page({ params }: { params: { slug: string } }) {
   try {
     subCategorie = await prisma.sub_categories.findFirst({
       where: {
-        // Change the property from sub_category_url to sub_category_id
         sub_category_url: `/articles/${params.slug}`,
       },
     }) as SubCategory;
 
     if (subCategorie == null) {
-
       title = await prisma.titles.findFirst({
         where: {
           title_url: `/articles/${params.slug}`,
         },
       }) as Title;
+
       if (title) {
         subCategorie = await prisma.sub_categories.findFirst({
           where: {
@@ -53,7 +50,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   const newData = data.content.replace(/data-width="([^"]*)"/g, "width=\"$1\"").replace(/data-align="([^"]*)"/g, "align=\"$1\"");
-  console.log(newData);
   return (
     <>
       { data && data.content && (

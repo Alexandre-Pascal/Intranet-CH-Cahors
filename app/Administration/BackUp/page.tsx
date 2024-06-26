@@ -3,6 +3,7 @@
 import { Icon } from "@/app/lib/utils/Icon";
 import styles from "./styles.module.css";
 
+// Ici on a seulement le coté front, tout le back reste à faire
 export default function Page() {
   return (
     <div className={styles.backup_container}>
@@ -28,13 +29,16 @@ export default function Page() {
       <div>
         <h2>Cliquez sur le bouton ci-dessous pour sélectionner un ficher à restaurer</h2>
         <input type="file" id="file" name="file" accept=".sql" />
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Valider</button>
+        <button
+          onClick={() => restoreBD()}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Valider</button>
       </div>
     </div>
   );
 }
 
 function backupBD() {
+  //Il faut faire la requête API
   const requestOptions = {
     method: "GET",
   };
@@ -42,6 +46,7 @@ function backupBD() {
 }
 
 function restoreBD() {
+  //Il faut faire la requête API
   const requestOptions = {
     method: "GET",
   };

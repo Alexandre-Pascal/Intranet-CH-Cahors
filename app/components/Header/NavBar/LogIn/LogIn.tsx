@@ -1,6 +1,5 @@
 import styles from "../styles.module.css";
 import Image from "next/image";
-import Link from "next/link";
 import connexion from "../../../../assets/icons/utilisateur.png";
 import deconnexion from "../../../../assets/icons/deconnecter.png";
 
@@ -11,6 +10,7 @@ import { logout } from "@/app/lib/session";
 interface LogInProps {
   connected: boolean;
 }
+
 export default function LogIn({ connected }: LogInProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -19,6 +19,7 @@ export default function LogIn({ connected }: LogInProps) {
     alert("Déconnexion réussie"),
     window.location.href = "/";
   };
+
   return (
     <>
       { !connected ? (

@@ -1,25 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { pipeline } from "stream";
 import { promisify } from "util";
 import updateUploadedFilesPublic from "@/app/lib/utils/updateUploadedFilesPublic";
+
 export async function GET(request, { params }) {
   const articleId = params.articleId;
-
   let dir;
 
   // Vérifier si l'articleId est un nombre
-  console.log("id", articleId);
   if (parseInt(articleId)) {
-    console.log("id Parsé", articleId);
+    // Si c'est un fichier temporaire (articleId est formé d'une suite de chiffres)
     dir = path.resolve(`${process.env.CLIENT_PUBLIC_TEMP_FILES_DIR}/${articleId}/files`);
-    console.log("dirrr", dir);
   }
-  else
-  {
+  else {
     dir = path.resolve(`${process.env.CLIENT_PUBLIC_SAVED_FILES_DIR}/${articleId}/files`);
-    console.log("dirrr", dir);
   }
 
   // Vérifier si le dossier existe
@@ -37,13 +33,13 @@ export async function GET(request, { params }) {
   return NextResponse.json({ files });
 }
 
-export async function POST(req: NextRequest, context: {params: {articleId: string}}) {
+export async function POST(req, { params }) {
   const pump = promisify(pipeline);
   const { searchParams } = new URL(req.nextUrl);
   const typeOfFile = searchParams.get("type");
 
   try {
-    const articleId = context.params.articleId;
+    const articleId = params.articleId;
     if (!articleId) {
       return NextResponse.json({ status: "fail", data: "Missing articleId" });
     }
@@ -61,10 +57,13 @@ export async function POST(req: NextRequest, context: {params: {articleId: strin
     let filePath;
 
     if (parseInt(articleId)) {
+      // Si c'est un fichier temporaire (articleId est formé d'une suite de chiffres)
       switch (typeOfFile) {
+      // En fonction du type de fichier
       case "image":
         filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images/${file.name}`;
         if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images`)) {
+          // Si le dossier n'existe pas, je le crée
           fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/images`, { recursive: true });
         }
         break;
@@ -72,14 +71,15 @@ export async function POST(req: NextRequest, context: {params: {articleId: strin
       case "video":
         filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/videos/${file.name}`;
         if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/videos`)) {
+          // Si le dossier n'existe pas, je le crée
           fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/videos`, { recursive: true });
         }
         break;
 
       case "file":
         filePath = `${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files/${file.name}`;
-        console.log("fichier",filePath);
         if (!fs.existsSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files`)) {
+          // Si le dossier n'existe pas, je le crée
           fs.mkdirSync(`${process.env.SERVER_TEMP_FILES_DIR}/${articleId}/files`, { recursive: true });
         }
         break;
@@ -87,16 +87,18 @@ export async function POST(req: NextRequest, context: {params: {articleId: strin
     }
     else {
       switch (typeOfFile) {
+      // En fonction du type de fichier
       case "image":
-        filePath = `${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/images/${file.name
-        }`;
+        filePath = `${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/images/${file.name}`;
         if (!fs.existsSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/images`)) {
+          // Si le dossier n'existe pas, je le crée
           fs.mkdirSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/images`, { recursive: true });
         }
         break;
       case "video":
         filePath = `${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/videos/${file.name}`;
         if (!fs.existsSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/videos`)) {
+          // Si le dossier n'existe pas, je le crée
           fs.mkdirSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/videos`, { recursive: true });
         }
         break;
@@ -104,14 +106,17 @@ export async function POST(req: NextRequest, context: {params: {articleId: strin
       case "file":
         filePath = `${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/files/${file.name}`;
         if (!fs.existsSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/files`)) {
+          // Si le dossier n'existe pas, je le crée
           fs.mkdirSync(`${process.env.SERVER_SAVED_FILES_DIR}/${articleId}/files`, { recursive: true });
         }
         break;
       }
     }
 
+    // Mettre à jour le fichier public
     await pump(file.stream(), fs.createWriteStream(filePath));
 
+    // Mettre à jour les fichiers publics
     updateUploadedFilesPublic();
 
     return NextResponse.json({ status: "success", data: file.size });

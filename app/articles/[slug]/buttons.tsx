@@ -1,10 +1,10 @@
 "use client";
 import { useAppContext } from "@/app/lib/utils/AppContext";
-import { use, useEffect, useState } from "react";
-import styles from "./styles.module.css";
+import { useEffect, useState } from "react";
 import { canEdit, isAdmin } from "@/app/lib/utils/access";
 import { RoleObjectDb, SubCategory, Title } from "@/app/lib/utils/types";
 import getRole from "@/app/lib/utils/getRole";
+import styles from "./styles.module.css";
 
 interface ButtonsProps {
   slug: string;
@@ -16,10 +16,10 @@ export default function Buttons({ slug, subCategorie }: ButtonsProps) {
   const { session } = useAppContext();
 
   const [role, setRole] = useState<RoleObjectDb>();
-
   const [isEditable, setIsEditable] = useState<boolean>(false);
 
   useEffect(() => {
+    // Si l'utilisateur est connecté, on récupère son rôle
     if (session){
       const fetchRole = async() => {
         setRole(await getRole(session));
@@ -29,8 +29,10 @@ export default function Buttons({ slug, subCategorie }: ButtonsProps) {
   );
 
   useEffect(() => {
+    // Si l'utilisateur est connecté et que le rôle est défini
     if (role){
       if (subCategorie?.sub_category_id){
+        // On vérifie si l'utilisateur peut éditer l'article
         setIsEditable(canEdit(subCategorie, undefined, role) as boolean);
       }
     }

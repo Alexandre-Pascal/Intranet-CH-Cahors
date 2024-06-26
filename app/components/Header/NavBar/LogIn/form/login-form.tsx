@@ -1,22 +1,20 @@
 // app/ui/login-form.tsx
 
 "use client";
+
 import { LogInButton } from "./login-button";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useFormStatus } from "react-dom";
 import { Icon } from "@/app/lib/utils/Icon";
-// import { login } from "@/app/actions/auth";
-import { getSession, login, logout } from "@/app/lib/session";
-
+import { login } from "@/app/lib/session";
 import styles from "../styles.module.css";
-import { redirect } from "next/navigation";
-import { set } from "zod";
 
 interface LogInFormProps {
   setIsMenuOpen:(isMenuOpen : boolean) => void;
 }
 
 export function LogInForm({ setIsMenuOpen }: LogInFormProps) {
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,6 +23,7 @@ export function LogInForm({ setIsMenuOpen }: LogInFormProps) {
     email?: string[];
     password?: string[];
   }>({});
+
   const { pending } = useFormStatus();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +41,6 @@ export function LogInForm({ setIsMenuOpen }: LogInFormProps) {
     const result = await login(datas);
     // vérifier si les données existent dans la bd
 
-    // let session;
     if (result?.errors) {
       setErrors(result.errors);
     }

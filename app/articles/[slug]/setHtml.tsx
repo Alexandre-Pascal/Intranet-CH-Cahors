@@ -7,7 +7,6 @@ export default function SetHtml({ title, content } : {title : string, content: a
   useEffect(() => {
     alert(content);
     content.replace(/\/tempFiles\/\d+\//, `/savedFiles/${title}`);
-    //remplacer data-align par style="text-align: data-align"
     content.replace(/data-width="([^"]*)"/g, "width=\"$1\"");
     content.replace(/data-align="([^"]*)"/g, "align=\"$1\"");
 

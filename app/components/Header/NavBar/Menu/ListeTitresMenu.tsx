@@ -17,7 +17,7 @@ import plus from "../../../../assets/icons/plus.png";
 import poubelle from "../../../../assets/icons/poubelle.png";
 import SubmitUpdateDeleteContainer from "./Categories/DialogContainers/SubmitUpdateDeleteContainer";
 import { useAppContext } from "@/app/lib/utils/AppContext";
-import { isAdmin, canEdit } from "@/app/lib/utils/access";
+import { canEdit } from "@/app/lib/utils/access";
 import getRole from "@/app/lib/utils/getRole";
 import { sub_categories } from "@prisma/client";
 
@@ -41,7 +41,7 @@ export default function ListeTitres(datas: DataList[]) {
 
   const router = useRouter();
 
-  const { session, loading } = useAppContext();
+  const { session } = useAppContext();
 
   const [role, setRole] = useState<RoleObjectDb>();
 

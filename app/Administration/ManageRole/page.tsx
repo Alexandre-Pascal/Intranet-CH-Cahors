@@ -8,20 +8,19 @@ import { useAppContext } from "@/app/lib/utils/AppContext";
 import notAuthorised from "@/app/components/Header/notAuthorised";
 import { Spinner } from "@/app/components/ui/Spinner";
 
-export default function CreateRole() {
-
+export default function ManageRole() {
   const [categories, setCategories] = useState<any[]>([]);
-  const [role, setRole] = useState<RoleObject>({ name: "", pages: [], read: [], edit: [] });
-
+  const [role, setRole] = useState<RoleObject>({ name: "", pages: [], hide: [], edit: [] });
   const [roles, setRoles] = useState<RoleObjectDb[]>([]);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  const { session, loading } = useAppContext();
 
   const searchParams = useSearchParams();
   const kind = searchParams.get("kind");
 
-  const { session, loading } = useAppContext();
-  const [isAuthorized, setIsAuthorized] = useState(false);
-
   useEffect(() => {
+    // Tester si l'utilisateur est autorisé à accéder à cette page
     if (!loading) {
       if (session?.role == undefined || session.role !== "Administrateur") {
         notAuthorised();
@@ -33,6 +32,7 @@ export default function CreateRole() {
   }, [loading, session]);
 
   useEffect(() => {
+    // Récupérer les rôles existants
     const fetchRoles = async() => {
       if (kind == "update") {
         try {
@@ -49,6 +49,7 @@ export default function CreateRole() {
   }, []);
 
   useEffect(() => {
+    // Récupérer les catégories et sous-catégories
     const tempArray: any[] = [];
     const fetchCategories = async() => {
       try {
@@ -69,110 +70,138 @@ export default function CreateRole() {
   }, []);
 
   useEffect(() => {
-    const checkBoxReadAll = document.getElementsByName("CheckAllRead");
-    checkBoxReadAll.forEach((checkBox) => {
+    // Gérer les événements de changement des cases à cocher
+
+    // Vérifier si la case tout cocher cacher est cochée
+    const checkBoxHideAll = document.getElementsByName("CheckAllHide");
+    checkBoxHideAll.forEach((checkBox) => {
       checkBox.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
+        const target = event.target as HTMLInputElement; // la case tout cocher cacher
         const category_id = target.id;
         const category = categories.find((categorie : any) => categorie.category_id.toString() === category_id);
 
+        // Pour chaque sous-catégorie de la catégorie
         category.sub_categories.forEach((sub_category : SubCategory) => {
           const index = role.pages?.indexOf(sub_category.sub_category_name) ?? -1;
+
+          // Si la case tout cocher "Caché" est cochée
           if (target.checked) {
-            role.read?.splice(index, 1, true);
+            // On coche toutes les cases cacher
+            role.hide?.splice(index, 1, true);
             setRole({ ...role });
 
-            const checkBoxRead = Array.from(document.querySelectorAll(`input[name="read"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[];
-            checkBoxRead.forEach((check) => {
+            // On coche toutes les cases cacher
+            const checkBoxHide = Array.from(document.querySelectorAll(`input[name="hide"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[]; // toutes les cases cacher
+            checkBoxHide.forEach((check) => {
               check.checked = true;
             });
 
-            const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[];
+            // On désactive toutes les cases écrire
+            const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[]; // toutes les cases écrire
             checkBoxEdit.forEach((check) => {
               check.disabled = true;
             });
 
-            const checkBoxEditAll = document.querySelector(`input[name="CheckAllEdit"][id="${category_id}"]`) as HTMLInputElement;
+            // On désactive la case tout cocher écrire
+            const checkBoxEditAll = document.querySelector(`input[name="CheckAllEdit"][id="${category_id}"]`) as HTMLInputElement; // la case tout cocher lecture
             checkBoxEditAll.disabled = true;
           }
 
           else{
-            role.read?.splice(index, 1, false);
+            // Si la case tout cocher "Caché" n'est pas cochée
+            role.hide?.splice(index, 1, false);
             setRole({ ...role });
 
-            const checkBoxRead = Array.from(document.querySelectorAll(`input[name="read"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[];
-            checkBoxRead.forEach((check) => {
+            // On décoche toutes les cases cacher
+            const checkBoxHide = Array.from(document.querySelectorAll(`input[name="hide"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[]; // toutes les cases cacher
+            checkBoxHide.forEach((check) => {
               check.checked = false;
             });
 
-            const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[];
+            // On active toutes les cases écrire
+            const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[]; // toutes les cases écrire
             checkBoxEdit.forEach((check) => {
               check.disabled = false;
             });
 
-            const checkBoxEditAll = document.querySelector(`input[name="CheckAllEdit"][id="${category_id}"]`) as HTMLInputElement;
+            // On active la case tout cocher écrire
+            const checkBoxEditAll = document.querySelector(`input[name="CheckAllEdit"][id="${category_id}"]`) as HTMLInputElement; // la case tout cocher lecture
             checkBoxEditAll.disabled = false;
           }
         });
       });
     });
 
+    // Vérifier si la case tout cocher écrire est cochée
     const checkBoxEditAll = document.getElementsByName("CheckAllEdit");
     checkBoxEditAll.forEach((checkBox) => {
       checkBox.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
+        const target = event.target as HTMLInputElement; // la case tout cocher écrire
         const category_id = target.id;
         const category = categories.find((categorie : any) => categorie.category_id.toString() === category_id);
+
+        // Pour chaque sous-catégorie de la catégorie
         category.sub_categories.forEach((sub_category : SubCategory) => {
           const index = role.pages?.indexOf(sub_category.sub_category_name) ?? -1;
+
+          // Si la case tout cocher "Écriture" est cochée
           if (target.checked) {
-            role.read?.splice(index, 1, true);
+            role.hide?.splice(index, 1, true);
             role.edit?.splice(index, 1, true);
             setRole({ ...role });
 
-            const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[];
+            // On coche toutes les cases écrire
+            const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[]; // toutes les cases écrire
             checkBoxEdit.forEach((check) => {
               check.checked = true;
             });
 
-            const checkBoxRead = Array.from(document.querySelectorAll(`input[name="read"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[]; //
-            checkBoxRead.forEach((check) => {
+            // On désactive toutes les cases cacher
+            const checkBoxHide = Array.from(document.querySelectorAll(`input[name="hide"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[]; // toutes les cases cacher
+            checkBoxHide.forEach((check) => {
               // check.checked = true;
               check.disabled = true;
             });
-            const checkBoxReadAll = document.querySelector(`input[name="CheckAllRead"][id="${category_id}"]`) as HTMLInputElement; //la case tout cocher lecture
-            // checkBoxReadAll.checked = true;
-            checkBoxReadAll.disabled = true;
+
+            // On désactive la case tout cocher cacher
+            const checkBoxHideAll = document.querySelector(`input[name="CheckAllHide"][id="${category_id}"]`) as HTMLInputElement; //la case tout cocher lecture
+            // checkBoxHideAll.checked = true;
+            checkBoxHideAll.disabled = true;
           }
+
           else{
+            // Si la case tout cocher "Écriture" n'est pas cochée
             const index = role.pages?.indexOf(sub_category.sub_category_name) ?? -1;
             role.edit?.splice(index, 1, false);
-            role.read?.splice(index, 1, false);
+            role.hide?.splice(index, 1, false);
             setRole({ ...role });
 
+            // On décoche toutes les cases écrire
             const checkBoxEdit = Array.from(document.querySelectorAll(`input[name="edit"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[];
             checkBoxEdit.forEach((check) => {
               check.checked = false;
             });
 
-            //On est obligé de pouvoir lire si on peux modifier
-            const checkBoxRead = Array.from(document.querySelectorAll(`input[name="read"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[];
-            checkBoxRead.forEach((check) => {
+            // On active toutes les cases cacher
+            const checkBoxHide = Array.from(document.querySelectorAll(`input[name="hide"][id="${sub_category.sub_category_id.toString()}"]`)) as HTMLInputElement[];
+            checkBoxHide.forEach((check) => {
               check.checked = false;
               check.disabled = false;
             });
-            const checkBoxReadAll = document.querySelector(`input[name="CheckAllRead"][id="${category_id}"]`) as HTMLInputElement;
-            checkBoxReadAll.checked = false;
-            checkBoxReadAll.disabled = false;
+
+            // On active la case tout cocher cacher
+            const checkBoxHideAll = document.querySelector(`input[name="CheckAllHide"][id="${category_id}"]`) as HTMLInputElement;
+            checkBoxHideAll.checked = false;
+            checkBoxHideAll.disabled = false;
           }});
       });
     });
 
-    const checkBoxRead = document.querySelectorAll("input[name=\"read\"]");
-    checkBoxRead.forEach((checkBox) => {
-      //je veux que quand je coche une checkbox read, cela coche la checkbox edit et ça la disable
+    const checkBoxHide = document.querySelectorAll("input[name=\"hide\"]");
+    checkBoxHide.forEach((checkBox) => {
+      //je veux que quand je coche une checkbox hide, cela coche la checkbox edit et ça la disable
       checkBox.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
+        const target = event.target as HTMLInputElement; // une case cacher
         const sub_category_id = target.id;
         const category : DataList = categories.find((categorie : any) => categorie.sub_categories.find((subCategorie : SubCategory) => subCategorie.sub_category_id.toString() === sub_category_id));
         const sub_category = category.sub_categories.find((subCategorie : SubCategory) => subCategorie.sub_category_id.toString() === sub_category_id);
@@ -180,11 +209,11 @@ export default function CreateRole() {
         const index = role.pages?.indexOf(sub_category_name) ?? -1;
         const checkBoxEdit = document.querySelector(`input[name="edit"][id="${sub_category_id}"]`) as HTMLInputElement;
         if (target.checked) {
-          role.read?.splice(index, 1, true);
+          role.hide?.splice(index, 1, true);
           checkBoxEdit.disabled = true;
         }
         else{
-          role.read?.splice(index, 1, false);
+          role.hide?.splice(index, 1, false);
           checkBoxEdit.disabled = false;
         }
         setRole({ ...role });
@@ -194,24 +223,24 @@ export default function CreateRole() {
     const checkBoxEdit = document.querySelectorAll("input[name=\"edit\"]");
     checkBoxEdit.forEach((checkBox) => {
       checkBox.addEventListener("change", (event) => {
-        const target = event.target as HTMLInputElement;
+        const target = event.target as HTMLInputElement; // une case écrire
         const sub_category_id = target.id;
         const category : DataList = categories.find((categorie : any) => categorie.sub_categories.find((subCategorie : SubCategory) => subCategorie.sub_category_id.toString() === sub_category_id));
         const sub_category = category.sub_categories.find((subCategorie : SubCategory) => subCategorie.sub_category_id.toString() === sub_category_id);
         const sub_category_name = sub_category ? sub_category.sub_category_name : "";
         const index = role.pages?.indexOf(sub_category_name) ?? -1;
-        const checkBoxRead = document.querySelector(`input[name="read"][id="${sub_category_id}"]`) as HTMLInputElement;
+        const checkBoxHide = document.querySelector(`input[name="hide"][id="${sub_category_id}"]`) as HTMLInputElement;
         if (target.checked) {
           role.edit?.splice(index, 1, true);
-          role.read?.splice(index, 1, true);
-          // checkBoxRead.checked = true;
-          checkBoxRead.disabled = true;
+          role.hide?.splice(index, 1, true);
+          // checkBoxHide.checked = true;
+          checkBoxHide.disabled = true;
         }
         else{
           role.edit?.splice(index, 1, false);
-          role.read?.splice(index, 1, false);
-          // checkBoxRead.checked = false;
-          checkBoxRead.disabled = false;
+          role.hide?.splice(index, 1, false);
+          // checkBoxHide.checked = false;
+          checkBoxHide.disabled = false;
         }
 
         setRole({ ...role });
@@ -227,18 +256,19 @@ export default function CreateRole() {
     categories.forEach((categorie) => {
       categorie.sub_categories.forEach((subCategorie : any) => {
         role.pages?.push(subCategorie.sub_category_name);
-        role.read?.push(false);
+        role.hide?.push(false);
         role.edit?.push(false);
       });
     });
   }, [categories]
   );
 
-  useEffect(() => {
-    console.log("role",role);
-  }, [role]);
+  // useEffect(() => {
+  //   console.log("role",role);
+  // }, [role]);
 
   const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+    // Créer un nouveau rôle
     event.preventDefault();
     role.name = (document.getElementById("role") as HTMLInputElement).value;
     const newList = checkAccess();
@@ -254,6 +284,7 @@ export default function CreateRole() {
   };
 
   const handleUpdate = async(event: React.FormEvent<HTMLFormElement>) => {
+    // Mettre à jour un rôle
     event.preventDefault();
     const newList = checkAccess();
     const datas = new FormData();
@@ -268,12 +299,15 @@ export default function CreateRole() {
   };
 
   function checkAccess() {
+    // Créer une liste de pages avec les accès
     const listTemp : RoleObjectDb = { name: "", pages: [], access: [] };
+
+    // Pour chaque page, on ajoute le nom du rôle, la page et l'accès
     role.pages?.forEach((page, index) => {
       listTemp.name = role.name;
       listTemp.pages?.push(page);
       let access = 0;
-      if(role.read?.[index] === true) {
+      if(role.hide?.[index] === true) {
         access = 1;
       }
       if (role.edit?.[index] === true) {
@@ -285,7 +319,10 @@ export default function CreateRole() {
   }
 
   function handleOnChangeSelectedRole(e : ChangeEvent<HTMLSelectElement>) {
+    // Mettre à jour le rôle sélectionné
     const selectedRole = roles.find((role) => role.name === e.target.value);
+
+    // Si le rôle sélectionné existe, on le convertit en objet RoleObject
     if (selectedRole) {
       const newRole : RoleObject = convertBdToRoleObject(selectedRole);
       setRole(newRole);
@@ -294,19 +331,22 @@ export default function CreateRole() {
   }
 
   function convertBdToRoleObject(roleDb : RoleObjectDb) {
-    const newRole : RoleObject = { name: roleDb.name, pages: [], read: [], edit: [] };
+    // Convertir un rôle de la base de données en objet RoleObject
+    const newRole : RoleObject = { name: roleDb.name, pages: [], hide: [], edit: [] };
+
+    // Pour chaque page, on ajoute le nom de la page, si elle est cachée et si elle est éditable
     roleDb.pages?.forEach((page, index) => {
       newRole.pages?.push(page);
       if (roleDb.access?.[index] === 1) {
-        newRole.read?.push(true);
+        newRole.hide?.push(true);
         newRole.edit?.push(false);
       }
       else if (roleDb.access?.[index] === 2) {
-        newRole.read?.push(true);
+        newRole.hide?.push(true);
         newRole.edit?.push(true);
       }
       else{
-        newRole.read?.push(false);
+        newRole.hide?.push(false);
         newRole.edit?.push(false);
       }
     });
@@ -314,37 +354,66 @@ export default function CreateRole() {
   }
 
   function updateCheckboxes(newRole : RoleObject) {
+    // Mettre à jour les cases à cocher
     newRole.pages?.forEach((page, index) => {
-      const sub_category_id = categories.find((categorie) => categorie.sub_categories.find((subCategorie : any) => subCategorie.sub_category_name === page))?.sub_categories.find((subCategorie : any) => subCategorie.sub_category_name === page)?.sub_category_id;
-      const checkBoxRead = document.querySelector(`input[name="read"][id="${sub_category_id}"]`) as HTMLInputElement;
-      const checkBoxEdit = document.querySelector(`input[name="edit"][id="${sub_category_id}"]`) as HTMLInputElement;
-      if (newRole.read?.[index] === true) {
-        checkBoxRead.checked = true;
-      } else {
-        checkBoxRead.checked = false;
+      // Pour chaque pages définis dans le rôle
+
+      // On récupère la catégorie d'une page
+      const category = categories.find(categorie =>
+        categorie.sub_categories.some(
+          (subCategorie: any) => subCategorie.sub_category_name === page
+        )
+      );
+
+      // On récupère la sous-catégorie d'une page
+      const subCategory = category?.sub_categories.find(
+        (subCategorie: any) => subCategorie.sub_category_name === page
+      );
+
+      // Trouver l'id de la sous-catégorie
+      const sub_category_id = subCategory?.sub_category_id;
+
+      const checkBoxHide = document.querySelector(`input[name="hide"][id="${sub_category_id}"]`) as HTMLInputElement; // la case cacher
+      const checkBoxEdit = document.querySelector(`input[name="edit"][id="${sub_category_id}"]`) as HTMLInputElement; // la case écrire
+
+      // Si la page est cachée, on coche la case cacher
+      if (newRole.hide?.[index] === true) {
+        checkBoxHide.checked = true;
       }
 
+      // Sinon, on décoche la case cacher
+      else {
+        checkBoxHide.checked = false;
+      }
+
+      // Si la page est éditable, on coche la case écrire
       if (newRole.edit?.[index] === true) {
         checkBoxEdit.checked = true;
-      } else{
+      }
+
+      // Sinon, on décoche la case écrire
+      else{
         checkBoxEdit.checked = false;
       }
     });
   }
 
+  const confirmDelete = () => {
+    // Si on veux supprimer un rôle, on demande une confirmation
+    const confirm = window.confirm("Voulez-vous vraiment supprimer ce rôle ?");
+    if (confirm) {
+      // si l'utilisateur confirme la suppression on déclenche la suppression
+      handleDelete();
+      window.location.href = "/Administration";
+    }
+  };
+
   const handleDelete = async() => {
+    // On supprime le rôle
     const result = await fetch(`/api/roles/${role.name}`, {
       method: "DELETE",
     });
     await result.json();
-  };
-
-  const confirmDelete = () => {
-    const confirm = window.confirm("Voulez-vous vraiment supprimer ce rôle ?");
-    if (confirm) {
-      handleDelete();
-      window.location.href = "/Administration";
-    }
   };
 
   if (loading) {
@@ -394,7 +463,7 @@ export default function CreateRole() {
                     </tr>
                     <tr>
                       <th>Tout cocher</th>
-                      <th><input type="checkbox" name="CheckAllRead" id={categorie.category_id} /></th>
+                      <th><input type="checkbox" name="CheckAllHide" id={categorie.category_id} /></th>
                       <th><input type="checkbox" name="CheckAllEdit" id={categorie.category_id} /></th>
                     </tr>
                   </thead>
@@ -402,7 +471,7 @@ export default function CreateRole() {
                     {categorie.sub_categories.length > 0 && categorie.sub_categories.map((subCategorie : SubCategory, index : any) => (
                       <tr key={index}>
                         <td>{subCategorie.sub_category_name}</td>
-                        <td><input type="checkbox" name="read" id={subCategorie.sub_category_id.toString()} /></td>
+                        <td><input type="checkbox" name="hide" id={subCategorie.sub_category_id.toString()} /></td>
                         <td><input type="checkbox" name="edit" id={subCategorie.sub_category_id.toString()} /></td>
                       </tr>
                     ))}

@@ -1,14 +1,16 @@
 "use client";
 import Users from "./Users/Users";
-import styles from "./styles.module.css";
 import { useAppContext } from "@/app/lib/utils/AppContext";
 import notAuthorised from "../components/Header/notAuthorised";
 import { Spinner } from "../components/ui/Spinner";
 import { useEffect, useState } from "react";
+import styles from "./styles.module.css";
 
 export default function Administration() {
-  const { session, loading } = useAppContext();
+
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const { session, loading } = useAppContext();
+
   useEffect(() => {
     if (!loading) {
       if (session?.role == undefined || session.role !== "Administrateur") {
@@ -38,13 +40,13 @@ export default function Administration() {
         <h1 className="ml-10">Administration</h1>
         <div className={styles.container_buttons}>
           <button
-            onClick={() => window.location.href = "./Administration/CreateRole?kind=create"}
+            onClick={() => window.location.href = "./Administration/ManageRole?kind=create"}
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-4 mr-4"
           >
             Créer un nouveau rôle
           </button>
           <button
-            onClick={() => window.location.href = "./Administration/CreateRole?kind=update"}
+            onClick={() => window.location.href = "./Administration/ManageRole?kind=update"}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 mr-4"
           >
             Modifier un rôle
@@ -61,5 +63,5 @@ export default function Administration() {
     );
   }
 
-  return null; // This ensures that nothing is rendered if isAuthorized is null
+  return null;
 }

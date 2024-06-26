@@ -10,6 +10,7 @@ export default function Administration() {
   const [selectedRole, setSelectedRole] = useState<string>("");
 
   useEffect(() => {
+    // On récupère les utilisateurs
     const fetchUsers = async() => {
       try {
         const response = await fetch("/api/users");
@@ -23,6 +24,7 @@ export default function Administration() {
   }, []);
 
   useEffect(() => {
+    // On récupère les rôles
     const fetchRoles = async() => {
       try {
         const response = await fetch("/api/roles");
