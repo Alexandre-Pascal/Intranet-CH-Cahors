@@ -1,6 +1,6 @@
-import { SessionObject, RoleObjectDb, DataList, SubCategory, Title } from "./types";
-import getRole from "./getRole";
-import generateTitleId from "./generateId";
+import { SessionObject, RoleObjectDb, DataList, SubCategory } from "./types";
+
+// Fichier utiliser pour définir les autorisations
 
 export function isAdmin(user : SessionObject | null) {
   if (!user) return false;

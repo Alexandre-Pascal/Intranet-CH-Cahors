@@ -4,6 +4,8 @@ import React, { createContext, useState, useEffect, ReactNode } from "react";
 import { getSession } from "../session";
 import { SessionObject } from "./types";
 
+// Provider utilisé pour pouvoir accéder aux données depuis partout
+
 interface AppContextProps {
   currentIdPage: any;
   setCurrentIdPage: React.Dispatch<React.SetStateAction<any>>;

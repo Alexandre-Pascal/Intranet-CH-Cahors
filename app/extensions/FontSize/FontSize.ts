@@ -1,6 +1,8 @@
 import { Extension } from "@tiptap/core";
 import "@tiptap/extension-text-style";
 
+// Composant utilisé dans TipTap
+
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
     fontSize: {

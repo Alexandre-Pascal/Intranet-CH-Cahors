@@ -1,5 +1,7 @@
 import { kindOfDialog, kindOfDatas } from "./types";
 
+// Constantes utilisées partout dans le site
+
 export const ADD : kindOfDialog = "Add";
 export const UPDATE : kindOfDialog = "Update";
 export const DELETE : kindOfDialog = "Delete";

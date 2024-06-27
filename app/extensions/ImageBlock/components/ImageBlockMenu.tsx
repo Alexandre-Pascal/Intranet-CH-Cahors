@@ -7,6 +7,8 @@ import { Icon } from "@/app/lib/utils/Icon";
 import { ImageBlockWidth } from "./ImageBlockWidth";
 import { MenuProps } from "@/app/lib/utils/types";
 
+// Menu affiché quand une image est cliqué
+
 export const ImageBlockMenu = ({ editor /*appendTo*/ }: MenuProps): JSX.Element => {
   const menuRef = useRef<HTMLDivElement>(null);
   // const tippyInstance = useRef<Instance | null>(null);

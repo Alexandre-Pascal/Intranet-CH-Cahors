@@ -1,5 +1,7 @@
-import prisma from "./prisma"; // Importer votre instance Prisma
+import prisma from "./prisma";
 import { DataList } from "./types";
+
+// Fichiers utilisés pour récupérer tous les éléments du menu
 
 export default async function fetchDatas() {
 

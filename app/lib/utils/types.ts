@@ -3,6 +3,8 @@ import { Editor } from "@tiptap/react";
 import { EditorState } from "@tiptap/pm/state";
 import { EditorView } from "@tiptap/pm/view";
 
+// Tous mes types créés
+
 export type Title = {
   title_id: number;
   sub_category_id: number;
@@ -79,9 +81,6 @@ export type dataObject = {
   articleLinked? : article | null,
   setArticleLinked? : React.Dispatch<React.SetStateAction<article | null>>
 };
-
-// export type dataObjectAddCategory = {
-// };
 
 export type dataObjectAddSubCategory = {
   selectedCategory : DataList | null,

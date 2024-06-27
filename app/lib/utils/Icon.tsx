@@ -2,6 +2,8 @@ import { cn } from "@/app/lib/utils";
 import { icons } from "lucide-react";
 import { memo } from "react";
 
+// Composant utilisé pour les icons
+
 export type IconProps = {
   name: keyof typeof icons
   className?: string

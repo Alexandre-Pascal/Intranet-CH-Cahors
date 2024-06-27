@@ -1,19 +1,18 @@
 import { z } from "zod";
-import prisma from "./utils/prisma";
 
 export const SignupFormSchema = z.object({
   name: z
     .string()
-    .min(2, { message: "Name must be at least 2 characters long." })
+    .min(2, { message: "Le nom doit contenir au moins 2 caractères" })
     .trim(),
-  email : z.string().email({ message: "Please enter a valid email." }).trim(),
+  email : z.string().email({ message: "Veuillez entrer un email valide." }).trim(),
   password: z
     .string()
-    .min(8, { message: "Be at least 8 characters long" })
-    .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
-    .regex(/[0-9]/, { message: "Contain at least one number." })
+    .min(8, { message: "Le mot de passe doit contenir au moins 8 caractères" })
+    .regex(/[a-zA-Z]/, { message: "Il doit contenur au moins une lettre" })
+    .regex(/[0-9]/, { message: "Il doit contenir au moins un chiffre" })
     .regex(/[^a-zA-Z0-9]/, {
-      message: "Contain at least one special character.",
+      message: "Il doit contenir au moins un caractère spécial",
     })
     .trim(),
 });

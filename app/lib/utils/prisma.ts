@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
+// Fonction utilisé pour accédé à Prisma
+
 declare const global: {
   prisma?: PrismaClient;
 };

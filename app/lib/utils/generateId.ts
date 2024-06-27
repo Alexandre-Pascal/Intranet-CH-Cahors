@@ -1,3 +1,5 @@
+// Fichier utiliser pour générer un identifiant temporaire ou non
+
 export default function generateTitleId(title? :any) {
   if (!title) {
     const temporaryTitle = generateRandomNumber();

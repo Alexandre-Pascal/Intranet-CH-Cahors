@@ -1,6 +1,5 @@
-// colors.tsx
 
-// Définissez ici les couleurs globales de votre site
+// Les couleurs globales du site
 
 const colors = {
   primary: "#FF0000",

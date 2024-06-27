@@ -1,8 +1,6 @@
 "use client";
-import { useContext } from "react";
-import { AppContext } from "./utils/AppContext";
-import UploadComponent from "../PageEditor/Editor/FilesManager/UploadComponent";
-import { get } from "http";
+
+// Fichier appels API pour TipTap
 
 interface UploadComponentProps {
  idPage: number | string | undefined;
@@ -32,8 +30,6 @@ export class API {
       console.error("Error uploading file:", error);
     }
 
-    // const imageToReturn = `/Users/Administrateur/Documents/temp/${idPage}/images/${file.name}`;
-    // console.log("imageToReturn", imageToReturn);
     const newPath = await API.getUrlUploadedImage(idPage, file.name);
     console.log("newPath", newPath);
     return newPath;
