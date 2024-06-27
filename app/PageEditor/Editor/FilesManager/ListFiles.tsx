@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./styles.module.css";
 import { useRouter } from "next/navigation";
 import { Icon } from "@/app/lib/utils/Icon";
+
+// Composant pour lister les fichiers uploadé et utilisé dans DownloadComponent
 
 interface ListFilesProps {
   idPage: number | string | undefined;
@@ -12,8 +14,6 @@ interface ListFilesProps {
 
 const ListFiles: React.FC<ListFilesProps> = ({ idPage, files, setIsUpToDate, onlyView }) => {
   const router = useRouter();
-  console.log("articleIdddddd", typeof idPage);
-  console.log("onlyView", onlyView);
 
   const handleDelete = (filename: string) => {
     fetch(`/api/articles/${idPage}/files/${filename}`, {

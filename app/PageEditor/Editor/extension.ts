@@ -3,6 +3,8 @@ import SlashCommand from "./slash-command";
 import GlobalDragHanle from "tiptap-extension-global-drag-handle";
 import AutoJoiner from "tiptap-extension-auto-joiner"; // optional
 
+// Configuration des styles pour correspondre en fonction des commandes
+
 export const TipTapEditorExtensions = [
   StarterKit.configure({
     bulletList: {

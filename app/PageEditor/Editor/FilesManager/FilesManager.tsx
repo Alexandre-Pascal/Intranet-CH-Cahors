@@ -1,9 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DownloadComponent from "./DownloadComponent";
 import UploadComponent from "./UploadComponent";
 import styles from "./styles.module.css";
 import { Icon } from "@/app/lib/utils/Icon";
+
+// Fichier principal appellant les composant UploadComponent et DownloadComponent pour gérer les fichiers
 
 interface FilesManagerProps {
   idPage: number | string | undefined;

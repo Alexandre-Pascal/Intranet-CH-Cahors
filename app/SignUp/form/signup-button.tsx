@@ -1,9 +1,9 @@
-// app/ui/signup-button.tsx
+// Bouton utilisé dans la page d'inscription
 
 export function SignupButton({ pending }: { pending: boolean }) {
   return (
     <button aria-disabled={pending} type="submit">
-      {pending ? "Submitting..." : "S'enregistrer"}
+      {pending ? "En cours..." : "S'enregistrer"}
     </button>
   );
 }

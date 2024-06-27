@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Icon } from "@/app/lib/utils/Icon";
 import styles from "./styles.module.css";
 
+// Fichier composant pour télécharger un fichier
+
 interface DownloadComponentProps {
   idPage: number | string | undefined;
   isUpToDate: boolean;

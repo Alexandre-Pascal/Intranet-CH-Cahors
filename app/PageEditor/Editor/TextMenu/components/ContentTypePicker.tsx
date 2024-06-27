@@ -6,6 +6,8 @@ import { Toolbar } from "@/app/components/ui/ToolBar";
 import { Surface } from "@/app/components/ui/Surface";
 import { DropdownButton, DropdownCategoryTitle } from "@/app/components/ui/Dropdown";
 
+// Fichier récupéré mais pas compris
+
 export type ContentTypePickerOption = {
   label: string
   id: string

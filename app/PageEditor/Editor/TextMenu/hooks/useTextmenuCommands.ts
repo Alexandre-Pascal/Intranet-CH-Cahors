@@ -1,6 +1,8 @@
 import { Editor } from "@tiptap/react";
 import { useCallback } from "react";
 
+// Toutes les commandes 
+
 export const useTextmenuCommands = (editor: Editor) => {
   const onBold = useCallback(() => editor.chain().focus().toggleBold().run(), [editor]);
   const onItalic = useCallback(() => editor.chain().focus().toggleItalic().run(), [editor]);
@@ -58,7 +60,6 @@ export const useTextmenuCommands = (editor: Editor) => {
     onStrike,
     onUnderline,
     onCode,
-    // onCodeBlock,
     onSubscript,
     onSuperscript,
     onAlignLeft,

@@ -1,13 +1,13 @@
 // app/ui/signup-form.tsx
 
 "use client";
-import { SignupButton } from "./signup-button";
 import { useState } from "react";
-import { useFormStatus } from "react-dom";
 import { signup } from "@/app/actions/auth";
 
 import styles from "../styles.module.css";
 import { login } from "@/app/lib/session";
+
+// Page pour l'inscription
 
 export function SignupForm() {
   const [formData, setFormData] = useState({
@@ -20,7 +20,6 @@ export function SignupForm() {
     email?: string[];
     password?: string[];
   }>({});
-  const { pending } = useFormStatus();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -50,7 +49,6 @@ export function SignupForm() {
       const result = await login(datas);
       // vérifier si les données existent dans la bd
 
-      // let session;
       if (result?.errors) {
         setErrors(result.errors);
       }

@@ -2,6 +2,8 @@ import { Editor } from "@tiptap/react";
 import { useMemo } from "react";
 import { ContentPickerOptions } from "../components/ContentTypePicker";
 
+// Premiere partie du composant menu
+
 export const useTextmenuContentTypes = (editor: Editor) => {
   const options = useMemo<ContentPickerOptions>(() => {
     return [
@@ -73,17 +75,7 @@ export const useTextmenuContentTypes = (editor: Editor) => {
         label: "Liste numérotée",
         type: "option",
       },
-      // {
-      //   icon: "ListTodo",
-      //   onClick: () => editor.chain().focus().toggleTaskList().run(),
-      //   id: "todoList",
-      //   disabled: () => !editor.can().toggleTaskList(),
-      //   isActive: () => editor.isActive("taskList"),
-      //   label: "Todo list",
-      //   type: "option",
-      // },
     ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor, editor.state]);
 
   return options;

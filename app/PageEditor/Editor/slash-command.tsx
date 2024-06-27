@@ -23,6 +23,8 @@ import {
   Video,
 } from "lucide-react";
 
+// Menu pour les commandes disponible avec le menu '/'
+
   interface CommandItemProps {
     title: string;
     description: string;

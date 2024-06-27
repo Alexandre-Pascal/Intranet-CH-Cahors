@@ -13,8 +13,8 @@ import { useTextmenuContentTypes } from "./hooks/useTextmenuContentTypes";
 import { ContentTypePicker } from "./components/ContentTypePicker";
 import { EditLinkPopover } from "./components/EditLinkPopover";
 
-// We memorize the button so each button is not rerendered
-// on every editor state change
+// Tous les éléments réunis pour le menu
+
 const MemoButton = memo(Toolbar.Button);
 const MemoColorPicker = memo(ColorPicker);
 const MemoFontFamilyPicker = memo(FontFamilyPicker);
@@ -73,9 +73,6 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
         <MemoButton tooltip="Code" tooltipShortcut={["Mod", "E"]} onClick={commands.onCode} active={states.isCode}>
           <Icon name="Code" />
         </MemoButton>
-        {/* <MemoButton tooltip="Code block" onClick={commands.onCodeBlock}>
-          <Icon name="Code" /> {/* pas le bon
-        </MemoButton> */}
         <EditLinkPopover onSetLink={commands.onLink} />
         <Popover.Root>
           <Popover.Trigger asChild>
@@ -112,7 +109,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
         <Popover.Root>
           <Popover.Trigger asChild>
             <MemoButton tooltip="Plus d'options">
-              <Icon name="Ellipsis" />  {/* pas le bon */}
+              <Icon name="Ellipsis" />
             </MemoButton>
           </Popover.Trigger>
           <Popover.Content side="top" asChild>

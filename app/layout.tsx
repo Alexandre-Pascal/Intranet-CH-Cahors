@@ -11,9 +11,10 @@ import fetchDatas from "./lib/utils/fetchData";
 import { Toaster } from "./components/ui/toaster";
 import { AppProvider } from "./lib/utils/AppContext";
 import { getSession } from "./lib/session";
-// import Footer from "./components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
+
+// Fichier lancé avant la création de page, utilisé pour bien structurer
 
 export const metadata: Metadata = {
   title: "Intranet",
@@ -32,7 +33,6 @@ export default async function RootLayout({
     role : session?.user.role,
   };
 
-  // console.log("session", session);
   const datas : DataList[] = await fetchDatas();
   return (
     <html lang="fr">
@@ -42,7 +42,6 @@ export default async function RootLayout({
           {children}
           <Toaster />
         </AppProvider>
-        {/* <Footer /> */}
       </body>
     </html>
   );

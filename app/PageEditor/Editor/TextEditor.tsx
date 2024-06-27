@@ -46,8 +46,9 @@ import generateTitleId from "@/app/lib/utils/generateId";
 import FilesManager from "./FilesManager/FilesManager";
 
 import { useAppContext } from "@/app/lib/utils/AppContext";
-// import { Button, Modal, Input, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
 import { Video } from "@/app/extensions/VideoUpload/video";
+
+// Fichier principal pour gérer la création de page, différents menu nécessaires de les sortir
 
 export default function Editor({ kind, idPage } : {kind : string, idPage : string}) {
   const [title, setTitle] = useState("");
@@ -83,14 +84,13 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
       TableHeader,
       TableCell,
       TaskItem,
-      //TaskList,//marche pas ; update c'est bon marche mais je dégage
       OrderedList.configure({
         HTMLAttributes: {
           class: "list-decimal",
         },
         keepMarks: true,
         keepAttributes: true,
-      }) , // mrche pas
+      }) ,
       BulletList.configure({
         HTMLAttributes: {
           class: "list-disc",
@@ -131,15 +131,6 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     }
   }
 
-  // const [isVideoInputModalOpen, setIsVideoInputModalOpen] = useState(false);
-
-  // const [videoUrl, setVideoUrl] = useState("/video.mp4");
-  // const addVideo = () => editor?.commands.setVideo(videoUrl) && closeModal();
-
-  // const openModal = () => setIsVideoInputModalOpen(true);
-
-  // const closeModal = () => setIsVideoInputModalOpen(false);
-
   function replaceTempFiles(html : any) {
     return html.replace(/\/tempFiles\/\d+\//, `/savedFiles/${idPage}`);
   }
@@ -178,97 +169,6 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
     fetchData();
   }
   , [editor, kind, idPage]);
-
-  // useEffect(() => {
-  //   const fetchData = async() => {
-  //     if (editor && kind === "update" && idPage) {
-  //       try {
-  //         const response = await fetch(`/api/articles/${idPage}`);
-  //         if (!response.ok) {
-  //           throw new Error("Erreur lors de la récupération des données");
-  //         }
-  //         const jsonData = await response.json();
-
-  //         // Récupérer le contenu HTML du JSON
-  //         const htmlContent = jsonData.result.content;
-
-  //         // Analyser la chaîne HTML pour extraire les balises p et les images
-  //         const parser = new DOMParser();
-  //         const doc = parser.parseFromString(htmlContent, "text/html");
-  //         const paragraphs = doc.querySelectorAll("p");
-
-  //         // Parcourir chaque balise p dans l'ordre
-  //         paragraphs.forEach(p => {
-  //           // Récupérer le texte à l'intérieur du paragraphe
-  //           const text = p.textContent.trim();
-
-  //           // Vérifier si le paragraphe est vide
-  //           if (text === "") {
-  //             // Insérer un retour à la ligne dans l'éditeur Tiptap
-  //             editor.chain().focus().insertContent({ type: "hardBreak" }).run();
-  //           } else {
-  //             // Créer un nœud de paragraphe Tiptap pour chaque balise p non vide
-  //             const paragraphNode = {
-  //               type: "paragraph",
-  //               content: [{ type: "text", text }],
-  //             };
-
-  //             // Insérer le nœud de paragraphe dans l'éditeur Tiptap
-  //             editor.chain().focus().insertContent(paragraphNode).run();
-  //           }
-  //         });
-
-  //         // Trouver les images et insérer les nœuds image block correspondants
-  //         const images = doc.querySelectorAll("img");
-  //         images.forEach(img => {
-  //           const src = img.getAttribute("src");
-  //           const alt = img.getAttribute("alt");
-  //           const width = img.getAttribute("data-width");
-  //           const align = img.getAttribute("data-align");
-
-  //           // Créer un nœud image block Tiptap
-  //           const imageNode = {
-  //             type: "imageBlock",
-  //             attrs: {
-  //               src: src.replace(/.*(?=\/uploadedFiles)/, "").replace(/\/%22$/, ""),
-  //               alt,
-  //               width,
-  //               align,
-  //             },
-  //           };
-
-  //           // Trouver l'index de l'image dans le contenu HTML pour l'afficher au bon encdroit
-  //           const index = Array.from(img.parentNode.children).indexOf(img);
-  //           //insérer l'élément image dans l'éditeur Tiptap au nivau de l'index correspondant
-  //           // editor.chain().focus().insertContentAt(index, imageNode).run();
-  //           //editor.chain().focus().insertContent(imageNode).run(); n'est pas bon car, l'index vaut 5 et l'image est inséréré après le 5ème caracète, alors que je veux qu'elle soit insérée après le 5 ème élément
-  //           //donc pour faire ça
-  //           editor.chain().focus().insertContent(imageNode).run();
-
-  //         });
-
-  //         // Définir le titre de la page
-  //         setTitle(jsonData.result.title);
-  //       } catch (error) {
-  //         console.error("Erreur:", error);
-  //       }
-  //       document.querySelectorAll("img").forEach((image) => {
-  //         if (image.src.includes("tempFiles")) {
-  //           console.log(image.src);
-  //           image.src = image.src.replace(/tempFiles\/\d+/, `savedFiles/${idPage}`);
-  //           console.log(image.src);
-  //         }
-  //       });
-
-  //       alert("Le contenu de l'article a été chargé avec succès !");
-  //       console.log("contenu final : ", editor.getHTML());
-  //       alert ("contenu final : " + editor.getHTML());
-
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [editor, kind, idPage]);
 
   async function handleSubmitForm(title : string) {
 
@@ -362,7 +262,8 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
         />
 
         <EditorContent editor={editor}/>
-        {editor &&
+        { //Sortir ce code
+        editor &&
         <>
           <ImageBlockMenu editor={editor}/>
           <TextMenu editor={editor}/>
@@ -454,7 +355,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
             </div>
           </BubbleMenu>
 
-          {
+          { // Sortir ce code
             errors.title &&
             <>
               {
@@ -504,48 +405,9 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
           {
             (idPage || Number(currentIdPage) !== 0) && <FilesManager idPage={idPage !== "" ? idPage : Number(currentIdPage)} onlyView={false}/>
           }
-          {/* <video controls src="/video.mp4"/>
-          <div>
-            <Button onClick={openModal}> Add Video </Button>
-            <Modal
-              closeButton
-              aria-labelledby="modal-title"
-              isOpen={isVideoInputModalOpen}
-              onClose={closeModal}
-            >
-              <ModalHeader>
-                <h2 id="modal-title" className="text-2xl">
-                  Add Video Url
-                </h2>
-              </ModalHeader>
-              <ModalBody>
-                <Input
-                  placeholder="Enter video url"
-                  value={videoUrl}
-                  onChange={(e) => setVideoUrl(e.target.value)
-                  }
-
-                  fullWidth
-                  color="primary"
-                  size="lg"
-
-                  autoFocus
-                />
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" onClick={closeModal}>
-        Fermer
-                </Button>
-                <Button color="warning" onClick={addVideo}>
-        Ajouter une vidéo
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </div> */}
         </>
         }
       </form>
     </div>
   );
 }
-

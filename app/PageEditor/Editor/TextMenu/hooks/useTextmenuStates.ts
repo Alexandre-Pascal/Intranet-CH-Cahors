@@ -3,6 +3,8 @@ import { useCallback } from "react";
 import { ShouldShowProps } from "../../../../lib/utils/types";
 import { isCustomNodeSelected, isTextSelected } from "@/app/lib/utils";
 
+// Fichier pour gérer les états du texte
+
 export const useTextmenuStates = (editor: Editor) => {
   const shouldShow = useCallback(
     ({ view, from }: ShouldShowProps) => {

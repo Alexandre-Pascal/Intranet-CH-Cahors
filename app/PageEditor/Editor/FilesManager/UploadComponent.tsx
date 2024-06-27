@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; "next/navigation";
 import styles from "./styles.module.css";
+
+// Fichier utilisé pour déposer des fichiers
+
 interface UploadComponentProps {
   idPage: number | string | undefined;
   setIsUpToDate: (isUpToDate: boolean) => void;
