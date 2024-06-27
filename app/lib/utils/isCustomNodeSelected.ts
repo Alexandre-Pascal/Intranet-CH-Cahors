@@ -1,6 +1,6 @@
 import { Editor } from "@tiptap/react";
 
-import { Figcaption, HorizontalRule, ImageBlock, ImageUpload, Link } from "@/app/extensions/";
+import { HorizontalRule, ImageBlock, ImageUpload, Link } from "@/app/extensions/";
 // import { TableOfContentsNode } from "@/extensions/TableOfContentsNode";
 
 export const isTableGripSelected = (node: HTMLElement) => {
@@ -25,11 +25,8 @@ export const isCustomNodeSelected = (editor: Editor, node: HTMLElement) => {
     HorizontalRule.name,
     ImageBlock.name,
     ImageUpload.name,
-    // CodeBlock.name,
     ImageBlock.name,
     Link.name,
-    Figcaption.name,
-    // TableOfContentsNode.name,
   ];
 
   return customNodes.some(type => editor.isActive(type)) || isTableGripSelected(node);
