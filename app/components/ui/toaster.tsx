@@ -10,6 +10,8 @@ import {
 } from "@/app/components/ui/toast";
 import { useToast } from "@/app/components/ui/use-toast";
 
+// Toaster pas encore utilisé
+
 export function Toaster() {
   const { toasts } = useToast();
 

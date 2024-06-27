@@ -1,6 +1,8 @@
 import { cn } from "@/app/lib/utils";
 import { useCallback } from "react";
 
+// Composant pas encore utilisé (boutton toggle (on/off))
+
 export type ToggleProps = {
   active?: boolean
   onChange: (active: boolean) => void

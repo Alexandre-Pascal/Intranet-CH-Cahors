@@ -4,6 +4,8 @@ import plan from "../../../assets/images/plan.png";
 
 import styles from "./styles.module.css";
 
+// Page contenant les informations de la page d'accueil
+
 export default function Infos() {
   return (
     <div className={styles.container}>

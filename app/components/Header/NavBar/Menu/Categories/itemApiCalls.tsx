@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
+// Appels API en fonction des requêtes préparées dans le fichier itemFunctions
+
 // Définition des interfaces pour les paramètres des fonctions
 interface HandleSubmitUpdateItemProps {
   item: any;

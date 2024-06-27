@@ -1,6 +1,8 @@
 import { cn } from "@/app/lib/utils";
 import { memo, useCallback } from "react";
 
+// Composant utilisé pour le composant colorPicker
+
 export type ColorButtonProps = {
   color?: string
   active?: boolean

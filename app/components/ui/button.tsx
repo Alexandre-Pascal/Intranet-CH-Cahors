@@ -1,6 +1,8 @@
 import { cn } from "@/app/lib/utils";
 import React from "react";
 
+// Composant boutton
+
 export type ButtonVariant = "primary" | "secondary" | "tertiary" | "quaternary" | "ghost"
 export type ButtonSize = "medium" | "small" | "icon" | "iconSmall"
 

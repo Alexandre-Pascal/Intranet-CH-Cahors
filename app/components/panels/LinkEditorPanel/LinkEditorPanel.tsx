@@ -1,8 +1,9 @@
 import { Button } from "@/app/components/ui/button";
 import { Icon } from "@/app/lib/utils/Icon";
 import { Surface } from "@/app/components/ui/Surface";
-import { Toggle } from "@/app/components/ui/Toggle";
 import { useState, useCallback, useMemo } from "react";
+
+// Composant pour définir des liens pour du texte
 
 export type LinkEditorPanelProps = {
   initialUrl?: string
@@ -61,12 +62,6 @@ export const LinkEditorPanel = ({ onSetLink, initialOpenInNewTab, initialUrl }: 
           Définir lien
         </Button>
       </form>
-      {/* <div className="mt-3">
-        <label className="flex items-center justify-start gap-2 text-sm font-semibold cursor-pointer select-none text-neutral-500 dark:text-neutral-400">
-          Open in new tab
-          <Toggle active={state.openInNewTab} onChange={state.setOpenInNewTab} />
-        </label>
-      </div> */}
     </Surface>
   );
 };

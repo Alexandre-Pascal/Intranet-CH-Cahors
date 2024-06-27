@@ -5,6 +5,8 @@ import { Surface } from "./Surface";
 import { Button, ButtonProps } from "./button";
 import Tooltip from "./Tooltip";
 
+// Barre d'outils dans le menu TipTap
+
 export type ToolbarWrapperProps = {
   shouldShowContent?: boolean
   isVertical?: boolean

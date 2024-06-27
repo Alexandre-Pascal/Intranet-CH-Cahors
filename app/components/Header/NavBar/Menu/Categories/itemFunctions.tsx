@@ -2,6 +2,8 @@ import { dataObject, NewDataList, NewSubCategory, NewTitle } from "@/app/lib/uti
 import { handleDeleteItem, handleSubmitItem, handleUpdateItem } from "./itemApiCalls";
 import generateTitleId from "@/app/lib/utils/generateId";
 
+// Fichier permettant de préparer les différents appels API en fonction des boutons qui sont cliqués
+
 // Fonction pour soumettre un nouvel élément
 export async function submitItem(datas: dataObject) {
   switch (datas.datasType) {

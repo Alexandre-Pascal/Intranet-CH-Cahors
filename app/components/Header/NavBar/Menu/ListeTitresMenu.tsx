@@ -33,15 +33,9 @@ export default function ListeTitres(datas: DataList[]) {
   const [url, setUrl] = useState("");
   const [articleLinked, setArticleLinked] = useState<article | null>(null);
 
-  const [isActive, setIsActive] = useState<{itemType: kindOfDatas, dialogType: kindOfDialog}>({ itemType: "None", dialogType: "None" });
+  const [isActive, setIsActive] = useState<{itemType: kindOfDatas, dialogType: kindOfDialog}>({ itemType: "None", dialogType: "None" }); // Permet de définir qu'elle interface doit s'afficher Ajouter / Modifier / Supprimer, et catégories principale, sous-catégories, titres
 
   const [length, setLength] = useState(1);
-
-  const titleHeight = 65 / length; // Calcul de la hauteur totale des titres
-
-  const router = useRouter();
-
-  const { session } = useAppContext();
 
   const [role, setRole] = useState<RoleObjectDb>();
 
@@ -50,6 +44,12 @@ export default function ListeTitres(datas: DataList[]) {
   const [subCategories, setSubCategories] = useState<sub_categories[]>([]);
 
   const [isAdminOrEditor, setIsAdminOrEditor] = useState(false);
+
+  const titleHeight = 65 / length; // Calcul de la hauteur totale des titres
+
+  const router = useRouter();
+
+  const { session } = useAppContext();
 
   useEffect(() => {
     if (session){
@@ -94,6 +94,9 @@ export default function ListeTitres(datas: DataList[]) {
       setSelectedCategory(datas[selectedCategory ? selectedIndex : 0]);
     }
   }, [datas, selectedCategory]);
+
+  // En fonction des boutons cliqués (Ajouter / Modifier / Supprimer), puis quels types d'informations (catégories principale, sous-catégories, titres)
+  // Il faut définir avec des useStates les informations à afficher
 
   const itemAction = (
     dialogType: kindOfDialog,

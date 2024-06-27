@@ -29,7 +29,7 @@
 }
 
 .menu h1 {
-    font-size: xx-large;
+    font-size: calc(1.1vw + 1.1vh);
     font-weight: bold;
     padding: 1vh 2vw 1vh 2vw;
     align-content: center;

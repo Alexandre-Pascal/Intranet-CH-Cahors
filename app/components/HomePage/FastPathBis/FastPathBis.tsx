@@ -16,6 +16,8 @@ import { isAdminOrEditeur as adminOrEditeur } from "@/app/lib/utils/access";
 import SelectorArticle from "../../Header/NavBar/Menu/Categories/DialogContainers/SelectorArticle";
 import { article } from "@/app/lib/utils/types";
 
+// Raccourcis secondaires de la page d'accueil
+
 export default function FastPathBis() {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [isAdminOrEditeur,setIsAdminOrEditeur] = useState(false);

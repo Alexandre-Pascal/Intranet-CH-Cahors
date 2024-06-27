@@ -1,5 +1,7 @@
 import { cn } from "@/app/lib/utils";
 
+// Composant utilisé dans le menu TipTap
+
 export const DropdownCategoryTitle = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="text-[.65rem] font-semibold mb-1 uppercase text-neutral-500 dark:text-neutral-400 px-1.5">

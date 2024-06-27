@@ -6,6 +6,8 @@ import ListeTitres from "./NavBar/Menu/ListeTitresMenu";
 import NavBar from "./NavBar/NavBar";
 import React, { useState } from "react";
 
+// Fichier contenant les composants de l'entête
+
 interface HeaderProps {
   session : SessionObject;
   dataList : DataList[];

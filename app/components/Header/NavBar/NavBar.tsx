@@ -19,6 +19,9 @@ import { useEffect, useState } from "react";
 import { Button } from "../../ui/button";
 import SelectorArticle from "./Menu/Categories/DialogContainers/SelectorArticle";
 import { article } from "@/app/lib/utils/types";
+
+// Interface pour la barre de navigation
+
 interface NavBarProps {
   session: SessionObject,
   isMenuOpen: boolean,
@@ -27,12 +30,6 @@ interface NavBarProps {
 
 export default function NavBar({ session, isMenuOpen, setIsMenuOpen }: NavBarProps)
 {
-
-  // if (session.email) {
-  //   alert("Vous êtes connecté");
-  //   alert(Object.values(session));
-  // }
-
   const [isAdmin,setIsAdmin] = useState(false);
   const [isAdminOrEditeur,setIsAdminOrEditeur] = useState(false);
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);

@@ -4,6 +4,9 @@ import fleche from "../../../assets/icons/fleche-droite.png";
 
 import styles from "./styles.module.css";
 
+// Raccourcis pour accéder à des catégories du menu
+// Pas le back de fait
+
 export default function InfosNeeded() {
   return (
     <div className={styles.bar}>

@@ -2,6 +2,8 @@
 import { article } from "@/app/lib/utils/types";
 import React, { useEffect, useState } from "react";
 
+// Fichier permettant d'afficher une Select qui contient toutes les pages ("articles")
+
 interface SelectorArticleProps {
   setArticle: React.Dispatch<React.SetStateAction<article | null>>;
   setUrl?: React.Dispatch<React.SetStateAction<string>>;

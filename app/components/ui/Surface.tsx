@@ -1,6 +1,8 @@
 import { cn } from "@/app/lib/utils";
 import { HTMLProps, forwardRef } from "react";
 
+// Composant esthétique 
+
 export type SurfaceProps = HTMLProps<HTMLDivElement> & {
   withShadow?: boolean
   withBorder?: boolean

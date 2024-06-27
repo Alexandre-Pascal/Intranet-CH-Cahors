@@ -5,6 +5,8 @@ import { Toolbar } from "../../ui/ToolBar";
 import { Icon } from "@/app/lib/utils/Icon";
 import { themeColors } from "@/app/lib/utils/constantes";
 
+// Composant utilisé dans le menu de création de page pour la couleur du texte / surligner
+
 export type ColorPickerProps = {
   color?: string
   onChange?: (color: string) => void

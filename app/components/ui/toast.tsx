@@ -9,6 +9,8 @@ import { cn } from "@/app/lib/utils/utils";
 
 const ToastProvider = ToastPrimitives.Provider;
 
+// Toast pas encore utilisé
+
 const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>

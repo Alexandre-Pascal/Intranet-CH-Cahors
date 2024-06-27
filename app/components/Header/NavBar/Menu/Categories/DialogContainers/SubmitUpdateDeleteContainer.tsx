@@ -5,6 +5,9 @@ import { submitItem, deleteItem, updateItem } from "../itemFunctions";
 import { ADD, UPDATE, DELETE } from "@/app/lib/utils/constantes";
 import SelectorArticle from "./SelectorArticle";
 
+// Fichier permettant d'afficher l'interface nécessaire par rapport à l'action réalisée
+// Configure les boutons pour déclancher l'appel des bonnes fonctions du fichier itemFunctions
+
 export default function SubmitUpdateDeleteContainer(datas : dataObject) {
 
   let dialogButton = "";
