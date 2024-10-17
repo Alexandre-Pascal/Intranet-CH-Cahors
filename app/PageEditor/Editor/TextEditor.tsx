@@ -263,7 +263,7 @@ export default function Editor({ kind, idPage } : {kind : string, idPage : strin
 
         <EditorContent editor={editor}/>
         { //Sortir ce code
-        editor &&
+          editor &&
         <>
           <ImageBlockMenu editor={editor}/>
           <TextMenu editor={editor}/>

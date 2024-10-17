@@ -1,7 +1,7 @@
 import { Editor } from "@tiptap/react";
 import { useCallback } from "react";
 
-// Toutes les commandes 
+// Toutes les commandes
 
 export const useTextmenuCommands = (editor: Editor) => {
   const onBold = useCallback(() => editor.chain().focus().toggleBold().run(), [editor]);
