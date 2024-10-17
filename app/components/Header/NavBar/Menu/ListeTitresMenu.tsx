@@ -80,11 +80,15 @@ export default function ListeTitres(datas: DataList[]) {
     }
   }, [dataList, role]);
 
+  // useEffect(() => {
+  //   if (isEditable.length !== 0) {
+  //     isEditable.length == subCategories.length ? setIsAdminOrEditor(true) : setIsAdminOrEditor(false);
+  //   }
+  // }, [isEditable]);
+
   useEffect(() => {
-    if (isEditable.length !== 0) {
-      isEditable.length == subCategories.length ? setIsAdminOrEditor(true) : setIsAdminOrEditor(false);
-    }
-  }, [isEditable]);
+    (role?.name === "Administrateur" || role?.name === "Editeur") ? setIsAdminOrEditor(true) : setIsAdminOrEditor(false);
+  });
 
   useEffect(() => {
     setLength(Object.keys(datas).length);
@@ -398,7 +402,7 @@ export default function ListeTitres(datas: DataList[]) {
               </ul>
             </li>
           ))}
-          { isAdminOrEditor && (
+          { isAdminOrEditor && Object.values(dataList).length > 0 && (
             <a onClick={() => itemAction(
               ADD,
               SUBCATEGORY,
